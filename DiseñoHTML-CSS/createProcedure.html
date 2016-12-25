@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ingresar Documento</title>
+<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" type="text/css" href="documentManager.css">
+</head>
+<body>
+	<div class="addProcedure">
+		<div class=" row col-md-12">
+			<div class=" col-md-3">
+				<img class="headerImage" src="escudo_66x81.png">
+			</div>
+			<div class=" col-md-9">
+				<h4 class="headerTitle">Registrar Ingreso de Nuevo Documento</h4>
+			</div>
+		</div>
+		<div class=" row col-md-12">
+			<form class="col-md-12 form-horizontal" action="platformMenu.html">
+			  <div class="form-group">
+			  	<div class="labelDiv col-md-3">
+			  		<label class="control-label" for="procedureDate">Fecha:</label>
+			  	</div>
+			    <div class="  col-md-9">
+			      <input type="date" class="form-control" id="procedureDate" placeholder="Enter email">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			  	<div class="labelDiv col-md-3">
+			  		<label class="control-label" for="department">Departamento:</label>
+			  	</div>
+			    <div class="col-md-9">
+				    <select name="department" class="form-control">
+				    	<option value="ALC" disabled selected=""></option>
+					  	<option value="ALC">Alcaldia</option>
+					  	<option value="RH">Recursos Humanos</option>
+					</select>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			  	<div class="labelDiv col-md-3">
+			  		<label class="control-label" for="code">Código:</label>
+			  	</div>
+			    <div class="  col-md-9">
+			      <input type="text" class="form-control" id="code" disabled="">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			  	<div class="labelDiv col-md-3">
+			  		<label class="control-label" for="idType">Tipo de Cédula:</label>
+			  	</div>
+			    <div class="  col-md-9">
+				    <select name="idType" class="form-control">
+				    	<option value="" disabled selected=""></option>
+					  	<option value="national">Nacional</option>
+					  	<option value="foreign">Extranjero</option>
+					</select>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			  	<div class="labelDiv col-md-3">
+			  		<label class="control-label" for="personId">Cédula Solicitante:</label>
+			  	</div>
+			    <div class="  col-md-9">
+			      <input type="text" class="form-control" id="personId" placeholder="">
+			    </div>
+			  </div>
+			  <div class="form-group">
+			  	<div class="labelDiv col-md-3">
+			  		<label class="control-label" for="procedureType">Tipo de Trámite:</label>
+			  	</div>
+			    <div class="  col-md-9">
+				    <select name="procedureType" class="form-control">
+				    	<option value="" disabled selected=""></option>
+					  	<option value="1">Inquietud</option>
+					  	<option value="2">Solicitud</option>
+					</select>
+			    </div>
+			  </div>
+			  <div class="form-group">
+			  	<div class="labelDiv col-md-3">
+			  		<label class="control-label" for="personId">Cédula Solicitante:</label>
+			  	</div>
+			    <div class="  col-md-9">
+			      <textarea class="form-control" name="procedureDetail" rows="5" cols="30" placeholder="Ingrese una descripción del documento a registrar"></textarea>
+			    </div>
+			  </div>
+			  <div class="buttonDiv form-group"> 
+			  	<div class="  col-md-3">
+			    	<button type="button" class="backButton btn" aria-label="Left Align" onclick ="location.href='platformMenu.html'">
+						<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+					</button>
+			    </div>
+			    <div class=" col-md-9">
+			    	<button type="submit" class="sendButton">Submit</button>
+			    </div>
+			  </div>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

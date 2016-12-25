@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Estadisticas</title>
+<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" type="text/css" href="documentManager.css">
+
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages: ['corechart']});
+    </script>
+    <script type="text/javascript">
+      function drawVisualization() {
+        // Create and populate the data table.
+        var data = google.visualization.arrayToDataTable([
+          ['Mes', 'Nelson Abarca', 'Amanda Solano', 'Yasiell Vallejos'],
+          ['04-dic-2016',  1336060,   3817614,       974066],
+          ['07-dic-2016',  1538156,   3968305,       928875],
+          ['09-dic-2016',  1576579,   4063225,       1063414],
+          ['10-dic-2016',  1600652,   4604684,       940478],
+          ['11-dic-2016',  1968113,   4013653,       1037079],
+          ['12-dic-2016',  1901067,   6792087,       1037327]
+        ]);
+      
+        // Create and draw the visualization.
+        new google.visualization.ColumnChart(document.getElementById('visualization')).
+            draw(data,
+                 {title:"Plataformistas",
+                  hAxis: {title: "Fecha"}}
+            );
+      }
+      
+
+      google.setOnLoadCallback(drawVisualization);
+    </script>
+
+
+</head>
+<body>
+	<div class="statisticProcedure">
+		<div class="row col-md-12">
+			<div class="col-md-2">
+				<img class="menuHeaderImage" src="escudoSinFondo.png">
+			</div>
+			<div class="col-md-10">
+				<h3 class="headerStatisticTitle">Visualizar Estadísticas</h3>
+			</div>
+		</div>
+		<div class="searchDivContainer row col-md-12">
+			<div class="col-md-4">
+				<button class="searchButton">Buscar por Fecha</button>
+			</div>
+			<div class="col-md-4">
+				<select name="department" class="searchButton">
+					<option disabled="" selected="">Buscar por Departamento</option>
+				</select>
+			</div>
+			<div class="col-md-4">
+				<select name="platformist" class="searchButton">
+					<option disabled="" selected="">Buscar por Plataformista</option>
+				</select>
+			</div>
+		</div>
+		<div class="searchDivContainer row col-md-12"> 
+			<div class="labelSearchDiv col-md-1">
+				<label class="labelSearch">de</label>
+			</div>
+			<div class="col-md-3">
+				<input type="date" name="dateBegin" class="form-control">
+			</div>
+			<div class="labelSearchDiv col-md-1">
+				<label class="labelSearch">al</label>
+			</div>
+			<div class="col-md-3">
+				<input type="date" name="dateEnd" class="form-control">
+			</div>
+			<div class=" col-md-3">
+				<button class="btnStatistic">Buscar</button>
+			</div>
+		</div>
+		<div class="searchDivContainer row col-md-12"> 
+			<div class="col-md-12">
+				<div id="visualization" style="width: 100%; height: 400px;"></div>
+			</div>
+		</div>
+		<div class="buttonBackDiv row col-md-12"> 
+			<div class="  col-md-12">
+				<button type="button" class="backButton btn" aria-label="Left Align" onclick ="location.href='platformMenu.html'">
+					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+				</button>
+			</div>
+		</div>
+		
+	</div>
+
+</body>
+</html>
