@@ -1,0 +1,169 @@
+﻿.labelWelcome {
+    font-weight: normal;
+    text-align: right;
+    width: 800px;
+}
+
+/**********CSS para las páginas de menú**********/
+.menu {
+	margin-top: 3em !important;
+	margin: auto;
+	padding: 1rem;
+	width: 480px;
+	text-align: center;
+}
+
+.menuButton {
+	margin: 0.8em;
+	text-align: center;
+	width: 400px;
+	height: 60px;
+	background-color: #65826E;
+	border: solid #65826E;
+	color: #EBDC07;
+	font-size: 16px;
+}
+
+.menuHeaderTitle {
+	font-weight: bold;
+	padding: 1em;
+	width: 12em;
+}
+
+.menuHeaderImage {
+	padding: 1em;
+	margin-left: 1em;
+	width: auto;
+	height: 9em;
+}
+
+/**********CSS para las páginas de insertar**********/
+.addProcedure {
+	margin-top: 1em !important;
+	margin: auto;
+	width: 700px;
+}
+
+.headerTitle {
+	font-weight: bold;
+	margin-top: 1.5em;
+}
+
+.headerImage {
+	margin-left: 5em;
+}
+
+.buttonDiv {
+	text-align: right;
+	margin-top: 1.8em;
+}
+
+input,select, textarea {
+	border-radius: 0 !important;
+}
+
+.sendButton {
+	text-align: center;
+	width: 200px;
+	height: 40px;
+	background-color: #65826E;
+	border: solid #65826E;
+	border-radius: 0 !important;
+	color: #EBDC07;
+	font-size: 14px;
+}
+
+.backButton {
+	text-align: left;
+	width: 40px;
+	height: 40px;
+	background-color: white !important;
+	border: solid white !important;
+	border-radius: 0 !important;
+	font-size: 20px;
+}
+
+label {
+	font-weight: normal;
+}
+
+form {
+	margin-top: 2em;
+}
+
+.labelDiv {
+	text-align: right;
+}
+
+/**********CSS para las páginas de buscar**********/
+.searchProcedure {
+	margin-top: 1em !important;
+	margin: auto;
+	width: 900px;
+	height: auto;
+}
+
+.headerSearchTitle {
+	font-weight: bold;
+	margin-top: 2em;
+}
+
+.searchButton {
+	text-align: center;
+	width: 200px;
+	height: 40px;
+	background-color: #65826E;
+	border: solid #65826E;
+	border-radius: 0 !important;
+	color: #EBDC07;
+	font-size: 14px;
+}
+
+.buttonBackDiv {
+	text-align: left;
+	margin-top: 1.8em;
+}
+
+.searchDivContainer {
+	margin-top: 2em;
+}
+
+.labelSearchDiv {
+	text-align: center;
+}
+
+.labelSearch {
+	padding-top: 0.5em;
+}
+
+.btnSearch {
+	width: 200px;
+	height: 34px;
+}
+
+/**********CSS para las páginas de estadisticas**********/
+.statisticProcedure {
+	margin-top: 1em !important;
+	margin: auto;
+	width: 800px;
+	height: auto;
+}
+
+.btnStatistic {
+	width: 150px;
+	height: 34px;
+}
+
+.colorRow {
+	border: 2px solid green;
+}
+
+.headerStatisticTitle {
+	font-weight: bold;
+	margin-top: 2em;
+}
+
+.headerStatisticImage {
+	width: auto;
+	height: 9em;
+}
