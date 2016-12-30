@@ -17,7 +17,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[status](
-	[idStatus] [int] NOT NULL,
+	[idStatus] [int] IDENTITY(1,1) NOT NULL,
 	[status] [nvarchar](50) NOT NULL,
  CONSTRAINT [PK_status] PRIMARY KEY CLUSTERED 
 (

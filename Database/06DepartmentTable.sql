@@ -17,7 +17,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Department](
-	[idDepartment] [int] NOT NULL,
+	[idDepartment] [int] IDENTITY(1,1) NOT NULL,
 	[department] [nvarchar](50) NOT NULL,
 	[code] [nvarchar](50) NOT NULL,
  CONSTRAINT [PK_Department] PRIMARY KEY CLUSTERED 

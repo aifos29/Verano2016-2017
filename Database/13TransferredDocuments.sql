@@ -32,7 +32,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[transferredDocuments](
-	[idTransferredDocuments] [int] NOT NULL,
+	[idTransferredDocuments] [int] IDENTITY(1,1) NOT NULL,
 	[justification] [nvarchar](50) NOT NULL,
 	[idSender_Secretary] [int] NOT NULL,
 	[idReceiver_Department] [int] NOT NULL,

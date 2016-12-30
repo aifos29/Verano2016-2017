@@ -17,7 +17,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[logging](
-	[idLogging] [int] NOT NULL,
+	[idLogging] [int] IDENTITY(1,1) NOT NULL,
 	[email] [nvarchar](50) NOT NULL,
 	[password] [nvarchar](300) NOT NULL,
  CONSTRAINT [PK_logging] PRIMARY KEY CLUSTERED 

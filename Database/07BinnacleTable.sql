@@ -17,7 +17,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Binnacle](
-	[idBinnacle] [int] NOT NULL,
+	[idBinnacle] [int] IDENTITY(1,1) NOT NULL,
 	[date] [datetime2](7) NOT NULL,
 	[code] [nvarchar](50) NOT NULL,
 	[column] [nvarchar](50) NOT NULL,

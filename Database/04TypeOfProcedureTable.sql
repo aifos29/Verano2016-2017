@@ -17,7 +17,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[typeOfProcedure](
-	[idTypeOfProcedure] [int] NOT NULL,
+	[idTypeOfProcedure] [int] IDENTITY(1,1) NOT NULL,
 	[TypeOfProcedure] [nvarchar](50) NOT NULL,
  CONSTRAINT [PK_typeOfProcedure] PRIMARY KEY CLUSTERED 
 (

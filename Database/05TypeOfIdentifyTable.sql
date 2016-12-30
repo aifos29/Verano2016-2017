@@ -20,7 +20,7 @@ SET ANSI_PADDING ON
 GO
 
 CREATE TABLE [dbo].[typeOfIdentify](
-	[idTypeOfIdentify] [int] NOT NULL,
+	[idTypeOfIdentify] [int] IDENTITY(1,1) NOT NULL,
 	[TypeOfIdentify] [varbinary](50) NOT NULL,
  CONSTRAINT [PK_typeOfIdentify] PRIMARY KEY CLUSTERED 
 (

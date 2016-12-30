@@ -28,7 +28,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[Secretary](
-	[idSecretary] [int] NOT NULL,
+	[idSecretary] [int] IDENTITY(1,1) NOT NULL,
 	[name] [nvarchar](50) NOT NULL,
 	[lastName] [nvarchar](50) NOT NULL,
 	[idLogging] [int] NOT NULL,

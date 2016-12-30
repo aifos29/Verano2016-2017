@@ -40,7 +40,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[procedure](
-	[idProcedure] [int] NOT NULL,
+	[idProcedure] [int] IDENTITY(1,1) NOT NULL,
 	[date] [date] NOT NULL,
 	[code] [nvarchar](50) NOT NULL,
 	[details] [nvarchar](300) NOT NULL,

@@ -24,7 +24,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[periodOfAbsence](
-	[idPeriodOfAbsence] [int] NOT NULL,
+	[idPeriodOfAbsence] [int] IDENTITY(1,1) NOT NULL,
 	[from] [date] NOT NULL,
 	[to] [date] NOT NULL,
 	[idSecretary] [int] NOT NULL,
