@@ -1,7 +1,13 @@
-﻿.labelWelcome {
-    font-weight: normal;
+﻿label {
+    font-size: 14px;
+}
+
+.labelWelcome {
+    margin-top: 3em !important;
     text-align: right;
     width: 800px;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 /**********CSS para las páginas de menú**********/
@@ -34,7 +40,7 @@
 	padding: 1em;
 	margin-left: 1em;
 	width: auto;
-	height: 9em;
+	height: 11em;
 }
 
 /**********CSS para las páginas de insertar**********/
@@ -81,10 +87,6 @@ input,select, textarea {
 	border: solid white !important;
 	border-radius: 0 !important;
 	font-size: 20px;
-}
-
-label {
-	font-weight: normal;
 }
 
 form {
