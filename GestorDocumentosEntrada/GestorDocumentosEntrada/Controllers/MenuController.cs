@@ -13,5 +13,15 @@ namespace GestorDocumentosEntrada.Controllers
         {
             return View();
         }
+
+        public ActionResult platFormBossMenu()
+        {
+            return View();
+        }
+
+        public ActionResult administrativeMenu()
+        {
+            return View();
+        }
     }
 }

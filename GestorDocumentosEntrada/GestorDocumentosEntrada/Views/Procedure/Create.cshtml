@@ -1,104 +1,145 @@
-﻿@model GestorDocumentosEntrada.Models.Procedure
-
-@{
-    ViewBag.Title = "Create";
-}
+﻿@using System.Data
 
 <div class="addProcedure">
-    <div class="row col-md-12">
-        <div class="col-md-3">
-            <img class="headerImage" src="@Url.Content("~/Content/Image/escudo_66x81.png")">
-        </div>
-        <div class="col-md-9">
-            <h4 class="headerTitle">Registrar Ingreso de Nuevo Documento</h4>
-        </div>
-    </div>
-    <div class="row col-md-12">
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+		<div class=" row col-md-12">
+			<div class="imageContainer col-md-4">
+				<img class="headerImage" src="@Url.Content("~/Content/Image/escudo_66x81.png")">
+			</div>
+			<div class=" col-md-8">
+				<h4 class="headerTitle">Registrar Ingreso de Nuevo Documento</h4>
+			</div>
+		</div>
+		<div class=" row col-md-12">
+            @using (Html.BeginForm("AddProcedure","Procedure"))
+            {
+                 <div class="col-md-12 form-horizontal">
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="procedureDate">Fecha:</label>
+			  	        </div>
+			            <div class="  col-md-8">
+			              <input type="date" name="procedureDate" class="form-control" runat="server" id="procedureDate" placeholder="dd/mm/aaaa" required>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="department">Departamento:</label>
+			  	        </div>
+			            <div class="col-md-8">
+				            <select name="department" class="form-control" runat="server" id="department" required>
+				    	        <option value="" disabled selected="">Seleccione un departamento</option>
+                                    @foreach (DataRow row in ViewBag.deparmentTable.Tables["DepartmentsList"].Rows)
+                                    {
+                                        <option value="@row["idDepartment"]">@row["department"]</option>
+                                    }
+					        </select>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="codeProcedure">Código:</label>
+			  	        </div>
+			            <div class="col-md-8" id="divCodeContainer">
+                            <input type="text" runat="server" name="codeProcedure" id="codeProcedure" class="form-control" readonly="" required>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="idType">Tipo de Cédula:</label>
+			  	        </div>
+			            <div class="  col-md-8">
+				            <select name="idType" class="form-control" runat="server" id="idType" required>
+				    	        <option value="" disabled selected="">Seleccione el tipo de identificación</option>
+                                    @foreach (DataRow row in ViewBag.identifyType.Tables["IdentifyTypeList"].Rows)
+                                    {
+                                        <option value="@row["idTypeOfIdentify"]">@row["TypeOfIdentify"]</option>
+                                    }
+					        </select>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="personId">Cédula del Solicitante:</label>
+			  	        </div>
+			            <div class="col-md-8">
+			              <input type="text" runat="server" name="personId" id="personId" class="form-control" required>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="procedureType">Tipo de Trámite:</label>
+			  	        </div>
+			            <div class="  col-md-8">
+				            <select name="procedureType" class="form-control" runat="server" id="procedureType" required>
+				    	        <option value="" disabled selected="">Seleccione el tipo de Trámite</option>
+                                    @foreach (DataRow row in ViewBag.procedureType.Tables["ProcedureTypeList"].Rows)
+                                    {
+                                        <option value="@row["idTypeOfProcedure"]">@row["TypeOfProcedure"]</option>
+                                    }
+					        </select>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="procedureDetail">Detalle del Trámite:</label>
+			  	        </div>
+			            <div class="  col-md-8">
+			              <textarea class="form-control" name="procedureDetail" rows="5" cols="30" id="procedureDetail" placeholder="Ingrese una descripción del documento a registrar" runat="server" maxlength="300" required></textarea>
+			            </div>
+			          </div>
+			          <div class="buttonDiv form-group"> 
+			  	        <div class="  col-md-4">
+			    	        <button type="button" class="backButton btn" aria-label="Left Align" onClick="location.href='@Url.Action("platFormMenu", "Menu")'">
+						        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+					        </button>
+			            </div>
+			            <div class=" col-md-8">
+			    	        <button type="submit" class="sendButton">Registrar</button>
+			            </div>
+			          </div>
+			    </div>
+            }
+		</div>
+	</div>
 
-            <div class="col-md-12 form-horizontal">
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    <div class="labelDiv col-md-3">
-                        <label class="control-label" for="procedureDate">Fecha:</label>
-                    </div>
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.procedureDate, new { htmlAttributes = new { @class = "form-control", @type="date" } })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="labelDiv col-md-3">
-                        <label class="control-label" for="department">Departamento:</label>
-                    </div>
-                    <div class="col-md-9">
-                        <select name="department" class="form-control">
-                            <option value="ALC" disabled selected=""></option>
-                            <option value="ALC">Alcaldia</option>
-                            <option value="RH">Recursos Humanos</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="labelDiv col-md-3">
-                        <label class="control-label" for="code">Código:</label>
-                    </div>
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.procedureCode, new { htmlAttributes = new { @class = "form-control", @disabled = "" } })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="labelDiv col-md-3">
-                        <label class="control-label" for="idType">Tipo de Cédula:</label>
-                    </div>
-                    <div class="col-md-9">
-                        @Html.DropDownList("StudentGender",
-                    new SelectList(Enum.GetValues(typeof(GestorDocumentosEntrada.Models.Procedure.id_type))),
-                    "Select Gender",
-                    new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.idType, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="labelDiv col-md-3">
-                        <label class="control-label" for="personId">Cédula Solicitante:</label>
-                    </div>
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.personId, new { htmlAttributes = new { @class = "form-control" } })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="labelDiv col-md-3">
-                        <label class="control-label" for="procedureType">Tipo de Trámite:</label>
-                    </div>
-                    <div class=" col-md-9">
-                        <select name="procedureType" class="form-control">
-                            <option value="" disabled selected=""></option>
-                            <option value="1">Inquietud</option>
-                            <option value="2">Solicitud</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="labelDiv col-md-3">
-                        <label class="control-label" for="personId">Detalle del Trámite:</label>
-                    </div>
-                    <div class="col-md-9">
-                        @Html.TextArea("procedureDetail", null, new { @class = "form-control",@rows = "5",@cols = "30", @placeholder = "Ingrese una descripción del documento a registrar" })
-                    </div>
-                </div>
-                <div class="buttonDiv form-group">
-                    <div class="col-md-3">
-                        <button type="button" class="backButton btn" aria-label="Left Align" onclick="location.href='platformMenu.html'">
-                            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-                        </button>
-                    </div>
-                    <div class="col-md-9">
-                        <button type="submit" class="sendButton">Submit</button>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-</div>
+
+@section Scripts {
+<script>
+    $('#department').change(function () {
+        var idVal = $('#department').val();
+        $.ajax({
+            url: '/Procedure/CreateProcedureCode',
+            contentType: 'application/html; charset=utf-8',
+            data: { departmentId: idVal },
+            type: 'GET',
+            dataType: 'text'
+ 
+        })
+        .success(function (result) {
+            $('#codeProcedure').val(result);
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    });
+
+    $('#idType').change(function () {
+        var idVal = $('#idType').val();
+        $.ajax({
+            url: '/Procedure/updateFormatId',
+            contentType: 'application/html; charset=utf-8',
+            data: { idTypeOfIdentify: idVal },
+            type: 'GET',
+            dataType: 'json'
+
+        })
+        .success(function (result) {
+            $("#personId").attr("placeholder", result[0]);
+            $("#personId").attr("pattern", result[1]);
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    });
+</script>
+    }
