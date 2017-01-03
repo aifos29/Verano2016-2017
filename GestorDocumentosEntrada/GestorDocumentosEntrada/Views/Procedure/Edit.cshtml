@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		<div class="row col-md-12" id="formContainer">
-            @using (Html.BeginForm("AddProcedure","Procedure"))
+            @using (Html.BeginForm("saveChangedProcedure", "Procedure"))
             {
                  <div class="col-md-12 form-horizontal">
 			          <div class="form-group">
@@ -37,7 +37,7 @@
 			  		        <label class="control-label" for="department">Departamento:</label>
 			  	        </div>
 			            <div class="col-md-8">
-                            <input type="date" name="department" class="form-control" runat="server" id="department" required readonly="">
+                            <input type="text" name="department" class="form-control" runat="server" id="department" required readonly="">
 			            </div>
 			          </div>
 			          <div class="form-group">
@@ -118,11 +118,22 @@
             contentType: 'application/html; charset=utf-8',
             data: { procedureCode: code },
             type: 'GET',
-            dataType: 'text'
+            dataType: 'json'
 
         })
         .success(function (result) {
-            alert(result);
+            if (result == null) {
+                alert("inserte codigo correcto");
+            } else {
+                $('#procedureDate').val(result[1]);
+                $('#department').val(result[4]);
+                $('#codeProcedure').val(result[0]); 
+                $('#idType').val(result[6]);
+                $('#personId').val(result[3]);
+                $('#procedureType').val(result[5]);
+                $('#procedureDetail').text(result[2]);
+            }
+           
         })
         .error(function (xhr, status) {
             alert(status);

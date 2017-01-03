@@ -16,7 +16,7 @@ namespace GestorDocumentosEntrada.Controllers
         // GET: Procedure
         public ActionResult Create()
         {
-            ViewBag.date = DateTime.Now;
+            ViewBag.date = DateTime.Now.ToString("yyyy-MM-dd");;
             ViewBag.deparmentTable = con.getDepartments();
             ViewBag.procedureType = con.getProcedureType();
             ViewBag.identifyType = con.getIdentifyType();
@@ -54,7 +54,7 @@ namespace GestorDocumentosEntrada.Controllers
                 attributes.Add("Ej: 1023-400-567");
                 attributes.Add("\\d{4}-\\d{3}-\\d{3}$");
             }
-            return Json(attributes.ToList(), JsonRequestBehavior.AllowGet); ;
+            return Json(attributes.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult AddProcedure(FormCollection form) {
@@ -72,9 +72,35 @@ namespace GestorDocumentosEntrada.Controllers
             return RedirectToAction("platformMenu", "Menu");
         }
 
-        public String getProcedureData(String procedureCode) 
+        public JsonResult getProcedureData(String procedureCode) 
         {
-            return procedureCode;
+            DataSet procedure = con.getProcedure(procedureCode);
+            List<string> list = new List<string>();
+            foreach (DataRow row in procedure.Tables["procedureList"].Rows)
+            {
+                for (int index = 0; index < 7; index++ )
+                {
+                    list.Add(row[index].ToString());
+                }
+            }
+
+            string[] dateSend = list[1].Split('/');
+            string[] yearTime = dateSend[2].Split(' ');
+            String date = yearTime[0] + '-' + dateSend[1] + '-' + dateSend[0];
+            list[1] = date;
+            return Json(list.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult saveChangedProcedure(FormCollection form)
+        {
+            String code = form["codeProcedure"];
+            int idTypeOfIdentify = Int32.Parse(form["idType"]);
+            String personID = form["personId"];
+            int idTypeOfProcedure = Int32.Parse(form["procedureType"]);
+            String detail = form["procedureDetail"];
+
+            con.updateProcedure(code,idTypeOfIdentify, personID, idTypeOfProcedure, detail);
+            return RedirectToAction("platformBossMenu", "Menu");
         }
     }
 }

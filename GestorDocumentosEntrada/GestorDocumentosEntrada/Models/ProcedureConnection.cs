@@ -108,5 +108,37 @@ namespace GestorDocumentosEntrada.Models
                 connection.Close();
             }
         }
+
+        public DataSet getProcedure(String procedureCode)
+        {
+            DataSet procedureTable = new DataSet();
+            connection.Open();
+            if (connection != null)
+            {
+                string query = "Select * from getProcedure('" + procedureCode + "')";
+                SqlDataAdapter sqlQuery = new SqlDataAdapter(query, connection);
+                sqlQuery.Fill(procedureTable, "procedureList");
+                connection.Close();
+            }
+            return procedureTable;
+        }
+
+        public void updateProcedure(String code, int idTypeOfIdentify,String personID,int  idTypeOfProcedure,String detail)
+        {
+            connection.Open();
+            if (connection != null)
+            {
+                SqlCommand cmd = new SqlCommand("dbo.updateProcedure", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@code", code);
+                cmd.Parameters.AddWithValue("@idTypeOfIdentify", idTypeOfIdentify);
+                cmd.Parameters.AddWithValue("@personID", personID);
+                cmd.Parameters.AddWithValue("@idTypeOfProcedure", idTypeOfProcedure);
+                cmd.Parameters.AddWithValue("@detail", detail);
+                int rowAffected = cmd.ExecuteNonQuery();
+
+                connection.Close();
+            }
+        }
     }
 }
