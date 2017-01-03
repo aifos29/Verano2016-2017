@@ -209,3 +209,32 @@ form {
 	width: auto;
 	height: 9em;
 }
+
+/**********CSS para las páginas de editar**********/
+.editProcedure {
+	margin-top: 1em !important;
+	margin: auto;
+	width: 700px;
+}
+
+.editContainer {
+	margin-top: 2em !important;
+    margin-bottom: 2em !important;
+	text-align: center;
+	margin-left: 14em !important;
+}
+
+.editRow {
+	padding: 0.5em;
+	text-align: center;
+}
+
+.editButton {
+	width: 117px;
+	height: 34px;
+    font-size: 14px;
+}
+
+.colorRow {
+	border: 2px solid green;
+}

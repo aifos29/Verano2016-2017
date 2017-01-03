@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class=" row col-md-12">
-            @using (Html.BeginForm("AddProcedure","Procedure"))
+            @using (Html.BeginForm("AddProcedure", "Procedure", new { id = "createProcedureForm" }))
             {
                  <div class="col-md-12 form-horizontal">
 			          <div class="form-group">
@@ -94,13 +94,15 @@
 					        </button>
 			            </div>
 			            <div class=" col-md-8">
-			    	        <button type="submit" class="sendButton">Registrar</button>
+			    	        <button type="submit" class="sendButton" id="saveRegister">Registrar</button>
 			            </div>
 			          </div>
 			    </div>
             }
 		</div>
 	</div>
+
+
 
 
 @section Scripts {

@@ -19,3 +19,12 @@ values ('Extranjero');
 
 insert into [dbo].[consecutive] (consecutiveNumber,consecutiveYear)
 values (0,2017);
+
+insert into [dbo].[status] (status)
+values ('Nuevo');
+insert into [dbo].[status] (status)
+values ('Pendiente');
+insert into [dbo].[status] (status)
+values ('En proceso');
+insert into [dbo].[status] (status)
+values ('Terminado');

@@ -88,25 +88,25 @@ namespace GestorDocumentosEntrada.Models
             return code;
         }
 
-        public String insertProcedure() 
+        public void insertProcedure(DateTime date,int departmentId,String code,int idTypeOfIdentify,String personID,int  idTypeOfProcedure,String detail,int userId)
         {
-            String code = null;
             connection.Open();
             if (connection != null)
             {
-                SqlCommand sqlQuery = new SqlCommand("select dbo.getConsecutive()", connection);
-                SqlDataReader reader = sqlQuery.ExecuteReader();
-                while (reader.Read())
-                {
-                    code = reader[0].ToString();
-                }
+                SqlCommand cmd = new SqlCommand("dbo.insertProcedure", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@date",date );
+                cmd.Parameters.AddWithValue("@departmentId", departmentId);
+                cmd.Parameters.AddWithValue("@code", code);
+                cmd.Parameters.AddWithValue("@idTypeOfIdentify", idTypeOfIdentify);
+                cmd.Parameters.AddWithValue("@personID", personID);
+                cmd.Parameters.AddWithValue("@idTypeOfProcedure", idTypeOfProcedure);
+                cmd.Parameters.AddWithValue("@detail", detail);
+                cmd.Parameters.AddWithValue("@userId", userId);
+                int rowAffected = cmd.ExecuteNonQuery();
+
                 connection.Close();
             }
-            else
-            {
-                code = "Error de Conexion";
-            }
-            return code;
         }
     }
 }

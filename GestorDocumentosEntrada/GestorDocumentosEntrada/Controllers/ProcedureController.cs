@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using GestorDocumentosEntrada.Models;
+using System.Globalization;
 
 
 namespace GestorDocumentosEntrada.Controllers
@@ -24,6 +25,10 @@ namespace GestorDocumentosEntrada.Controllers
 
         public ActionResult Edit()
         {
+            ViewBag.deparmentTable = con.getDepartments();
+            ViewBag.procedureType = con.getProcedureType();
+            ViewBag.identifyType = con.getIdentifyType();
+            ViewBag.display = false;
             return View();
         }
 
@@ -53,14 +58,23 @@ namespace GestorDocumentosEntrada.Controllers
         }
 
         public ActionResult AddProcedure(FormCollection form) {
-            ViewBag.date = form["procedureDate"];
-            ViewBag.department = form["department"];
-            ViewBag.code = form["codeProcedure"];
-            ViewBag.idType = form["idType"];
-            ViewBag.personId = form["personId"];
-            ViewBag.procedureType = form["procedureType"];
-            ViewBag.detail = Request["procedureDetail"];
-            return View();
+
+            DateTime date = DateTime.Parse(form["procedureDate"]);
+            int departmentId = Int32.Parse(form["department"]);
+            String code = form["codeProcedure"];
+            int idTypeOfIdentify = Int32.Parse(form["idType"]);
+            String personID = form["personId"];
+            int idTypeOfProcedure = Int32.Parse(form["procedureType"]);
+            String detail = form["procedureDetail"];
+            int userId = 1;
+
+            con.insertProcedure(date, departmentId, code, idTypeOfIdentify, personID, idTypeOfProcedure, detail, userId);
+            return RedirectToAction("platformMenu", "Menu");
+        }
+
+        public String getProcedureData(String procedureCode) 
+        {
+            return procedureCode;
         }
     }
 }
