@@ -9,7 +9,7 @@ namespace GestorDocumentosEntrada.Models
 {
     public class ProcedureConnection
     {
-        private static String connectionString = "Data Source = WIN-BURJN6TL5I0\\SQLEXPRESS; Initial Catalog=procedureDB;Integrated security=true";
+        private static String connectionString = "Data Source = (local)\\SQLEXPRESS; Initial Catalog=procedureDB;Integrated security=true";
         private SqlConnection connection = new SqlConnection(connectionString);
 
         //get the data to fill the differents departments
@@ -140,5 +140,56 @@ namespace GestorDocumentosEntrada.Models
                 connection.Close();
             }
         }
+
+        public DataSet getPlatformers()
+        {
+            DataSet platformerTable = new DataSet();
+            connection.Open();
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from getPlatformers() Order by name", connection);
+                sqlQuery.Fill(platformerTable, "PlatformerList");
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return platformerTable;
+        }
+
+        public DataSet getSearchDep(String dep){
+            DataSet depTable = new DataSet();
+            connection.Open();
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByDepartment("+dep+")", connection);
+                sqlQuery.Fill(depTable, "Table");
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+        }
+
+        public DataSet getSearchPlat(String plat)
+        {
+            DataSet depTable = new DataSet();
+            connection.Open();
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByPlatformer("+plat+")", connection);
+                sqlQuery.Fill(depTable, "Table");
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+        }
+
     }
 }

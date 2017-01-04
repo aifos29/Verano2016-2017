@@ -34,6 +34,8 @@ namespace GestorDocumentosEntrada.Controllers
 
         public ActionResult SearchProcedure()
         {
+            ViewBag.deparmentTable = con.getDepartments();
+            ViewBag.platformersTable = con.getPlatformers();
             return View();
         }
 
@@ -102,5 +104,18 @@ namespace GestorDocumentosEntrada.Controllers
             con.updateProcedure(code,idTypeOfIdentify, personID, idTypeOfProcedure, detail);
             return RedirectToAction("platformBossMenu", "Menu");
         }
+
+        public ActionResult searchDepartment(String dep) {
+            ViewBag.searchTable = con.getSearchDep(dep);
+            return View();
+        }
+
+        public ActionResult searchPlatformist(String plat)
+        {
+            ViewBag.searchTable = con.getSearchPlat(plat);
+            return View();
+        }
+
+       
     }
 }

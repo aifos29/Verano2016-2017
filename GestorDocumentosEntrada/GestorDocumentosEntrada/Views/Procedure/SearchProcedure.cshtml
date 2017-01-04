@@ -1,4 +1,4 @@
-﻿
+﻿@using System.Data
 @{
     ViewBag.Title = "Buscar Oficio";
 }
@@ -17,13 +17,24 @@
             <button class="searchButton">Buscar por Fecha</button>
         </div>
         <div class="col-md-3">
-            <select name="department" class="searchButton">
+            <select name="department" class="searchButton" runat="server" id="department" required>
                 <option disabled="" selected="">Buscar por Departamento</option>
+                 @foreach (DataRow row in ViewBag.deparmentTable.Tables["DepartmentsList"].Rows)
+                                    {
+                                        <option value="@row["idDepartment"]">@row["department"]</option>
+                                    }
             </select>
         </div>
         <div class="col-md-3">
-            <select name="platformist" class="searchButton">
+            <select name="platformist" class="searchButton" runat="server" id="platformist" required>
                 <option disabled="" selected="">Buscar por Plataformista</option>
+                <table style="width: 100%;">
+                            @foreach (DataRow row in ViewBag.platformersTable.Tables["PlatformerList"].Rows)
+                                    {
+                                        <option value="@row["idPlataformers"]">@row["name"]</option>
+                                    }
+                </table>
+
             </select>
         </div>
         <div class="col-md-3">
@@ -61,26 +72,23 @@
     <div class="searchDivContainer row col-md-12">
         <div class="col-md-12">
             <table class="table table-bordered">
-                <thead>
+               
+                 <thead>
                     <tr>
                         <th>Fecha</th>
-                        <th>Departamento</th>
-                        <th>Código</th>
-                        <th>Plataformista</th>
+                        <th>Consecutivo</th>
+                        <th>Detalle</th>
+                        <th>Cèdula</th>
                         <th>Estado del Trámite</th>
+                        <th>Tipo de Tràmite</th>
+                        <th>Plataformistas</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Jill</td>
-                        <td>Smith</td>
-                        <td>50</td>
-                    </tr>
-                    <tr>
-                        <td>Eve</td>
-                        <td>Jackson</td>
-                        <td>94</td>
-                    </tr>
+                    @if (ViewBag.searchTable != null){
+                        foreach (DataRow row in ViewBag.platformersTable.Tables["Table"].Rows)
+                            { <tr><td>@row["pr.date"]</td> </tr>}
+                    }
                 </tbody>
             </table>
         </div>
@@ -94,3 +102,38 @@
     </div>
 
 </div>
+
+@section Scripts {
+<script>
+    $('#department').change(function () {
+        var idVal = $('#department').val();
+        $.ajax({
+            url: '/Procedure/searchDepartment',
+            contentType: 'application/html; charset=utf-8',
+            data: { dep: idVal },
+            type: 'GET',
+            dataType: 'text'
+ 
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    });
+
+    $('#platformist').change(function () {
+        var idVal = $('#platformist').val();
+        $.ajax({
+            url: '/Procedure/searchPlatformist',
+            contentType: 'application/html; charset=utf-8',
+            data: { plat: idVal },
+            type: 'GET',
+            dataType: 'text'
+
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    });
+
+</script>
+    }
