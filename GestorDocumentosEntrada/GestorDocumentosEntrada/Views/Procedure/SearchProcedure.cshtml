@@ -21,7 +21,7 @@
                 <option disabled="" selected="">Buscar por Departamento</option>
                  @foreach (DataRow row in ViewBag.deparmentTable.Tables["DepartmentsList"].Rows)
                                     {
-                                        <option value="@row["idDepartment"]">@row["department"]</option>
+                                        <option value="@row["department"]">@row["department"]</option>
                                     }
             </select>
         </div>
@@ -31,7 +31,7 @@
                 <table style="width: 100%;">
                             @foreach (DataRow row in ViewBag.platformersTable.Tables["PlatformerList"].Rows)
                                     {
-                                        <option value="@row["idPlataformers"]">@row["name"]</option>
+                                        <option value="@row["name"]">@row["name"]</option>
                                     }
                 </table>
 
@@ -41,56 +41,43 @@
             <button class="searchButton">Buscar por Código</button>
         </div>
     </div>
+
     <div class="searchDivContainer row col-md-12">
         <div class="labelSearchDiv col-md-1">
             <label class="labelSearch">de</label>
         </div>
         <div class="col-md-3">
-            <input type="date" name="dateBegin" class="form-control">
+            <input type="date" name="dateBegin" class="form-control" id="from">
         </div>
         <div class="labelSearchDiv col-md-1">
             <label class="labelSearch">al</label>
         </div>
         <div class="col-md-3">
-            <input type="date" name="dateEnd" class="form-control">
+            <input type="date" name="dateEnd" class="form-control" id="to">
         </div>
         <div class="col-md-3">
-            <button class="btnSearch">Buscar</button>
+            <button class="btnSearch" id="byDate">Buscar Por Fecha</button>
         </div>
     </div>
+
+
     <div class="searchDivContainer row col-md-12">
         <div class="labelSearchDiv col-md-4">
             <label class="labelSearch">Ingrese el código del trámite:</label>
         </div>
         <div class="col-md-4">
-            <input type="text" name="searchCode" class="form-control">
+            <input type="text" name="searchCode" class="form-control" id="code">
         </div>
         <div class="col-md-4">
-            <button class="btnSearch">Buscar</button>
+            <button class="btnSearch" id="byCode">Buscar</button>
         </div>
+
+
+
     </div>
     <div class="searchDivContainer row col-md-12">
-        <div class="col-md-12">
-            <table class="table table-bordered">
-               
-                 <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Consecutivo</th>
-                        <th>Detalle</th>
-                        <th>Cèdula</th>
-                        <th>Estado del Trámite</th>
-                        <th>Tipo de Tràmite</th>
-                        <th>Plataformistas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (ViewBag.searchTable != null){
-                        foreach (DataRow row in ViewBag.platformersTable.Tables["Table"].Rows)
-                            { <tr><td>@row["pr.date"]</td> </tr>}
-                    }
-                </tbody>
-            </table>
+        <div class="col-md-12" id="tbl">
+
         </div>
     </div>
     <div class="buttonBackDiv row col-md-12">
@@ -115,6 +102,7 @@
             dataType: 'text'
  
         })
+        $('#tbl').load('/Procedure/searchDepartment', { dep: idVal })
         .error(function (xhr, status) {
             alert(status);
         })
@@ -130,10 +118,29 @@
             dataType: 'text'
 
         })
+        $('#tbl').load('/Procedure/searchPlatformist', { plat: idVal })
         .error(function (xhr, status) {
             alert(status);
         })
     });
+
+    $('#byDate').click(function(){
+        var idFrom = $('#from').val();
+        var idTo = $('#to').val();
+        $('#tbl').load('/Procedure/searchByDate', { from: idFrom, to: idTo })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    })
+
+    $('#byCode').click(function () {
+        var idCode = $('#code').val();
+        $('#tbl').load('/Procedure/searchByCode', { code:idCode})
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    })
+
 
 </script>
     }
