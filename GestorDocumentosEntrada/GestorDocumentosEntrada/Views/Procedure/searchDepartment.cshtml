@@ -1,0 +1,35 @@
+﻿@model IEnumerable<GestorDocumentosEntrada.Models.ProcedureConnection>
+@{ Layout = null;}
+@using System.Data
+<!DOCTYPE html>
+<html>
+<head><title></title></head>
+<body>
+                <table class="table table-bordered">
+               
+                 <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Consecutivo</th>
+                        <th>Detalle</th>
+                        <th>Cèdula</th>
+                        <th>Estado del Trámite</th>
+                        <th>Tipo de Tràmite</th>
+                        <th>Plataformistas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.searchTable != null){
+                        foreach (DataRow row in ViewBag.searchTable.Tables["Table"].Rows)
+                            { <tr><td>@row["Fecha"]</td>
+                              <td>@row["Consecutivo"]</td> 
+                              <td>@row["Detalle"]</td> 
+                              <td>@row["Cèdula"]</td> 
+                              <td>@row["Estado"]</td> 
+                              <td>@row["Tipo de Procedimiento"]</td> 
+                              <td>@row["Plataformista"]</td> </tr>}
+                    }
+                </tbody>
+            </table>
+</body>
+</html>

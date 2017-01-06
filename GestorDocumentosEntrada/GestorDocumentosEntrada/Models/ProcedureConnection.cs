@@ -168,7 +168,7 @@ namespace GestorDocumentosEntrada.Models
             connection.Open();
             if (connection != null)
             {
-                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByDepartment("+dep+")", connection);
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByDepartment('"+dep+"')", connection);
                 sqlQuery.Fill(depTable, "Table");
                 connection.Close();
             }
@@ -185,7 +185,44 @@ namespace GestorDocumentosEntrada.Models
             connection.Open();
             if (connection != null)
             {
-                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByPlatformer("+plat+")", connection);
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByPlatformer('"+plat+"')", connection);
+                sqlQuery.Fill(depTable, "Table");
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+        }
+
+        public DataSet getSearchDate(DateTime from, DateTime to) {
+
+            DataSet depTable = new DataSet();
+            connection.Open();
+            String newFrom = from.ToString("yyyy-MM-dd");
+            String newTo = to.ToString("yyyy-MM-dd");
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByDate('" + newFrom + "', '" + newTo + "')", connection);
+                sqlQuery.Fill(depTable, "Table");
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+        
+        }
+
+        public DataSet getSearchCode(String code)
+        {
+            DataSet depTable = new DataSet();
+            connection.Open();
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByCode('" + code + "')", connection);
                 sqlQuery.Fill(depTable, "Table");
                 connection.Close();
             }
