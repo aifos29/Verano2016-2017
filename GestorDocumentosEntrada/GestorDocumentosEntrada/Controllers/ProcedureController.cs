@@ -39,12 +39,6 @@ namespace GestorDocumentosEntrada.Controllers
             return View();
         }
 
-        public String CreateProcedureCode(int departmentId) 
-        {
-            String code = con.getCode(departmentId);
-            return code;
-        }
-
         public JsonResult updateFormatId(int idTypeOfIdentify) 
         {
             List<String> attributes = new List<String>();
@@ -63,15 +57,15 @@ namespace GestorDocumentosEntrada.Controllers
 
             DateTime date = DateTime.Parse(form["procedureDate"]);
             int departmentId = Int32.Parse(form["department"]);
-            String code = form["codeProcedure"];
             int idTypeOfIdentify = Int32.Parse(form["idType"]);
             String personID = form["personId"];
             int idTypeOfProcedure = Int32.Parse(form["procedureType"]);
             String detail = form["procedureDetail"];
             int userId = 1;
 
-            con.insertProcedure(date, departmentId, code, idTypeOfIdentify, personID, idTypeOfProcedure, detail, userId);
-            return RedirectToAction("platformMenu", "Menu");
+            ViewBag.code = con.insertProcedure(date, departmentId, idTypeOfIdentify, personID, idTypeOfProcedure, detail, userId);
+            //return RedirectToAction("platformMenu", "Menu");
+            return View();
         }
 
         public JsonResult getProcedureData(String procedureCode) 

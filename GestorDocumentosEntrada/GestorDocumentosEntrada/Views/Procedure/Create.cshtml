@@ -37,14 +37,6 @@
 			          </div>
 			          <div class="form-group">
 			  	        <div class="labelDiv col-md-4">
-			  		        <label class="control-label" for="codeProcedure">Código:</label>
-			  	        </div>
-			            <div class="col-md-8" id="divCodeContainer">
-                            <input type="text" runat="server" name="codeProcedure" id="codeProcedure" class="form-control" readonly="" required>
-			            </div>
-			          </div>
-			          <div class="form-group">
-			  	        <div class="labelDiv col-md-4">
 			  		        <label class="control-label" for="idType">Tipo de Cédula:</label>
 			  	        </div>
 			            <div class="  col-md-8">
@@ -103,28 +95,8 @@
 	</div>
 
 
-
-
 @section Scripts {
 <script>
-    $('#department').change(function () {
-        var idVal = $('#department').val();
-        $.ajax({
-            url: '/Procedure/CreateProcedureCode',
-            contentType: 'application/html; charset=utf-8',
-            data: { departmentId: idVal },
-            type: 'GET',
-            dataType: 'text'
- 
-        })
-        .success(function (result) {
-            $('#codeProcedure').val(result);
-        })
-        .error(function (xhr, status) {
-            alert(status);
-        })
-    });
-
     $('#idType').change(function () {
         var idVal = $('#idType').val();
         $.ajax({

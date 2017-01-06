@@ -88,8 +88,9 @@ namespace GestorDocumentosEntrada.Models
             return code;
         }
 
-        public void insertProcedure(DateTime date,int departmentId,String code,int idTypeOfIdentify,String personID,int  idTypeOfProcedure,String detail,int userId)
+        public string insertProcedure(DateTime date,int departmentId,int idTypeOfIdentify,String personID,int  idTypeOfProcedure,String detail,int userId)
         {
+            String code = null;
             connection.Open();
             if (connection != null)
             {
@@ -97,16 +98,20 @@ namespace GestorDocumentosEntrada.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@date",date );
                 cmd.Parameters.AddWithValue("@departmentId", departmentId);
-                cmd.Parameters.AddWithValue("@code", code);
                 cmd.Parameters.AddWithValue("@idTypeOfIdentify", idTypeOfIdentify);
                 cmd.Parameters.AddWithValue("@personID", personID);
                 cmd.Parameters.AddWithValue("@idTypeOfProcedure", idTypeOfProcedure);
                 cmd.Parameters.AddWithValue("@detail", detail);
                 cmd.Parameters.AddWithValue("@userId", userId);
-                int rowAffected = cmd.ExecuteNonQuery();
+                cmd.Parameters.Add("@code", SqlDbType.VarChar, 50).Direction = ParameterDirection.Output;
+                
+                cmd.ExecuteNonQuery();
+
+                code = Convert.ToString(cmd.Parameters["@code"].Value);
 
                 connection.Close();
             }
+            return code;
         }
 
         public DataSet getProcedure(String procedureCode)
