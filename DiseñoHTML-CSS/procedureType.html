@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Lista de Usuarios</title>
+<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<link rel="stylesheet" type="text/css" href="documentManager.css">
+</head>
+<body>
+	<div class="userList">
+		<div class="row col-md-12">
+			<div class="col-md-2">
+				<img class="menuHeaderImage" src="escudoSinFondo.png">
+			</div>
+			<div class="col-md-10">
+				<h3 class="headerSearchTitle">Tipos de Trámite</h3>
+			</div>
+		</div>
+		<div class="buttonListContainer row col-md-12"> 
+			<DIV class="col-md-12">
+				<button class="btnAddUser" id="addProcedureType">Agregar Tipo de Trámite</button>
+			</DIV>
+		</div>
+		<div class="listContainer row col-md-12"> 
+			<div class="labelSearchDiv col-md-4">
+				<label class="labelSearch">Ingrese el tipo de Trámite:</label>
+			</div>
+			<div class="col-md-4">
+				<input type="text" name="searchCode" class="form-control">
+			</div>
+			<div class=" col-md-4">
+				<button class="btnSearch">Agregar</button>
+			</div>
+		</div>
+		<div class="listContainer row col-md-12"> 
+			<div class="col-md-12">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Tipo de Trámite</th>
+							<th>Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>juna</td>
+							<td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td>
+						</tr>
+						<tr>
+							<td>juna</td>
+							<td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="listContainer row col-md-12"> 
+			<div class="col-md-12">
+				<button type="button" class="backButton btn" aria-label="Left Align" onclick ="location.href='administratorMenu.html'">
+					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+				</button>
+			</div>
+		</div>
+		
+	</div>
+
+</body>
+</html>

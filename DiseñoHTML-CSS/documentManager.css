@@ -1,3 +1,39 @@
+/**********CSS para login**********/
+.logIn {
+	margin-top: 5em !important;
+	margin: auto;
+	padding: 1rem;
+	width: 400px;
+}
+
+.titleContainer {
+	text-align: center;
+}
+
+.titleLogIn {
+	font-weight: bold;
+}
+
+.logInForm {
+	margin-top: 3em;
+}
+
+.logInButton {
+	margin-top: 1em;
+	text-align: center;
+	width: 380px;
+	height: 40px;
+	background-color: #65826E;
+	border: solid #65826E;
+	color: #EBDC07;
+	font-size: 16px;
+}
+
+.imageLogIn {
+	width: auto;
+	height: 120px;
+}
+
 /**********CSS para las páginas de menú**********/
 .menu {
 	margin-top: 5em !important;
@@ -160,4 +196,92 @@ form {
 .headerStatisticImage {
 	width: auto;
 	height: 9em;
+}
+
+/**********CSS para las páginas de editar**********/
+.editProcedure {
+	margin-top: 4em !important;
+	margin: auto;
+	width: 700px;
+}
+
+.editContainer {
+	margin-top: 2em !important;
+	text-align: center;
+	margin-left: 5em;
+}
+
+.editRow {
+	padding: 0.5em;
+	text-align: center;
+}
+
+.editButton {
+	width: 140px;
+	height: 34px;
+}
+
+/**********CSS para las páginas de firmacion**********/
+.successInsertProcedure {
+	margin-top: 13em !important;
+    text-align: center !important;
+    margin: auto;
+    width: 550px;
+    height: auto;
+}
+
+.messageContainer {
+	margin-top: 1em;
+}
+
+.buttonSuccessDiv {
+	text-align: center;
+	margin-top: 1.8em;
+}
+
+/**********CSS para las páginas de user list**********/
+table, table.thead.tr {
+	text-align: center;
+}
+
+th {
+	text-align: center;
+}
+
+.removeIcon {
+	color: black;
+}
+
+a:hover {
+	color: red;
+	text-decoration: none;
+}
+
+.userList  {
+	margin-top: 4em !important;
+	margin: auto;
+	width: 800px;
+	height: 500px;
+}
+
+.textDiv {
+	border: 2px solid blue;
+}
+
+.listContainer {
+	margin-left: 1em;
+	padding: 1em !important;
+}
+
+.btnAddUser {
+	width: 200px;
+	height: 34px;
+	background-color: #65826E;
+	border: solid #65826E;
+	color: #EBDC07;
+}
+
+.buttonListContainer {
+	margin-left: 1em;
+	text-align: right;
 }
