@@ -36,6 +36,7 @@ namespace GestorDocumentosEntrada.Controllers
         {
             ViewBag.deparmentTable = con.getDepartments();
             ViewBag.platformersTable = con.getPlatformers();
+            ViewBag.searchTable = con.getSearchPlat("Amanda Solano");
             return View();
         }
 
@@ -110,6 +111,15 @@ namespace GestorDocumentosEntrada.Controllers
             return View();
         }
 
-       
+       public ActionResult searchByDate(DateTime from, DateTime to){
+           ViewBag.searchTable = con.getSearchDate(from, to);
+           return View();
+       }
+
+       public ActionResult searchByCode(String code)
+       {
+           ViewBag.searchTable = con.getSearchCode(code);
+           return View();
+       }
     }
 }
