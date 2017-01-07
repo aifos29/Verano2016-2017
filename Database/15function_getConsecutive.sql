@@ -14,8 +14,8 @@ BEGIN
     
     Select @departmentCode = d.code from [dbo].[department] as d
     where d.idDepartment = @departmentId
-    SELECT @number = consecutiveNumber from [dbo].[consecutive]
-    SELECT @year = consecutiveYear from [dbo].[consecutive]
+    SELECT @number = consecutiveNumber from [dbo].[consecutive] where consecutiveId = 1;
+    SELECT @year = consecutiveYear from [dbo].[consecutive] where consecutiveId = 1;
     
     SET @logid = @departmentCode + '-' + cast(@number as varchar) + '-' + cast(@year as varchar);
 
