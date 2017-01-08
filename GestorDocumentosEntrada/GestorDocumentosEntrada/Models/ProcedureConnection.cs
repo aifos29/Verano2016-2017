@@ -242,7 +242,7 @@ namespace GestorDocumentosEntrada.Models
             String newTo = to.ToString("yyyy-MM-dd");
             if (connection != null)
             {
-                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.getBinnacle('" + newFrom + "', '" + newTo + "')", connection);
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.getBinnacle('" + newFrom + "', '" + newTo + "') Order by Fecha", connection);
                 sqlQuery.Fill(depTable, "Table");
                 connection.Close();
             }
