@@ -1,7 +1,13 @@
-﻿@{
-    ViewBag.Title = "AddProcedure";
-}
-
-<h2>AddProcedure</h2>
-<h4>Codigo asignado: @ViewBag.code</h4>
-
+﻿<div class="successInsertProcedure">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Registro realizado exitosamente</h1>
+      </div>
+      <div class="col-md-12 messageContainer">
+        <h3>Su trámite se ha guardado exitosamente, se le ha asignado el código @ViewBag.code</h3>
+      </div>
+      <div class="col-md-12 buttonSuccessDiv">
+        <button onClick="location.href='@Url.Action("platFormMenu", "Menu")'" class="sendButton">Finalizar</button>
+      </div>
+    </div>
+  </div>

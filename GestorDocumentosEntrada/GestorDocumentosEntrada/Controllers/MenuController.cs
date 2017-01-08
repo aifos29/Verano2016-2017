@@ -23,5 +23,10 @@ namespace GestorDocumentosEntrada.Controllers
         {
             return View();
         }
+
+        public ActionResult administratorMenu()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,51 @@
+﻿<div class="userList">
+		<div class="row col-md-12">
+			<div class="col-md-2">
+				<img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
+			</div>
+			<div class="col-md-10">
+				<h3 class="headerSearchTitle">Lista de Usuarios</h3>
+			</div>
+		</div>
+		<div class="buttonListContainer row col-md-12"> 
+			<DIV class="col-md-12">
+				<button class="btnAddUser" onclick ="location.href='@Url.Action("CreateUser", "Administrator")'">Agregar Usuario</button>
+			</DIV>
+		</div>
+		<div class="listContainer row col-md-12"> 
+			<div class="col-md-12">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>Correo</th>
+							<th>Departamento</th>
+							<th>Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+						    <td>juna</td>
+							<td>juna</td>
+							<td>juna</td>
+							<td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td>
+						</tr>
+						<tr>
+						    <td>juna</td>
+							<td>juna</td>
+							<td>juna</td>
+							<td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="listContainer row col-md-12"> 
+			<div class="col-md-12">
+				<button type="button" class="backButton btn" aria-label="Left Align" onclick ="location.href='@Url.Action("administratorMenu", "Menu")'">
+					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+				</button>
+			</div>
+		</div>
+		
+	</div>

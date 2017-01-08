@@ -1,0 +1,74 @@
+﻿@using System.Data
+
+<div class="addProcedure">
+		<div class=" row col-md-12">
+			<div class="imageContainer col-md-4">
+				<img class="headerImage" src="@Url.Content("~/Content/Image/escudo_66x81.png")">
+			</div>
+			<div class=" col-md-8">
+				<h4 class="headerTitle">Registrar Ingreso de Nuevo Documento</h4>
+			</div>
+		</div>
+		<div class=" row col-md-12">
+            @using (Html.BeginForm("AddUser", "Administrator", new { name = "createProcedureForm" }))
+            {
+                 <div class="col-md-12 form-horizontal">
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="userName">Nombre:</label>
+			  	        </div>
+			            <div class="  col-md-8">
+			              <input type="text" class="form-control" id="userName" placeholder="Ingrese el nombre completo" required>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="userDepartment">Departamento:</label>
+			  	        </div>
+			            <div class="col-md-8">
+				            <select name="userDepartment" class="form-control" runat="server" id="userDepartment" required>
+				    	        <option value="" disabled selected="">Seleccione un departamento</option>
+                                    @foreach (DataRow row in ViewBag.deparmentTable.Tables["DepartmentsList"].Rows)
+                                    {
+                                        <option value="@row["idDepartment"]">@row["department"]</option>
+                                    }
+					        </select>
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  	        </div>
+			  	        <div class="col-md-8">
+			  		        <input type="checkbox" id="userIsBoss" value=""> <label for="userIsBoss">Jefe de Departamento</label>
+			  	        </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="userEmail">Correo Electrónico:</label>
+			  	        </div>
+			            <div class="  col-md-8">
+			              <input type="email" class="form-control" id="userEmail" placeholder="usuario@algo.com">
+			            </div>
+			          </div>
+			          <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="userPassword">Contraseña:</label>
+			  	        </div>
+			            <div class="  col-md-8">
+			              <input type="password" class="form-control" name="userPassword" placeholder="">
+			            </div>
+			          </div>
+			          <div class="buttonDiv form-group"> 
+			  	        <div class="  col-md-4">
+			    	        <button type="button" class="backButton btn" aria-label="Left Align" onClick="location.href='@Url.Action("UserList", "Administrator")'">
+						        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+					        </button>
+			            </div>
+			            <div class=" col-md-8">
+			    	        <button type="submit" class="sendButton" id="saveRegister">Agregar</button>
+			            </div>
+			          </div>
+			    </div>
+            }
+		</div>
+	</div>

@@ -38,6 +38,12 @@ namespace GestorDocumentosEntrada
             );
 
             routes.MapRoute(
+                name: "AdministratorMenu",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Menu", action = "administratorMenu", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "AgregarDocumento",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Procedure", action = "Create", id = UrlParameter.Optional }
@@ -59,6 +65,42 @@ namespace GestorDocumentosEntrada
                 name: "VerOficio",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Procedure", action = "AddProcedure", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "UserList",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Administrator", action = "UserList", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "CreateUSer",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Administrator", action = "CreateUser", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "ProcedureType",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Administrator", action = "procedureTypes", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "AddUSer",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Administrator", action = "AddUser", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Statistic",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Reports", action = "Statistic", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Binnacle",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Reports", action = "Binnacle", id = UrlParameter.Optional }
             );
         }
     }

@@ -56,16 +56,15 @@ namespace GestorDocumentosEntrada.Controllers
 
         public ActionResult AddProcedure(FormCollection form) {
 
-            DateTime date = DateTime.Parse(form["procedureDate"]);
-            int departmentId = Int32.Parse(form["department"]);
-            int idTypeOfIdentify = Int32.Parse(form["idType"]);
-            String personID = form["personId"];
-            int idTypeOfProcedure = Int32.Parse(form["procedureType"]);
-            String detail = form["procedureDetail"];
-            int userId = 1;
+             DateTime date = DateTime.Parse(form["procedureDate"]);
+             int departmentId = Int32.Parse(form["department"]);
+             int idTypeOfIdentify = Int32.Parse(form["idType"]);
+             String personID = form["personId"];
+             int idTypeOfProcedure = Int32.Parse(form["procedureType"]);
+             String detail = form["procedureDetail"];
+             int userId = 1;
 
-            ViewBag.code = con.insertProcedure(date, departmentId, idTypeOfIdentify, personID, idTypeOfProcedure, detail, userId);
-            //return RedirectToAction("platformMenu", "Menu");
+             ViewBag.code = con.insertProcedure(date, departmentId, idTypeOfIdentify, personID, idTypeOfProcedure, detail, userId);
             return View();
         }
 
@@ -81,10 +80,14 @@ namespace GestorDocumentosEntrada.Controllers
                 }
             }
 
-            string[] dateSend = list[1].Split('/');
-            string[] yearTime = dateSend[2].Split(' ');
-            String date = yearTime[0] + '-' + dateSend[1] + '-' + dateSend[0];
-            list[1] = date;
+            if (list.Count != 0) 
+            {
+                string[] dateSend = list[1].Split('/');
+                string[] yearTime = dateSend[2].Split(' ');
+                String date = yearTime[0] + '-' + dateSend[1] + '-' + dateSend[0];
+                list[1] = date;
+            } 
+            
             return Json(list.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -97,7 +100,8 @@ namespace GestorDocumentosEntrada.Controllers
             String detail = form["procedureDetail"];
 
             con.updateProcedure(code,idTypeOfIdentify, personID, idTypeOfProcedure, detail);
-            return RedirectToAction("platformBossMenu", "Menu");
+            ViewBag.code = code;
+            return View();
         }
 
         public ActionResult searchDepartment(String dep) {

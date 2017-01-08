@@ -10,6 +10,14 @@
     font-weight: 600;
 }
 
+.successInsertProcedure {
+    margin-top: 5em !important;
+	margin: auto;
+	padding: 1rem;
+	width: 500px;
+	text-align: center;
+}
+
 /**********CSS para las páginas de menú**********/
 .menu {
 	margin-top: 3em !important;
@@ -235,6 +243,76 @@ form {
     font-size: 14px;
 }
 
-.colorRow {
-	border: 2px solid green;
+
+/**********CSS para las páginas de firmacion**********/
+.successInsertProcedure {
+	margin-top: 13em !important;
+    text-align: center !important;
+    margin: auto;
+    width: 550px;
+    height: auto;
+}
+
+.messageContainer {
+	margin-top: 1em;
+}
+
+.buttonSuccessDiv {
+	text-align: center;
+	margin-top: 3em;
+}
+
+/**********CSS para las páginas de user list**********/
+table, table.thead.tr {
+	text-align: center;
+    font-size: 14px;
+}
+
+th {
+	text-align: center;
+    font-size: 14px;
+}
+
+.removeIcon {
+	color: black;
+}
+
+a:hover {
+	color: red;
+	text-decoration: none;
+}
+
+.userList  {
+	margin-top: 1em !important;
+	margin: auto;
+	width: 800px;
+	height: 500px;
+}
+
+.listContainer {
+	margin-left: 1em;
+	padding: 1em !important;
+}
+
+.btnAddUser {
+	width: 200px;
+	height: 34px;
+	background-color: #65826E;
+	border: solid #65826E;
+	color: #EBDC07;
+    font-size: 14px;
+}
+
+.buttonListContainer {
+	margin-left: 1em;
+	text-align: right;
+}
+
+.buttonReportsDiv {
+	margin-top: 1.8em;
+    padding: 1em;
+}
+
+.btnExportContainer {
+    padding-left: 19em;
 }

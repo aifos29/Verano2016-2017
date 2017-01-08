@@ -119,9 +119,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdministratorController.cs" />
     <Compile Include="Controllers\LogInController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\ProcedureController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -252,6 +254,12 @@
     <Content Include="Views\Procedure\searchPlatformist.cshtml" />
     <Content Include="Views\Procedure\searchByDate.cshtml" />
     <Content Include="Views\Procedure\searchByCode.cshtml" />
+    <Content Include="Views\Procedure\saveChangedProcedure.cshtml" />
+    <Content Include="Views\Menu\administratorMenu.cshtml" />
+    <Content Include="Views\Administrator\UserList.cshtml" />
+    <Content Include="Views\Administrator\CreateUser.cshtml" />
+    <Content Include="Views\Administrator\procedureTypes.cshtml" />
+    <Content Include="Views\Reports\Statistic.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

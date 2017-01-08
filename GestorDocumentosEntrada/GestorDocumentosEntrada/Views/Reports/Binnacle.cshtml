@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "Bitacora";
+}
+
+<div class="searchProcedure">
+    <div class="row col-md-12">
+        <div class="col-md-2">
+            <img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
+        </div>
+        <div class="col-md-10">
+            <h3 class="headerSearchTitle">Bitácora</h3>
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-md-12" id="divDate">
+        <div class="labelSearchDiv col-md-1">
+            <label class="labelSearch">de</label>
+        </div>
+        <div class="col-md-3">
+            <input type="date" name="dateBegin" class="form-control" id="from">
+        </div>
+        <div class="labelSearchDiv col-md-1">
+            <label class="labelSearch">al</label>
+        </div>
+        <div class="col-md-3">
+            <input type="date" name="dateEnd" class="form-control" id="to">
+        </div>
+        <div class="col-md-3">
+            <button class="btnSearch" id="byDate">Buscar</button>
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-md-12">
+        <div class="col-md-12" id="tbl">
+
+        </div>
+    </div>
+    <div class="buttonReportsDiv row col-md-12" >
+        <div class="col-md-6">
+            <button type="button" class="backButton btn" aria-label="Left Align" onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </button>
+        </div>
+        <div class="col-md-6 btnExportContainer" id="btnExportPDFContainer">
+            <button type="button" class="sendButton" id="exportPDF">Guardar PDF</button>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts {
+<script>
+    var divBtn = document.getElementById('btnExportPDFContainer');
+    divBtn.style.display = 'none';
+
+    $('#byDate').click(function(){
+        var idFrom = $('#from').val();
+        var idTo = $('#to').val();
+        divBtn.style.display = 'block';
+        $('#tbl').load('/Procedure/searchByDate', { from: idFrom, to: idTo })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    })
+</script>
+    }
