@@ -233,5 +233,26 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
         }
 
+        public DataSet getBinnacle(DateTime from, DateTime to)
+        {
+
+            DataSet depTable = new DataSet();
+            connection.Open();
+            String newFrom = from.ToString("yyyy-MM-dd");
+            String newTo = to.ToString("yyyy-MM-dd");
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.getBinnacle('" + newFrom + "', '" + newTo + "')", connection);
+                sqlQuery.Fill(depTable, "Table");
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+
+        }
+
     }
 }

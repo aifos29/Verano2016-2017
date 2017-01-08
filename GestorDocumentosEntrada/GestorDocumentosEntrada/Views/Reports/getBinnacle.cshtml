@@ -1,0 +1,34 @@
+﻿@using System.Data;
+@{ Layout = null;}
+
+        <div class="row col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Consecutivo</th>
+                        <th>Departamento</th>
+                        <th>Cédula</th>
+                        <th>Estado del Trámite</th>
+                        <th>Tipo de Trámite</th>
+                        <th>Plataformista</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewBag.searchTable != null){
+                        foreach (DataRow row in ViewBag.searchTable.Tables["Table"].Rows)
+                        { 
+                            <tr>
+                                <td>@(DateTime.Parse(row["Fecha"].ToString()).ToShortDateString())</td>
+                                <td>@row["Consecutivo"]</td> 
+                                <td>@row["Departamento"]</td> 
+                                <td>@row["Cèdula"]</td>
+                                <td>@row["Estado"]</td> 
+                                <td>@row["Tipo de Procedimiento"]</td> 
+                                <td>@row["Plataformista"]</td> 
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>

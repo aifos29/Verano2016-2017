@@ -17,16 +17,16 @@
             <label class="labelSearch">de</label>
         </div>
         <div class="col-md-3">
-            <input type="date" name="dateBegin" class="form-control" id="from">
+            <input type="date" class="form-control" id="dateBegin">
         </div>
         <div class="labelSearchDiv col-md-1">
             <label class="labelSearch">al</label>
         </div>
         <div class="col-md-3">
-            <input type="date" name="dateEnd" class="form-control" id="to">
+            <input type="date" class="form-control" id="dateEnd">
         </div>
         <div class="col-md-3">
-            <button class="btnSearch" id="byDate">Buscar</button>
+            <button class="btnSearch" id="searchDate">Buscar</button>
         </div>
     </div>
 
@@ -45,7 +45,24 @@
             <button type="button" class="sendButton" id="exportPDF">Guardar PDF</button>
         </div>
     </div>
+</div>
 
+<div id="errorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Error</h4>
+      </div>
+      <div class="modal-body">
+        <label id="textMessage"></label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 
@@ -54,14 +71,26 @@
     var divBtn = document.getElementById('btnExportPDFContainer');
     divBtn.style.display = 'none';
 
-    $('#byDate').click(function(){
-        var idFrom = $('#from').val();
-        var idTo = $('#to').val();
-        divBtn.style.display = 'block';
-        $('#tbl').load('/Procedure/searchByDate', { from: idFrom, to: idTo })
-        .error(function (xhr, status) {
-            alert(status);
-        })
+
+    $('#searchDate').click(function () {
+        var dateBegin = $('#dateBegin').val();
+        var dateEnd = $('#dateEnd').val();
+        if (dateBegin == '' || dateEnd == '') {
+            document.getElementById('textMessage').innerHTML = 'Ingrese la fecha en ambos espacios';
+            $('#errorModal').modal('toggle');
+        }
+        if (dateBegin.replace('-', '/') > dateEnd.replace('-', '/')) {
+            document.getElementById('textMessage').innerHTML = 'El primer espacio de fecha debe de ser menor que el segundo';
+            $('#errorModal').modal('toggle');
+        }
+        if (dateBegin.replace('-', '/') < dateEnd.replace('-', '/')) {
+            divBtn.style.display = 'block';
+            $('#tbl').load('/Reports/getBinnacle', { from: dateBegin, to: dateEnd })
+            .error(function (xhr, status) {
+                alert(status);
+            })
+        }
+        
     })
 </script>
     }

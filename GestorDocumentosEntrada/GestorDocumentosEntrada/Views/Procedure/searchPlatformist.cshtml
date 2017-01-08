@@ -21,7 +21,7 @@
                 <tbody>
                     @if (ViewBag.searchTable != null){
                         foreach (DataRow row in ViewBag.searchTable.Tables["Table"].Rows)
-                            { <tr><td>@row["Fecha"]</td>
+                            { <tr><td>@(DateTime.Parse(row["Fecha"].ToString()).ToShortDateString())</td>
                               <td>@row["Consecutivo"]</td> 
                               <td>@row["Detalle"]</td> 
                               <td>@row["Cèdula"]</td> 

@@ -23,5 +23,11 @@ namespace GestorDocumentosEntrada.Controllers
             return View();
         }
 
+        public ActionResult getBinnacle(DateTime from, DateTime to)
+        {
+            ViewBag.searchTable = con.getBinnacle(from, to);
+            return PartialView();
+        }
+
     }
 }
