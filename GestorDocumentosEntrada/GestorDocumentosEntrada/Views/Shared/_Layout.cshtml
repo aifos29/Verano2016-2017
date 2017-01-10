@@ -13,7 +13,14 @@
     <div class="container body-content">
         <div class="row labelWelcome">
             <div class="col-md-6"></div>
-            <div class="col-md-6">Bienvenido;</div>
+            @if (Session["userName"] == null)
+            { 
+                <script> window.location.href='@Url.Action("Index", "LogIn")'; </script>
+            }
+            else
+            {
+            <div class="col-md-6">Bienvenido @Session["userName"].ToString();</div>
+            }
         </div>
         @RenderBody()
     </div>

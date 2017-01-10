@@ -239,8 +239,8 @@
     <Content Include="Views\Procedure\Create.cshtml" />
     <Content Include="Views\Procedure\SearchProcedure.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\LogIn\Home\Index.cshtml" />
+    <Content Include="Views\LogIn\Home\About.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\LogOn.cshtml" />
     <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />

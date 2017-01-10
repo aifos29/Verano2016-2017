@@ -1,4 +1,5 @@
-﻿<div class="userList">
+﻿@using System.Data
+<div class="userList">
 		<div class="row col-md-12">
 			<div class="col-md-2">
 				<img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
@@ -24,18 +25,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-						    <td>juna</td>
-							<td>juna</td>
-							<td>juna</td>
-							<td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td>
-						</tr>
-						<tr>
-						    <td>juna</td>
-							<td>juna</td>
-							<td>juna</td>
-							<td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td>
-						</tr>
+
+                        @if (ViewBag.table != null){
+                        foreach (DataRow row in ViewBag.table.Tables["Table"].Rows)
+                            { <tr><td>@row["Nombre"]</td>
+                              <td>@row["email"]</td> 
+                              <td>@row["Departamento"]</td> 
+                              <td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td> </tr>}
+                    }
 					</tbody>
 				</table>
 			</div>

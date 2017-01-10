@@ -36,7 +36,7 @@ namespace GestorDocumentosEntrada.Controllers
         {
             ViewBag.deparmentTable = con.getDepartments();
             ViewBag.platformersTable = con.getPlatformers();
-            ViewBag.searchTable = con.getSearchPlat("Amanda Solano");
+           
             return View();
         }
 

@@ -10,17 +10,20 @@
 			</div>
 		</div>
 		<div class=" row col-md-12">
-            @using (Html.BeginForm("AddUser", "Administrator", new { name = "createProcedureForm" }))
+            @using (Html.BeginForm("CreateUser", "Administrator"))
             {
                  <div class="col-md-12 form-horizontal">
 			          <div class="form-group">
 			  	        <div class="labelDiv col-md-4">
 			  		        <label class="control-label" for="userName">Nombre:</label>
 			  	        </div>
+   
 			            <div class="  col-md-8">
-			              <input type="text" class="form-control" id="userName" placeholder="Ingrese el nombre completo" required>
+			              <input type="text" class="form-control" id="userName" name ="userName" placeholder="Ingrese el nombre completo" required>
 			            </div>
 			          </div>
+
+
 			          <div class="form-group">
 			  	        <div class="labelDiv col-md-4">
 			  		        <label class="control-label" for="userDepartment">Departamento:</label>
@@ -30,7 +33,7 @@
 				    	        <option value="" disabled selected="">Seleccione un departamento</option>
                                     @foreach (DataRow row in ViewBag.deparmentTable.Tables["DepartmentsList"].Rows)
                                     {
-                                        <option value="@row["idDepartment"]">@row["department"]</option>
+                                        <option value="@row["department"]">@row["department"]</option>
                                     }
 					        </select>
 			            </div>
@@ -38,8 +41,8 @@
 			          <div class="form-group">
 			  	        <div class="labelDiv col-md-4">
 			  	        </div>
-			  	        <div class="col-md-8">
-			  		        <input type="checkbox" id="userIsBoss" value=""> <label for="userIsBoss">Jefe de Departamento</label>
+			  	        <div class="col-md-8" id ="DepartemtBoss">
+			  		        <input type="checkbox" id="userIsBoss" name="userIsBoss" value="1"> <label for="userIsBoss">Jefe de Departamento</label>
 			  	        </div>
 			          </div>
 			          <div class="form-group">
@@ -47,7 +50,7 @@
 			  		        <label class="control-label" for="userEmail">Correo Electrónico:</label>
 			  	        </div>
 			            <div class="  col-md-8">
-			              <input type="email" class="form-control" id="userEmail" placeholder="usuario@algo.com">
+			              <input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="usuario@algo.com">
 			            </div>
 			          </div>
 			          <div class="form-group">
@@ -70,5 +73,25 @@
 			          </div>
 			    </div>
             }
+             
+             <div><label>@ViewBag.messege</label></div>
+
+			 </div>
+
 		</div>
-	</div>
+	
+@section Scripts {
+<script>
+    var div = document.getElementById('DepartemtBoss');
+    div.style.display = 'none';
+    $('#userDepartment').change(function () {
+        var Val = $('#userDepartment').val();
+        if (Val === "Plataforma") {
+            div.style.display = 'block';
+        } else { div.style.display = 'none'; }
+        error(function (xhr, status) {
+            alert(status);
+        })
+    });
+</script>
+    }

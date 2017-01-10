@@ -14,12 +14,10 @@ BEGIN
     
 	INSERT INTO [procedureDB].[dbo].[Plataformers]
            ([name]
-           ,[lastName]
            ,[isABoss]
            ,[idLogging])
      VALUES
            (@name
-           ,' '
            ,@isABoss
            ,@idLogging)
 		
