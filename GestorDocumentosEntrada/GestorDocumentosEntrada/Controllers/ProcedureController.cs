@@ -125,5 +125,43 @@ namespace GestorDocumentosEntrada.Controllers
            ViewBag.searchTable = con.getSearchCode(code);
            return View();
        }
+
+       public ActionResult getStadisticByDepartment(String code)
+       {
+
+           ProcedureConnection con = new ProcedureConnection();
+           System.Data.DataTable table = con.getStadisticByDepartment(code);
+
+           String json = Newtonsoft.Json.JsonConvert.SerializeObject(table);
+           return Json(json, JsonRequestBehavior.AllowGet);
+       }
+
+
+       public ActionResult getStadisticByPlataformer(String code)
+       {
+           ProcedureConnection con = new ProcedureConnection();
+           System.Data.DataTable table = con.getStadisticByPlataformer(code);
+
+           String json = Newtonsoft.Json.JsonConvert.SerializeObject(table);
+           return Json(json, JsonRequestBehavior.AllowGet);
+       }
+
+       public ActionResult getStadisticByDateForDeparment(String from, String to)
+       {
+           ProcedureConnection con = new ProcedureConnection();
+           System.Data.DataTable table = con.getStadisticByDateForDepartment(from, to);
+
+           String json = Newtonsoft.Json.JsonConvert.SerializeObject(table);
+           return Json(json, JsonRequestBehavior.AllowGet);
+       }
+
+       public ActionResult getStadisticByDateForPlataformer(String from, String to)
+       {
+           ProcedureConnection con = new ProcedureConnection();
+           System.Data.DataTable table = con.getStadisticByDateForPlataformer(from, to);
+
+           String json = Newtonsoft.Json.JsonConvert.SerializeObject(table);
+           return Json(json, JsonRequestBehavior.AllowGet);
+       }
     }
 }

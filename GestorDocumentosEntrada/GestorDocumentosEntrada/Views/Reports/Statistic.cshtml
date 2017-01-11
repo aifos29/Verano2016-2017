@@ -3,6 +3,10 @@
     ViewBag.Title = "Visualizar Estadísticas";
 }
 
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
 <div class="searchProcedure">
     <div class="row col-md-12">
         <div class="col-md-2">
@@ -54,53 +58,324 @@
         </div>
     </div>
 
+    <div id="labelbyDepartment">
+        <h1>Resultados de estadisticas por departamentos</h1>
+    </div>
+    <div id="labelbyPlataformer">
+        <h1>Resultados de estadisticas por plataforma</h1>
+    </div>
+    <div id="labelbyDate">
+        <h1>Resultados de estadisticas por rango de fecha</h1>
+    </div>
+
     <div class="searchDivContainer row col-md-12">
         <div class="col-md-12" id="tbl">
-
+               <div id="ChartPrincipal"></div> 
+               <div id="ChartSecundary"></div>
         </div>
     </div>
+    
     <div class="buttonReportsDiv row col-md-12" >
         <div class="col-md-6">
             <button type="button" class="backButton btn" aria-label="Left Align" onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'">
                 <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
             </button>
         </div>
+       
         <div class="col-md-6 btnExportContainer" id="btnExportPDFContainer">
             <button type="button" class="sendButton" id="exportPDF">Guardar PDF</button>
         </div>
+
     </div>
 
+    <div id="errorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modalTittle"></h4>
+      </div>
+      <div class="modal-body">
+        <label id="textMessage"></label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
 </div>
+
+ </div>
+
+
 
 
 @section Scripts {
 <script>
+  
+    var labelDepartment = document.getElementById('labelbyDepartment');
+    var labelDate = document.getElementById('labelbyDate');
+    var labelPlataformer = document.getElementById('labelbyPlataformer');
+
+    labelDate.style.display = 'none';
+    labelDepartment.style.display = 'none';
+    labelPlataformer.style.display = 'none';
+
     var divDate = document.getElementById('divDate');
-    divDate.style.display = 'none';
+    divDate.style.visibility = "hidden";
+  
+    var divBtn = document.getElementById('btnExportPDFContainer');
+    divBtn.style.visibility= 'hidden';
+
+    var divChartPrincipal = document.getElementById('ChartPrincipal');
+    divChartPrincipal.style.visibility = 'hidden';
+
+    var divChartSecundary = document.getElementById('ChartSecundary');
+    divChartSecundary.style.visibility = 'hidden';
+
+    $('#platformist').change(function () {
+        labelDate.style.display = 'none';
+        labelDepartment.style.display = 'none';
+        labelPlataformer.style.display = 'block';
+        divChartPrincipal.style.visibility = 'visible';
+        divDate.style.visibility = 'hidden';
+        divChartSecundary.style.visibility = 'hidden';
+        $('#department').prop('selectedIndex', 0)
+       
+        var idVal = $('#platformist').val();
+        $.ajax(
+
+            {
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: { code: idVal },
+                url: '@Url.Action("getStadisticByPlataformer", "Procedure")',
+
+
+            success: function (result) {
+                google.charts.load('current', {
+                    'packages': ['corechart']
+                });
+                google.charts.setOnLoadCallback(function () {
+                    drawChart(result);
+                });
+
+            }
+            });
+            function drawChart(dataValues) {
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Mes');
+                data.addColumn('number', 'Cantidad');
+
+                var test = JSON.parse(dataValues);
+                var dataArray = [];
+
+                $.each(test, function (i, obj) {
+                    dataArray.push([obj.Mes, obj.cantidad]);
+                });
+
+                data.addRows(dataArray);
+
+                var barchart_options = {
+                    title: "Gráfica anual de " + idVal,
+                    width: 900,
+                    height: 300,
+                    legend: 'none'
+                };
+
+                var chart = new google.visualization.ColumnChart(document.getElementById('ChartPrincipal'));
+
+                chart.draw(data, barchart_options);
+            }
+
+        });
 
     var divBtn = document.getElementById('btnExportPDFContainer');
-    divBtn.style.display = 'none';
+    divBtn.style.display = 'line';
 
-    $('#byDate').click(function(){
-        var idFrom = $('#from').val();
-        var idTo = $('#to').val();
-        divBtn.style.display = 'block';
-        $('#tbl').load('/Procedure/searchByDate', { from: idFrom, to: idTo })
-        .error(function (xhr, status) {
-            alert(status);
-        })
-    })
-    
-    $('#btnShowDate').click(function () { 
-        var divDate = document.getElementById('divDate');
-        divDate.style.display = 'block';
+
+
+    $('#btnShowDate').click(function () {
+        labelDate.style.display = 'none';
+        labelDepartment.style.display = 'none';
+        labelPlataformer.style.display = 'none';
+        divChartPrincipal.style.visibility = 'hidden';
+        
+        divDate.style.visibility = 'visible';
         $('#department').prop('selectedIndex', 0)
         $('#platformist').prop('selectedIndex', 0)
         .error(function (xhr, status) {
             alert(status);
         })
     })
+
+    $('#byDate').click(function () {
+
+        var idFrom = $('#from').val();
+        var idTo = $('#to').val();
+        if (idTo == '' || idFrom == '') {
+            document.getElementById('modalTittle').innerHTML = 'Error';
+            document.getElementById('textMessage').innerHTML = 'Ingrese la fecha en ambos espacios';
+            $('#errorModal').modal('toggle');
+        }
+        if (idFrom.replace('-', '/') > idTo.replace('-', '/')) {
+            document.getElementById('modalTittle').innerHTML = 'Error';
+            document.getElementById('textMessage').innerHTML = 'El primer espacio de fecha debe de ser menor que el segundo';
+            $('#errorModal').modal('toggle');
+        }
+        if (idFrom.replace('-', '/') < idTo.replace('-', '/')) {
+            divChartPrincipal.style.visibility = "visible";
+            divChartSecundary.style.visibility = 'visible';
+            labelDate.style.display = 'block';
+            labelDepartment.style.display = 'none';
+            labelPlataformer.style.display = 'none';
+
+
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json',
+                data:{to:idTo,from:idFrom},
+                url: '@Url.Action("getStadisticByDateForDeparment", "Procedure")',
+                success: function (result) {
+                    google.charts.load('current', {
+                        'packages': ['corechart']
+                    });
+                    google.charts.setOnLoadCallback(function () {
+                        drawChartDepartment(result);
+                    });
+                }
+            });
+            function drawChartDepartment(dataValues) {
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Departamento');
+                data.addColumn('number', 'Cantidad');
+
+                var test = JSON.parse(dataValues);
+                var dataArray = [];
+
+                $.each(test, function (i, obj) {
+                    dataArray.push([obj.department, obj.Cantidad]);
+                });
+
+                data.addRows(dataArray);
+
+                var barchart_options = {
+                    title: "Gráfica por departamento de  " + idFrom +" hasta " +idTo,
+                    width: 900,
+                    height: 300
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('ChartPrincipal'));
+
+                chart.draw(data, barchart_options);
+            };
+
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: { to: idTo, from: idFrom },
+                url: '@Url.Action("getStadisticByDateForPlataformer", "Procedure")',
+                success: function (result) {
+                    google.charts.load('current', {
+                        'packages': ['corechart']
+                    });
+                    google.charts.setOnLoadCallback(function () {
+                        drawChartPlataformers(result);
+                    });
+                }
+            });
+            function drawChartPlataformers(dataValues) {
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Plataformista');
+                data.addColumn('number', 'Cantidad');
+
+                var test = JSON.parse(dataValues);
+                var dataArray = [];
+
+                $.each(test, function (i, obj) {
+                    dataArray.push([obj.name, obj.Cantidad]);
+                });
+
+                data.addRows(dataArray);
+
+                var barchart_options = {
+                    title: "Gráfica por plataformista de  " + idFrom + " hasta " + idTo,
+                    width: 900,
+                    height: 300
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('ChartSecundary'));
+
+                chart.draw(data, barchart_options);
+            };
+        }
     
 
+    })
+     
+    $('#department').change(function () {
+        labelDate.style.display = 'none';
+        labelDepartment.style.display = 'block';
+        labelPlataformer.style.display = 'none';
+        divChartPrincipal.style.visibility = 'visible';
+        divDate.style.visibility = 'hidden';
+        divChartSecundary.style.visibility = 'hidden';
+        $('#platformist').prop('selectedIndex', 0)
+        var idVal = $('#department').val();
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            data:{code:idVal},
+            url: '@Url.Action("getStadisticByDepartment", "Procedure")',
+                success: function (result) {
+                    google.charts.load('current', {
+                        'packages': ['corechart']
+                    });
+                    google.charts.setOnLoadCallback(function () {
+                        drawChart(result);
+                    });
+                }
+              });
+        function drawChart(dataValues) {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Mes');
+            data.addColumn('number', 'Cantidad');
+
+            var test = JSON.parse(dataValues);
+            var dataArray = [];
+
+            $.each(test, function (i, obj) {
+                dataArray.push([obj.Mes, obj.cantidad]);
+            });
+
+            data.addRows(dataArray);
+
+            var barchart_options = {
+                title: "Gráfica anual de " + idVal,
+                width: 900,
+                height: 300,
+                legend: 'none'
+            };
+
+            var chart = new google.visualization.ColumnChart(document.getElementById('ChartPrincipal'));
+
+            chart.draw(data, barchart_options);
+        }
+    
+    });
+
+    var divBtn = document.getElementById('btnExportPDFContainer');
+    divBtn.style.display = 'line';
+    
+
+
+
 </script>
-    }
+    

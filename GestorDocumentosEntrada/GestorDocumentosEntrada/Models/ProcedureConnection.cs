@@ -569,5 +569,79 @@ namespace GestorDocumentosEntrada.Models
             return code;
         }
 
+        public DataSet getStadisticByDate(String to, String from)
+        {
+            DataSet depTable = new DataSet();
+            connection.Open();
+
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from [dbo].getStadisticByDate('" + to + "','" + from + "')", connection);
+                sqlQuery.Fill(depTable, "Table");
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+
+        }
+
+        public DataTable getStadisticByPlataformer(string code)
+        {
+            DataTable depTable = new DataTable();
+            connection.Open();
+
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("SELECT * FROM [dbo].[getStadisticbyPlataformer] ('" + code + "') order by position", connection);
+                sqlQuery.Fill(depTable);
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+        }
+
+        public DataTable getStadisticByDateForDepartment(string from, string to)
+        {
+            DataTable depTable = new DataTable();
+            connection.Open();
+
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("SELECT * FROM [dbo].[getStadisticByDateForDeparment] ('" + from + "','" + to + "') ", connection);
+                sqlQuery.Fill(depTable);
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+        }
+
+
+        internal DataTable getStadisticByDateForPlataformer(string from, string to)
+        {
+            DataTable depTable = new DataTable();
+            connection.Open();
+
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("SELECT * FROM [dbo].[getStadisticByDateForPlataformer] ('" + from + "','" + to + "') ", connection);
+                sqlQuery.Fill(depTable);
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+        }
+
     }
 }
