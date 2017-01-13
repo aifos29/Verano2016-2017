@@ -5,7 +5,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE FUNCTION [dbo.getStadisticbyDepartment] (	)
+CREATE FUNCTION [getStadisticbyDepartment] (	)
 RETURNS TABLE 
 AS
 RETURN 
