@@ -24,7 +24,7 @@ GO
 USE [procedureDB]
 GO
 
-/****** Object:  Table [dbo].[procedure]    Script Date: 12/28/2016 22:43:01 ******/
+/****** Object:  Table [dbo].[procedure]    Script Date: 01/14/2017 17:11:05 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[procedure]') AND type in (N'U'))
 DROP TABLE [dbo].[procedure]
 GO
@@ -32,7 +32,7 @@ GO
 USE [procedureDB]
 GO
 
-/****** Object:  Table [dbo].[procedure]    Script Date: 12/28/2016 22:43:01 ******/
+/****** Object:  Table [dbo].[procedure]    Script Date: 01/14/2017 17:11:05 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -45,6 +45,8 @@ CREATE TABLE [dbo].[procedure](
 	[code] [nvarchar](50) NOT NULL,
 	[details] [nvarchar](300) NOT NULL,
 	[identifyCode] [nvarchar](50) NOT NULL,
+	[name] [nvarchar](50) NOT NULL,
+	[contact] [nvarchar](50) NOT NULL,
 	[idStatus] [int] NOT NULL,
 	[idDepartment] [int] NOT NULL,
 	[idTypeOfProcedure] [int] NOT NULL,

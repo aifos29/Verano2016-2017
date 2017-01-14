@@ -8,7 +8,7 @@ GO
 USE [procedureDB]
 GO
 
-/****** Object:  Table [dbo].[Administrator]    Script Date: 12/28/2016 22:17:58 ******/
+/****** Object:  Table [dbo].[Administrator]    Script Date: 01/14/2017 17:05:23 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Administrator]') AND type in (N'U'))
 DROP TABLE [dbo].[Administrator]
 GO
@@ -16,7 +16,7 @@ GO
 USE [procedureDB]
 GO
 
-/****** Object:  Table [dbo].[Administrator]    Script Date: 12/28/2016 22:17:58 ******/
+/****** Object:  Table [dbo].[Administrator]    Script Date: 01/14/2017 17:05:23 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -26,7 +26,6 @@ GO
 CREATE TABLE [dbo].[Administrator](
 	[idAdministrator] [int] IDENTITY(1,1) NOT NULL,
 	[name] [nvarchar](50) NOT NULL,
-	[lastName] [nvarchar](50) NOT NULL,
 	[idLogging] [int] NOT NULL,
  CONSTRAINT [PK_Administrator] PRIMARY KEY CLUSTERED 
 (
