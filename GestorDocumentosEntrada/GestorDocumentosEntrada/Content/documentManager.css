@@ -189,6 +189,7 @@ form {
 .btnSearch {
 	width: 200px;
 	height: 34px;
+    font-size: 19px !important;
 }
 
 /**********CSS para las páginas de estadisticas**********/
@@ -311,6 +312,8 @@ a:hover {
 .buttonReportsDiv {
 	margin-top: 1.8em;
     padding: 1em;
+    position:absolute;
+	bottom:0;
 }
 
 .btnExportContainer {

@@ -76,7 +76,7 @@
     $('#searchDate').click(function () {
         var dateBegin = $('#dateBegin').val();
         var dateEnd = $('#dateEnd').val();
-        if (dateBegin == '' || dateEnd == '') {
+        if (dateBegin == '' && dateEnd != '' || dateBegin != '' && dateEnd == '') {
             document.getElementById('modalTittle').innerHTML = 'Error';
             document.getElementById('textMessage').innerHTML = 'Ingrese la fecha en ambos espacios';
             $('#errorModal').modal('toggle');
@@ -86,7 +86,7 @@
             document.getElementById('textMessage').innerHTML = 'El primer espacio de fecha debe de ser menor que el segundo';
             $('#errorModal').modal('toggle');
         }
-        if (dateBegin.replace('-', '/') < dateEnd.replace('-', '/')) {
+        if (dateBegin.replace('-', '/') <= dateEnd.replace('-', '/')) {
             from = dateBegin;
             to = dateEnd;
             divBtn.style.display = 'block';

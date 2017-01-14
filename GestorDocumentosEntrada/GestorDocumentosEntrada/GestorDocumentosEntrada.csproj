@@ -264,6 +264,7 @@
     <Content Include="Views\Administrator\procedureTypes.cshtml" />
     <Content Include="Views\Reports\Statistic.cshtml" />
     <Content Include="Views\Reports\getBinnacle.cshtml" />
+    <Content Include="Views\Reports\Binnacle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

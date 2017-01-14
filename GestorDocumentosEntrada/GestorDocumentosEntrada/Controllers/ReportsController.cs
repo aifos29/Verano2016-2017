@@ -37,7 +37,7 @@ namespace GestorDocumentosEntrada.Controllers
         {
             DataSet binnacleToExport = con.getBinnacle(date1, date2);
 
-            if (binnacleToExport != null)
+            if (binnacleToExport.Tables["Table"].Rows.Count != 0)
             {
                 // Creamos el documento con el tamaño de página tradicional
                 Document doc = new Document(PageSize.LETTER);
