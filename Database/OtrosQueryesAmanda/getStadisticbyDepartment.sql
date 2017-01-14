@@ -1,18 +1,21 @@
-
-
+---Estadisticas por departamento--
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE FUNCTION [getStadisticbyDepartment] (	)
+CREATE FUNCTION getStadisticbyDepartment
+(	
+	@code varchar(50)
+)
 RETURNS TABLE 
 AS
 RETURN 
 (
-	Select Pro.date, dep.department, COUNT(dep.department) as Cantidad from Department as dep
-	inner join [procedure] as Pro
-	on Pro.idDepartment = dep.idDepartment
-	group by Pro.date, dep.department
+	SELECT  MONTH(date) as position,datename(month, date) as Mes,COUNT(MONTH(date)) cantidad from [procedure] as proce
+	inner join Department dept
+	on proce.idDepartment = dept.idDepartment
+	where dept.department = @code
+	group by MONTH(date),DATENAME(month,date) 
 )
 GO
