@@ -86,7 +86,7 @@
     div.style.display = 'none';
     $('#userDepartment').change(function () {
         var Val = $('#userDepartment').val();
-        if (Val === "Plataforma") {
+        if (Val === "Plataforma" || Val === "PLATAFORMA") {
             div.style.display = 'block';
         } else { div.style.display = 'none'; }
         error(function (xhr, status) {

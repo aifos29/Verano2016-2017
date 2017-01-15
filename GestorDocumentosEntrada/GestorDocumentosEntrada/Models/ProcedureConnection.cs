@@ -678,5 +678,46 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
         }
 
+        public int getIDDepartmentBySec(int id){
+            int code = 0;
+            connection.Open();
+            if (connection != null)
+            {
+                SqlCommand sqlQuery = new SqlCommand("select [dbo].[getIDDepartmentBySec] (" +id+ ")", connection);
+                SqlDataReader reader = sqlQuery.ExecuteReader();
+                while (reader.Read())
+                {
+                    code = (int) reader[0];
+                }
+                connection.Close();
+            }
+            else
+            {
+                code = 0;
+            }
+            return code;
+        }
+        public string getNameDep(int departmentId)
+        {
+
+            String code = null;
+            connection.Open();
+            if (connection != null)
+            {
+                SqlCommand sqlQuery = new SqlCommand("select dbo.getNameDepartment(" + departmentId + ")", connection);
+                SqlDataReader reader = sqlQuery.ExecuteReader();
+                while (reader.Read())
+                {
+                    code = reader[0].ToString();
+                }
+                connection.Close();
+            }
+            else
+            {
+                code = "Error de Conexion";
+            }
+            return code;
+        
+        }
     }
 }
