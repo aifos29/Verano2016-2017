@@ -1,0 +1,65 @@
+﻿@using System.Data;
+@{
+    ViewBag.Title = "Tramites";
+}
+
+<div class="searchProcedure">
+    <div class="row col-md-12">
+        <div class="col-md-2">
+            <img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
+        </div>
+        <div class="col-md-10">
+            <h3 class="headerSearchTitle">Visualizar Trámites</h3>
+        </div>
+    </div>
+
+    <div class="searchDivContainer row col-md-12">
+        <h5 class="labelForTitleStatistic">Seleccione los documentos que han sido recibidos</h5>
+        <div class="col-md-12">
+            <table class="table table-bordered" id="tableData">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Consecutivo</th>
+                        <th>Cédula Solicitante</th>
+                        <th>Tipo de Trámite</th>
+                        <th>Plataformista</th>
+                        <th>Recibido</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DataRow row in ViewBag.dailyProcedure.Tables["Table"].Rows)
+                    { 
+                        <tr>
+                            <td>@(DateTime.Parse(row["Fecha"].ToString()).ToShortDateString())</td>
+                            <td>@row["Consecutivo"]</td> 
+                            <td>@row["Cèdula"]</td>
+                            <td>@row["Tipo de Procedimiento"]</td> 
+                            <td>@row["Plataformista"]</td> 
+                            <td><input type="checkbox"/></td>
+                            <td><button type="button" onclick="changeProcedureState('@row["id"]','@row["Consecutivo"]')">Transferir</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="buttonReportsDiv row col-md-12" >
+        <div class="col-md-6">
+            <button type="button" class="backButton btn" aria-label="Left Align" onClick="location.href='@Url.Action("administrativeMenu", "Menu")'">
+                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+<script>
+    function changeProcedureState(code, consecutive) {
+        console.log(consecutive)
+    }
+</script>
+}

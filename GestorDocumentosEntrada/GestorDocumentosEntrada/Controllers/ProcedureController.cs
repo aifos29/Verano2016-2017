@@ -179,5 +179,11 @@ namespace GestorDocumentosEntrada.Controllers
         }
 
         public void saveTransferProcedure(FormCollection form) { }
+
+        public ActionResult displayProcedure() 
+        {
+            ViewBag.dailyProcedure = con.test();
+            return View();
+        }
     }
 }
