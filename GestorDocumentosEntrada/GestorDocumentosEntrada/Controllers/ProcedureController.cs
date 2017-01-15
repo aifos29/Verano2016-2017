@@ -169,9 +169,15 @@ namespace GestorDocumentosEntrada.Controllers
             return View();
         }
 
-        public ActionResult transferProcedure() 
+        public ActionResult transferProcedure(int idProcedure, string codeProcedure) 
         {
+            ViewBag.idProcedure = idProcedure;
+            ViewBag.codeProcedure = "Prueba";
+            ViewBag.date = DateTime.Now.ToString("yyyy-MM-dd"); ;
+            ViewBag.deparmentTable = con.getDepartments();
             return View();
         }
+
+        public void saveTransferProcedure(FormCollection form) { }
     }
 }

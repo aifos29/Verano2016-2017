@@ -266,6 +266,7 @@
     <Content Include="Views\Reports\getBinnacle.cshtml" />
     <Content Include="Views\Reports\Binnacle.cshtml" />
     <Content Include="Views\Procedure\dailyProcedure.cshtml" />
+    <Content Include="Views\Procedure\transferProcedure.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

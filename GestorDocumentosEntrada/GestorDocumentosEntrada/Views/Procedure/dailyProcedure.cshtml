@@ -53,7 +53,7 @@
             </button>
         </div>
         <div class="col-md-6 btnContainerDaily">
-            <button type="button" class="sendButton" id="exportPDF">Guardar</button>
+            <button type="button" class="sendButton" id="">Guardar</button>
         </div>
     </div>
 </div>
@@ -61,8 +61,8 @@
 @section Scripts {
 <script>
     function transferProcedure(code, consecutive) {
-        console.log(consecutive);
-        alert("ID recibido: " + code.toString() + "Consecutivo: " + consecutive);
+        console.log(consecutive)
+        window.location.href = '@Url.Action("transferProcedure", "Procedure", new { idProcedure = 1, codeProcedure = "ACL-0-2017"})';
     }
 </script>
 }
