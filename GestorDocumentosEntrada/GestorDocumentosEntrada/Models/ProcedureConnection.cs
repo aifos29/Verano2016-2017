@@ -661,5 +661,22 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
         }
 
+        public DataSet test()
+        {
+            DataSet depTable = new DataSet();
+            connection.Open();
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * FROM [dbo].[getDailyProcedures]()", connection);
+                sqlQuery.Fill(depTable, "Table");
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+        }
+
     }
 }

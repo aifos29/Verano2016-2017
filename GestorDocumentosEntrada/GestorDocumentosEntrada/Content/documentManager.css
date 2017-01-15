@@ -2,12 +2,21 @@
     font-size: 14px;
 }
 
-.labelWelcome {
+.divHeaderWelcome {
+    margin: auto;
     margin-top: 3em !important;
-    text-align: right;
     width: 800px;
     font-size: 14px;
     font-weight: 600;
+}
+
+.labelUserWelcome {
+    text-align: right;
+}
+
+.labelTitleWelcome {
+    text-align: left;
+    color: gray;
 }
 
 .successInsertProcedure {
@@ -135,6 +144,7 @@ input,select, textarea {
 	border: solid white !important;
 	border-radius: 0 !important;
 	font-size: 20px;
+    margin-left: 0.5em;
 }
 
 form {
@@ -175,7 +185,8 @@ form {
 }
 
 .searchDivContainer {
-	margin-top: 2em;
+	margin-top: 3.5em;
+    margin-left: 0.6em !important;
 }
 
 .labelSearchDiv {
@@ -189,7 +200,15 @@ form {
 .btnSearch {
 	width: 200px;
 	height: 34px;
-    font-size: 19px !important;
+    font-size: 13px !important;
+}
+
+.dropDownSearch.selected {
+    background: red;
+}
+
+#tbl {
+    margin-top: 2em;
 }
 
 /**********CSS para las páginas de estadisticas**********/
@@ -219,6 +238,10 @@ form {
 	height: 9em;
 }
 
+.labelForTitleStatistic {
+    font-weight: bold;
+    margin-left: 1em !important;
+}
 /**********CSS para las páginas de editar**********/
 .editProcedure {
 	margin-top: 1em !important;
@@ -312,10 +335,13 @@ a:hover {
 .buttonReportsDiv {
 	margin-top: 1.8em;
     padding: 1em;
-    position:absolute;
-	bottom:0;
+    margin-left: 0.2em !important;
 }
 
 .btnExportContainer {
     padding-left: 19em;
+}
+
+.btnContainerDaily {
+    padding-left: 23em;
 }

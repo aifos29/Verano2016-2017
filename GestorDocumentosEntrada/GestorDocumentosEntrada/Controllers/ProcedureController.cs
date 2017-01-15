@@ -163,5 +163,15 @@ namespace GestorDocumentosEntrada.Controllers
            String json = Newtonsoft.Json.JsonConvert.SerializeObject(table);
            return Json(json, JsonRequestBehavior.AllowGet);
        }
+        public ActionResult dailyProcedure() 
+        {
+            ViewBag.dailyProcedure = con.test() ;
+            return View();
+        }
+
+        public ActionResult transferProcedure() 
+        {
+            return View();
+        }
     }
 }

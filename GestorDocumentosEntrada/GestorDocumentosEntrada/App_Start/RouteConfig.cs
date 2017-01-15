@@ -68,6 +68,18 @@ namespace GestorDocumentosEntrada
             );
 
             routes.MapRoute(
+                name: "Correspondencia",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Procedure", action = "dailyProcedure", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "ProcedureList",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Procedure", action = "transferProcedure", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "UserList",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Administrator", action = "UserList", id = UrlParameter.Optional }

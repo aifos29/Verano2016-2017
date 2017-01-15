@@ -4,8 +4,8 @@
 }
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <div class="searchProcedure">
     <div class="row col-md-12">
@@ -24,18 +24,18 @@
             <select name="department" class="searchButton" runat="server" id="department" required>
                 <option disabled="" selected="">Buscar por Departamento</option>
                  @foreach (DataRow row in ViewBag.deparmentTable.Tables["DepartmentsList"].Rows)
-                                    {
-                                        <option value="@row["department"]">@row["department"]</option>
-                                    }
+                 {
+                     <option value="@row["department"]">@row["department"]</option>
+                 }
             </select>
         </div>
         <div class="col-md-4">
             <select name="platformist" class="searchButton" runat="server" id="platformist" required>
                 <option disabled="" selected="">Buscar por Plataformista</option>
-                            @foreach (DataRow row in ViewBag.platformersTable.Tables["PlatformerList"].Rows)
-                                    {
-                                        <option value="@row["name"]">@row["name"]</option>
-                                    }
+                 @foreach (DataRow row in ViewBag.platformersTable.Tables["PlatformerList"].Rows)
+                 {
+                     <option value="@row["name"]">@row["name"]</option>
+                 }
             </select>
         </div>
     </div>
@@ -58,17 +58,16 @@
         </div>
     </div>
 
-    <div id="labelbyDepartment">
-        <h1>Resultados de estadisticas por departamentos</h1>
-    </div>
-    <div id="labelbyPlataformer">
-        <h1>Resultados de estadisticas por plataforma</h1>
-    </div>
-    <div id="labelbyDate">
-        <h1>Resultados de estadisticas por rango de fecha</h1>
-    </div>
-
     <div class="searchDivContainer row col-md-12">
+        <div id="labelbyDepartment">
+            <h4 class="labelForTitleStatistic">Resultado de Estadísticas por Departamento</h4>
+        </div>
+        <div id="labelbyPlataformer">
+            <h4 class="labelForTitleStatistic">Resultado de Estadísticas por Plataformista</h4>
+        </div>
+        <div id="labelbyDate">
+            <h4 class="labelForTitleStatistic">Resultado de Estadísticas por Rango de Fecha</h4>
+        </div>
         <div class="col-md-12" id="tbl">
                <div id="ChartPrincipal"></div> 
                <div id="ChartSecundary"></div>
