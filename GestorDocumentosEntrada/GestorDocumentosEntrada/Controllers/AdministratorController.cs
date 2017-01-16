@@ -59,9 +59,28 @@ namespace GestorDocumentosEntrada.Controllers
         }
         public ActionResult procedureTypes()
         {
+            ViewBag.table = con.getViewProcType();
             return View();
         }
+    [HttpPost]
+        public ActionResult procedureTypes(FormCollection form)
+        {
+            String name = form["searchCode"];
+            
+            int flag = con.insertProcedureType(name);
+            if (flag == -1)
+            {
+                ViewBag.messege = "Lo sentimos,ya està registrado";
+                ViewBag.table = con.getViewProcType();
+                return View();
+            }
+            else
+            {
+                ViewBag.table = con.getViewProcType();
+                return View();
+            }
 
+        }
         public ActionResult AddUser() 
         {
             return RedirectToAction("UserList", "Administrator");

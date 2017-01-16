@@ -13,7 +13,7 @@ namespace GestorDocumentosEntrada.Models
         private SqlConnection connection = new SqlConnection(connectionString);
 
         //get the data to fill the differents departments
-        public DataSet getDepartments() 
+        public DataSet getDepartments()
         {
             DataSet departmentTable = new DataSet();
             connection.Open();
@@ -23,7 +23,8 @@ namespace GestorDocumentosEntrada.Models
                 sqlQuery.Fill(departmentTable, "DepartmentsList");
                 connection.Close();
             }
-            else {
+            else
+            {
                 var message = "Error de Conexion";
             }
             return departmentTable;
@@ -54,7 +55,7 @@ namespace GestorDocumentosEntrada.Models
             connection.Open();
             if (connection != null)
             {
-                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from getIdentifyType()", connection); 
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from getIdentifyType()", connection);
                 sqlQuery.Fill(identifyTypeTable, "IdentifyTypeList");
                 connection.Close();
             }
@@ -88,7 +89,7 @@ namespace GestorDocumentosEntrada.Models
             return code;
         }
 
-        public string insertProcedure(DateTime date,int departmentId,int idTypeOfIdentify,String personID,int  idTypeOfProcedure,String detail,int userId)
+        public string insertProcedure(DateTime date, int departmentId, int idTypeOfIdentify, String personID, int idTypeOfProcedure, String detail, int userId)
         {
             String code = null;
             connection.Open();
@@ -96,7 +97,7 @@ namespace GestorDocumentosEntrada.Models
             {
                 SqlCommand cmd = new SqlCommand("dbo.insertProcedure", connection);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@date",date );
+                cmd.Parameters.AddWithValue("@date", date);
                 cmd.Parameters.AddWithValue("@departmentId", departmentId);
                 cmd.Parameters.AddWithValue("@idTypeOfIdentify", idTypeOfIdentify);
                 cmd.Parameters.AddWithValue("@personID", personID);
@@ -104,7 +105,7 @@ namespace GestorDocumentosEntrada.Models
                 cmd.Parameters.AddWithValue("@detail", detail);
                 cmd.Parameters.AddWithValue("@userId", userId);
                 cmd.Parameters.Add("@code", SqlDbType.VarChar, 50).Direction = ParameterDirection.Output;
-                
+
                 cmd.ExecuteNonQuery();
 
                 code = Convert.ToString(cmd.Parameters["@code"].Value);
@@ -128,7 +129,7 @@ namespace GestorDocumentosEntrada.Models
             return procedureTable;
         }
 
-        public void updateProcedure(String code, int idTypeOfIdentify,String personID,int  idTypeOfProcedure,String detail)
+        public void updateProcedure(String code, int idTypeOfIdentify, String personID, int idTypeOfProcedure, String detail)
         {
             connection.Open();
             if (connection != null)
@@ -163,12 +164,13 @@ namespace GestorDocumentosEntrada.Models
             return platformerTable;
         }
 
-        public DataSet getSearchDep(String dep){
+        public DataSet getSearchDep(String dep)
+        {
             DataSet depTable = new DataSet();
             connection.Open();
             if (connection != null)
             {
-                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByDepartment('"+dep+"')", connection);
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByDepartment('" + dep + "')", connection);
                 sqlQuery.Fill(depTable, "Table");
                 connection.Close();
             }
@@ -185,7 +187,7 @@ namespace GestorDocumentosEntrada.Models
             connection.Open();
             if (connection != null)
             {
-                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByPlatformer('"+plat+"')", connection);
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from dbo.searchByPlatformer('" + plat + "')", connection);
                 sqlQuery.Fill(depTable, "Table");
                 connection.Close();
             }
@@ -196,7 +198,8 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
         }
 
-        public DataSet getSearchDate(DateTime from, DateTime to) {
+        public DataSet getSearchDate(DateTime from, DateTime to)
+        {
 
             DataSet depTable = new DataSet();
             connection.Open();
@@ -213,7 +216,7 @@ namespace GestorDocumentosEntrada.Models
                 var message = "Error de Conexion";
             }
             return depTable;
-        
+
         }
 
         public DataSet getSearchCode(String code)
@@ -254,16 +257,17 @@ namespace GestorDocumentosEntrada.Models
 
         }
 
-        public int getIDLogin(string email, string pwd) {
+        public int getIDLogin(string email, string pwd)
+        {
             connection.Open();
             int id = 0;
             if (connection != null)
             {
-                SqlCommand sqlQuery = new SqlCommand("select [dbo].[LoginUsuario]('" + email+ "','"+pwd+"')", connection);
+                SqlCommand sqlQuery = new SqlCommand("select [dbo].[LoginUsuario]('" + email + "','" + pwd + "')", connection);
                 SqlDataReader reader = sqlQuery.ExecuteReader();
                 while (reader.Read())
                 {
-                    id = (int) reader[0];
+                    id = (int)reader[0];
                 }
                 connection.Close();
             }
@@ -280,7 +284,7 @@ namespace GestorDocumentosEntrada.Models
             int id = 0;
             if (connection != null)
             {
-                SqlCommand sqlQuery = new SqlCommand("select [dbo].[seacrhInPlatformer] ("+idLog+")", connection);
+                SqlCommand sqlQuery = new SqlCommand("select [dbo].[seacrhInPlatformer] (" + idLog + ")", connection);
                 SqlDataReader reader = sqlQuery.ExecuteReader();
                 while (reader.Read())
                 {
@@ -334,7 +338,7 @@ namespace GestorDocumentosEntrada.Models
             {
                 flag = -1;
             }
-            return flag     ;
+            return flag;
         }
 
 
@@ -403,7 +407,7 @@ namespace GestorDocumentosEntrada.Models
             return id;
         }
 
-        public string getNameAdministrator  (int administratortId)
+        public string getNameAdministrator(int administratortId)
         {
             String code = null;
             connection.Open();
@@ -440,8 +444,9 @@ namespace GestorDocumentosEntrada.Models
             }
             return depTable;
         }
-        public int existEmail(String email) { 
-             int code = 0;
+        public int existEmail(String email)
+        {
+            int code = 0;
             int flag = 0;
             int idLog = 0;
             connection.Open();
@@ -460,35 +465,37 @@ namespace GestorDocumentosEntrada.Models
 
         }
 
-        public int insertLoggin(String email, String pwd) { 
-             int code = 0;
-         
+        public int insertLoggin(String email, String pwd)
+        {
+            int code = 0;
+
             connection.Open();
             if (connection != null)
             {
-         
-                    SqlCommand cmd = new SqlCommand("dbo.insertLogging", connection);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@email", email);
-                    cmd.Parameters.AddWithValue("@password", pwd);
-                    cmd.ExecuteNonQuery();
-             }
+
+                SqlCommand cmd = new SqlCommand("dbo.insertLogging", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@password", pwd);
+                cmd.ExecuteNonQuery();
+            }
             connection.Close();
             return code;
 
         }
-        public int searchInLogging(String email, String pwd){
+        public int searchInLogging(String email, String pwd)
+        {
             int idLog = 0;
-             connection.Open();
+            connection.Open();
             if (connection != null)
             {
-                
-                    SqlCommand sqlQuery2 = new SqlCommand("select [dbo].[searchInLogging] ('" + email + "','" + pwd + "')", connection);
-                    SqlDataReader reader2 = sqlQuery2.ExecuteReader();
-                    while (reader2.Read())
-                    {
-                        idLog = (int)reader2[0];
-                    }
+
+                SqlCommand sqlQuery2 = new SqlCommand("select [dbo].[searchInLogging] ('" + email + "','" + pwd + "')", connection);
+                SqlDataReader reader2 = sqlQuery2.ExecuteReader();
+                while (reader2.Read())
+                {
+                    idLog = (int)reader2[0];
+                }
             }
             connection.Close();
             return idLog;
@@ -508,7 +515,7 @@ namespace GestorDocumentosEntrada.Models
                 if (flag == 0)
                 {
                     insertLoggin(email, pwd);
-                    idLog = searchInLogging(email,pwd);
+                    idLog = searchInLogging(email, pwd);
                     connection.Open();
                     SqlCommand cmd2 = new SqlCommand("dbo.insertPlatformers", connection);
                     cmd2.CommandType = CommandType.StoredProcedure;
@@ -545,7 +552,7 @@ namespace GestorDocumentosEntrada.Models
                     idLog = searchInLogging(email, pwd);
                     connection.Open();
 
-                    SqlCommand sqlQuery3 = new SqlCommand("select [dbo].[searchInDepartment] ('" + dep+ "')", connection);
+                    SqlCommand sqlQuery3 = new SqlCommand("select [dbo].[searchInDepartment] ('" + dep + "')", connection);
                     SqlDataReader reader3 = sqlQuery3.ExecuteReader();
                     while (reader3.Read())
                     {
@@ -678,16 +685,17 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
         }
 
-        public int getIDDepartmentBySec(int id){
+        public int getIDDepartmentBySec(int id)
+        {
             int code = 0;
             connection.Open();
             if (connection != null)
             {
-                SqlCommand sqlQuery = new SqlCommand("select [dbo].[getIDDepartmentBySec] (" +id+ ")", connection);
+                SqlCommand sqlQuery = new SqlCommand("select [dbo].[getIDDepartmentBySec] (" + id + ")", connection);
                 SqlDataReader reader = sqlQuery.ExecuteReader();
                 while (reader.Read())
                 {
-                    code = (int) reader[0];
+                    code = (int)reader[0];
                 }
                 connection.Close();
             }
@@ -717,7 +725,73 @@ namespace GestorDocumentosEntrada.Models
                 code = "Error de Conexion";
             }
             return code;
-        
+
+        }
+
+        public int insertProcedureType(String name)
+        {
+            int code = 0;
+            int flag = 0;
+            int idLog = 0;
+            connection.Open();
+            if (connection != null)
+            {
+                connection.Close();
+                flag = existProcedureType(name);
+
+                if (flag == 0)
+                {
+                    connection.Open();
+                    SqlCommand cmd = new SqlCommand("dbo.insertTypeProc", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@TypeOfProcedur", name);
+                    cmd.ExecuteNonQuery();
+                    code = 0;
+                }
+                else
+                { code = -1; }
+
+                connection.Close();
+            }
+            return code;
+
+        }
+        public int existProcedureType(String name)
+        {
+
+            int flag = 0;
+
+            connection.Open();
+            if (connection != null)
+            {
+
+                SqlCommand sqlQuery = new SqlCommand("select [dbo].[existTypeOfProc] ('" + name + "')", connection);
+                SqlDataReader reader = sqlQuery.ExecuteReader();
+                while (reader.Read())
+                {
+                    flag = (int)reader[0];
+                }
+            }
+            connection.Close();
+            return flag;
+
+        }
+
+        public DataSet getViewProcType()
+        {
+            DataSet depTable = new DataSet();
+            connection.Open();
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from [dbo].[getViewOfTypeProce] ()", connection);
+                sqlQuery.Fill(depTable, "Table");
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
         }
     }
 }

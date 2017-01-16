@@ -15,6 +15,7 @@ namespace GestorDocumentosEntrada.Controllers
         private ProcedureConnection con = new ProcedureConnection();
         public ActionResult Index()
         {
+            Session.Abandon();
             return View();
         }
         [HttpPost]

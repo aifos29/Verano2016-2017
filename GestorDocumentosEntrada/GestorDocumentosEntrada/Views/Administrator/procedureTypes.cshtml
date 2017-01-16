@@ -1,4 +1,5 @@
-﻿<div class="userList">
+﻿@using System.Data
+<div class="userList">
 		<div class="row col-md-12">
 			<div class="col-md-2">
 				<img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
@@ -8,23 +9,28 @@
 			</div>
 		</div>
 		<div class="buttonListContainer row col-md-12"> 
+
 			<DIV class="col-md-12">
 				<button class="btnAddUser" id="addProcedureType">Agregar Tipo de Trámite</button>
 			</DIV>
 		</div>
 		<div class="listContainer row col-md-12"> 
+            @using (Html.BeginForm("procedureTypes", "Administrator"))
+            {
 			<div class="labelSearchDiv col-md-4">
 				<label class="labelSearch">Ingrese el tipo de Trámite:</label>
 			</div>
 			<div class="col-md-4">
-				<input type="text" name="searchCode" class="form-control">
+				<input type="text" name="searchCode" id="searchCode" class="form-control" required >
 			</div>
 			<div class=" col-md-4">
-				<button class="btnSearch">Agregar</button>
+				<button class="btnSearch" type ="submit">Agregar</button>
 			</div>
+            }
 		</div>
 		<div class="listContainer row col-md-12"> 
 			<div class="col-md-12">
+                @if (ViewBag.table != null){
 				<table class="table table-bordered">
 					<thead>
 						<tr>
@@ -33,16 +39,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>juna</td>
-							<td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td>
-						</tr>
-						<tr>
-							<td>juna</td>
-							<td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td>
-						</tr>
+						@if (ViewBag.table != null){
+                        foreach (DataRow row in ViewBag.table.Tables["Table"].Rows)
+                            { <tr><td>@row["Tipo de Procedimiento"]</td>
+                              <td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td> </tr>}
+                    }
 					</tbody>
 				</table>
+                }
 			</div>
 		</div>
 		<div class="listContainer row col-md-12"> 
