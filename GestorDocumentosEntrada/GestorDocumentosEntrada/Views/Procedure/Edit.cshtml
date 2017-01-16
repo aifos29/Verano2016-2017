@@ -14,7 +14,7 @@
 				<label>Ingrese el código del Trámite:</label>
 			</div>
 			<div class="col-md-3">
-				<input type="text" runat="server" name="searchCode" id="searchCode" class="form-control" pattern="[a-zA-Z]{2,}-\d{1,}-\d{4}$" placeholder="Ej: HR-0-2017">
+				<input type="text" runat="server" name="searchCode" id="searchCode" class="form-control" placeholder="Ej: HR-0-2017">
 			</div>
 			<div class="col-md-2">
 				<button class="editButton" id="getProcedureData">Obtener</button>
@@ -70,6 +70,22 @@
 			              <input type="text" runat="server" name="personId" id="personId" class="form-control" required>
 			            </div>
 			          </div>
+                     <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="personName">Nombre del Solicitante:</label>
+			  	        </div>
+			            <div class="col-md-8">
+			              <input type="text" runat="server" name="personName" id="personName" class="form-control" required>
+			            </div>
+			          </div>
+                     <div class="form-group">
+			  	        <div class="labelDiv col-md-4">
+			  		        <label class="control-label" for="personContact">Contacto del Solicitante:</label>
+			  	        </div>
+			            <div class="col-md-8">
+			              <input type="text" runat="server" name="personContact" id="personContact" class="form-control" placeholder="Ingrese correo electrónico o numero telefónico" required>
+			            </div>
+			          </div>
 			          <div class="form-group">
 			  	        <div class="labelDiv col-md-4">
 			  		        <label class="control-label" for="procedureType">Tipo de Trámite:</label>
@@ -113,7 +129,7 @@
 <script>
     $('#getProcedureData').click(function () {
         var code = $('#searchCode').val();
-        if (code != "") {
+        if (code != '') {
             $.ajax({
                 url: '/Procedure/getProcedureData',
                 contentType: 'application/html; charset=utf-8',
@@ -131,6 +147,8 @@
                     $('#codeProcedure').val(result[0]); 
                     $('#idType').val(result[6]);
                     $('#personId').val(result[3]);
+                    $('#personName').val(result[7]);
+                    $('#personContact').val(result[8]);
                     $('#procedureType').val(result[5]);
                     $('#procedureDetail').text(result[2]);
                 }

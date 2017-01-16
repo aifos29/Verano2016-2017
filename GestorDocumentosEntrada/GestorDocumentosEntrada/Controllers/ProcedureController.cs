@@ -16,7 +16,9 @@ namespace GestorDocumentosEntrada.Controllers
         // GET: Procedure
         public ActionResult Create()
         {
-            ViewBag.date = DateTime.Now.ToString("yyyy-MM-dd");;
+            ViewBag.date = DateTime.Now.ToString("yyyy-MM-dd");
+            ViewBag.maxDate = DateTime.Now.ToString("yyyy-MM-dd");
+            ViewBag.minDate = (DateTime.Now.AddDays(-14)).ToString("yyyy-MM-dd"); 
             ViewBag.deparmentTable = con.getDepartments();
             ViewBag.procedureType = con.getProcedureType();
             ViewBag.identifyType = con.getIdentifyType();
@@ -60,11 +62,13 @@ namespace GestorDocumentosEntrada.Controllers
              int departmentId = Int32.Parse(form["department"]);
              int idTypeOfIdentify = Int32.Parse(form["idType"]);
              String personID = form["personId"];
+             String personName = form["personName"];
+             String personContact = form["personContact"];
              int idTypeOfProcedure = Int32.Parse(form["procedureType"]);
              String detail = form["procedureDetail"];
-             int userId = 1;
+             int userId = Int32.Parse(Session["platfomerID"].ToString());
 
-             ViewBag.code = con.insertProcedure(date, departmentId, idTypeOfIdentify, personID, idTypeOfProcedure, detail, userId);
+             ViewBag.code = con.insertProcedure(date, departmentId, idTypeOfIdentify, personID, personName, personContact, idTypeOfProcedure, detail, userId);
             return View();
         }
 
@@ -74,7 +78,7 @@ namespace GestorDocumentosEntrada.Controllers
             List<string> list = new List<string>();
             foreach (DataRow row in procedure.Tables["procedureList"].Rows)
             {
-                for (int index = 0; index < 7; index++ )
+                for (int index = 0; index < 9; index++ )
                 {
                     list.Add(row[index].ToString());
                 }
@@ -96,10 +100,12 @@ namespace GestorDocumentosEntrada.Controllers
             String code = form["codeProcedure"];
             int idTypeOfIdentify = Int32.Parse(form["idType"]);
             String personID = form["personId"];
+            String personName = form["personName"];
+            String personContact = form["personContact"];
             int idTypeOfProcedure = Int32.Parse(form["procedureType"]);
             String detail = form["procedureDetail"];
 
-            con.updateProcedure(code,idTypeOfIdentify, personID, idTypeOfProcedure, detail);
+            con.updateProcedure(code,idTypeOfIdentify, personID, personName, personContact, idTypeOfProcedure, detail);
             ViewBag.code = code;
             return View();
         }
@@ -182,7 +188,9 @@ namespace GestorDocumentosEntrada.Controllers
 
         public ActionResult displayProcedure() 
         {
-            ViewBag.dailyProcedure = con.test();
+            int departmentId = Int32.Parse(Session["idDepartment"].ToString());
+            ViewBag.dailyProcedure = con.getDisplayDepartmentProcedures(departmentId);
+            ViewBag.states = con.getProcedureStates();
             return View();
         }
     }

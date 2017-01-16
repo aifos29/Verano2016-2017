@@ -76,9 +76,17 @@
     
     <div class="buttonReportsDiv row col-md-12" >
         <div class="col-md-6">
-            <button type="button" class="backButton btn" aria-label="Left Align" onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'">
-                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-            </button>
+            @if (Int32.Parse(Session["isABoss"].ToString()) == 0)
+                            { 
+                                <button type="button" class="backButton btn" aria-label="Left Align" onClick="location.href='@Url.Action("platFormMenu", "Menu")'">
+						        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+					        </button>
+                            }else 
+                            {
+                               <button type="button" class="backButton btn" aria-label="Left Align" onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'">
+						        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+					        </button>
+                            }
         </div>
        
         <div class="col-md-6 btnExportContainer" id="btnExportPDFContainer">
