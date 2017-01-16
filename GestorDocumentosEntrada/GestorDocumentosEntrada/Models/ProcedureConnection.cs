@@ -89,11 +89,9 @@ namespace GestorDocumentosEntrada.Models
             return code;
         }
 
-<<<<<<< HEAD
-        public string insertProcedure(DateTime date, int departmentId, int idTypeOfIdentify, String personID, int idTypeOfProcedure, String detail, int userId)
-=======
+
         public string insertProcedure(DateTime date,int departmentId,int idTypeOfIdentify,String personID,String personName,String personContact,int  idTypeOfProcedure,String detail,int userId)
->>>>>>> 284fa7c91d4cb0147efb3a4b8f955597f609515e
+
         {
             String code = null;
             connection.Open();
@@ -135,11 +133,8 @@ namespace GestorDocumentosEntrada.Models
             return procedureTable;
         }
 
-<<<<<<< HEAD
-        public void updateProcedure(String code, int idTypeOfIdentify, String personID, int idTypeOfProcedure, String detail)
-=======
         public void updateProcedure(String code, int idTypeOfIdentify, String personID, String personName, String personContact, int idTypeOfProcedure, String detail)
->>>>>>> 284fa7c91d4cb0147efb3a4b8f955597f609515e
+
         {
             connection.Open();
             if (connection != null)

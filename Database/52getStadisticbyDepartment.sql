@@ -1,3 +1,5 @@
+USE[procedureDB]
+GO
 ---Estadisticas por departamento--
 SET ANSI_NULLS ON
 GO
