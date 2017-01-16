@@ -1,13 +1,24 @@
 ﻿<div class="successInsertProcedure">
     <div class="row">
       <div class="col-md-12">
-        <h1>Registro realizado exitosamente</h1>
+        <h2>Registro Realizado Exitosamente</h2>
       </div>
       <div class="col-md-12 messageContainer">
         <h3>Su trámite se ha guardado exitosamente, se le ha asignado el código @ViewBag.code</h3>
       </div>
-      <div class="col-md-12 buttonSuccessDiv">
-        <button onClick="location.href='@Url.Action("platFormMenu", "Menu")'" class="sendButton">Finalizar</button>
+      <div class="row col-md-12 buttonSuccessDiv">
+        <div class="col-md-6">
+            @if (Int32.Parse(Session["isABoss"].ToString()) == 0)
+            { 
+                <button onClick="location.href='@Url.Action("platFormMenu", "Menu")'" class="sendButton">Finalizar</button>
+            }else 
+            {
+                <button onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'" class="sendButton">Finalizar</button>
+            }
+        </div>
+        <div class="col-md-6">
+            <button onClick="location.href='@Url.Action("Create", "Procedure")'" class="sendButton">Agregar Otro Trámite</button>
+        </div>
       </div>
     </div>
   </div>

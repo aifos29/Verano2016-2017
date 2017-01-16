@@ -23,7 +23,7 @@
     margin-top: 5em !important;
 	margin: auto;
 	padding: 1rem;
-	width: 500px;
+	width: 800px;
 	text-align: center;
 }
 
@@ -278,7 +278,8 @@ form {
 }
 
 .messageContainer {
-	margin-top: 1em;
+	margin-top: 4em;
+    margin-bottom: 4em;
 }
 
 .buttonSuccessDiv {
@@ -344,4 +345,35 @@ a:hover {
 
 .btnContainerDaily {
     padding-left: 23em;
+}
+
+.divDisplayProcedure {
+    margin-left: 4em !important;
+}
+
+.itemDivDisplay {
+    padding: 0.5em;
+}
+
+.btnUpdateStatus {
+	width: 150px;
+	height: 34px;
+    font-size: 13px !important;
+    background-color: #65826E;
+	border: solid #65826E;
+	color: #EBDC07;
+}
+
+.btnCloseModal {
+	width: 150px;
+	height: 34px;
+    font-size: 13px !important;
+}
+
+.rowSelected {
+    background: #E2A9F3;
+}
+
+.rowSuccess {
+    background: #D0F5A9;
 }

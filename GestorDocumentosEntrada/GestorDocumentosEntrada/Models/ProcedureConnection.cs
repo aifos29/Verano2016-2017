@@ -89,7 +89,11 @@ namespace GestorDocumentosEntrada.Models
             return code;
         }
 
+<<<<<<< HEAD
         public string insertProcedure(DateTime date, int departmentId, int idTypeOfIdentify, String personID, int idTypeOfProcedure, String detail, int userId)
+=======
+        public string insertProcedure(DateTime date,int departmentId,int idTypeOfIdentify,String personID,String personName,String personContact,int  idTypeOfProcedure,String detail,int userId)
+>>>>>>> 284fa7c91d4cb0147efb3a4b8f955597f609515e
         {
             String code = null;
             connection.Open();
@@ -101,6 +105,8 @@ namespace GestorDocumentosEntrada.Models
                 cmd.Parameters.AddWithValue("@departmentId", departmentId);
                 cmd.Parameters.AddWithValue("@idTypeOfIdentify", idTypeOfIdentify);
                 cmd.Parameters.AddWithValue("@personID", personID);
+                cmd.Parameters.AddWithValue("@personName", personName);
+                cmd.Parameters.AddWithValue("@personContact", personContact);
                 cmd.Parameters.AddWithValue("@idTypeOfProcedure", idTypeOfProcedure);
                 cmd.Parameters.AddWithValue("@detail", detail);
                 cmd.Parameters.AddWithValue("@userId", userId);
@@ -129,7 +135,11 @@ namespace GestorDocumentosEntrada.Models
             return procedureTable;
         }
 
+<<<<<<< HEAD
         public void updateProcedure(String code, int idTypeOfIdentify, String personID, int idTypeOfProcedure, String detail)
+=======
+        public void updateProcedure(String code, int idTypeOfIdentify, String personID, String personName, String personContact, int idTypeOfProcedure, String detail)
+>>>>>>> 284fa7c91d4cb0147efb3a4b8f955597f609515e
         {
             connection.Open();
             if (connection != null)
@@ -139,6 +149,8 @@ namespace GestorDocumentosEntrada.Models
                 cmd.Parameters.AddWithValue("@code", code);
                 cmd.Parameters.AddWithValue("@idTypeOfIdentify", idTypeOfIdentify);
                 cmd.Parameters.AddWithValue("@personID", personID);
+                cmd.Parameters.AddWithValue("@personName", personName);
+                cmd.Parameters.AddWithValue("@personContact", personContact);
                 cmd.Parameters.AddWithValue("@idTypeOfProcedure", idTypeOfProcedure);
                 cmd.Parameters.AddWithValue("@detail", detail);
                 int rowAffected = cmd.ExecuteNonQuery();
@@ -785,6 +797,40 @@ namespace GestorDocumentosEntrada.Models
             {
                 SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from [dbo].[getViewOfTypeProce] ()", connection);
                 sqlQuery.Fill(depTable, "Table");
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+        }
+
+        public DataSet getDisplayDepartmentProcedures(int departmentID)
+        {
+            DataSet depTable = new DataSet();
+            connection.Open();
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * FROM [dbo].[getDisplayProcedures]("+ departmentID +")", connection);
+                sqlQuery.Fill(depTable, "Table");
+                connection.Close();
+            }
+            else
+            {
+                var message = "Error de Conexion";
+            }
+            return depTable;
+        }
+
+        public DataSet getProcedureStates()
+        {
+            DataSet depTable = new DataSet();
+            connection.Open();
+            if (connection != null)
+            {
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * FROM [dbo].[getStates]()", connection);
+                sqlQuery.Fill(depTable, "State");
                 connection.Close();
             }
             else

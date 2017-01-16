@@ -6,6 +6,8 @@ Create Procedure insertProcedure
 	@departmentId int,
 	@idTypeOfIdentify int,
 	@personID varchar(50),
+	@personName varchar(50),
+	@personContact varchar(50),
 	@idTypeOfProcedure int,
 	@detail varchar(50),
 	@userId int,
@@ -21,8 +23,8 @@ BEGIN
 		
 	Select @code = dbo.getConsecutive(@departmentId);
 		
-	insert into [dbo].[procedure] (date,code,details,identifyCode,idStatus,idDepartment, idTypeOfProcedure, idTypeOfIdentify,idPlatformers)
-	values (@date,@code,@detail,@personID,@statusId,@departmentId,@idTypeOfProcedure,@idTypeOfIdentify,@userId);
+	insert into [dbo].[procedure](date,code,details,identifyCode,name,contact,idStatus,idDepartment, idTypeOfProcedure, idTypeOfIdentify,idPlatformers)
+	values (@date,@code,@detail,@personID,@personName,@personContact,@statusId,@departmentId,@idTypeOfProcedure,@idTypeOfIdentify,@userId);
 		
 	update [dbo].[consecutive] 
 	SET consecutiveNumber = consecutiveNumber + 1

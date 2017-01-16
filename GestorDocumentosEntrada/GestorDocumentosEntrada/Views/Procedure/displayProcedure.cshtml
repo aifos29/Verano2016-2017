@@ -14,35 +14,44 @@
     </div>
 
     <div class="searchDivContainer row col-md-12">
-        <h5 class="labelForTitleStatistic">Seleccione los documentos que han sido recibidos</h5>
         <div class="col-md-12">
-            <table class="table table-bordered" id="tableData">
+            @if (ViewBag.dailyProcedure.Tables["Table"].Rows.Count != 0){
+                <table class="table table-bordered" id="tableData">
                 <thead>
                     <tr>
                         <th>Fecha</th>
                         <th>Consecutivo</th>
                         <th>Cédula Solicitante</th>
+                        <th>Contacto</th>
                         <th>Tipo de Trámite</th>
                         <th>Plataformista</th>
-                        <th>Recibido</th>
+                        <th>Estado del Trámite</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (DataRow row in ViewBag.dailyProcedure.Tables["Table"].Rows)
                     { 
-                        <tr>
+                        <tr id="@row["id"]">
                             <td>@(DateTime.Parse(row["Fecha"].ToString()).ToShortDateString())</td>
                             <td>@row["Consecutivo"]</td> 
                             <td>@row["Cèdula"]</td>
+                            <td>@row["Contacto"]</td>
                             <td>@row["Tipo de Procedimiento"]</td> 
                             <td>@row["Plataformista"]</td> 
-                            <td><input type="checkbox"/></td>
-                            <td><button type="button" onclick="changeProcedureState('@row["id"]','@row["Consecutivo"]')">Transferir</button></td>
+                            <td>@row["Estado"]</td>
+                            <td><button type="button" onclick="changeProcedureState('@row["id"]','@row["Consecutivo"]', this)">Actualizar Estado</button></td>
                         </tr>
                     }
                 </tbody>
             </table>
+            }
+            else
+            {
+                <div class="alert alert-dismissible alert-info">
+                  <label>No se encontraron trámites dirigidos a su departamento</label>
+                </div>
+            }
         </div>
     </div>
 
@@ -55,11 +64,79 @@
     </div>
 </div>
 
+<div id="updateModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalTittle">Actualizar Estado</h4>
+      </div>
+      <div class="modal-body">
+          <div class="itemDivDisplay">
+              <label>Consecutivo del Trámite</label>
+              <input type="text" id="code" class="form-control" readonly=""/>
+          </div>
+          <div class="itemDivDisplay">
+              <label>Nuevo Estado:</label>
+              <select name="department" class="form-control" runat="server" id="newState" required>
+                  <option value="" disabled selected="">Seleccione un Nuevo Estado</option>
+                  @foreach (DataRow row in ViewBag.states.Tables["State"].Rows)
+                  {
+                      <option value="@row["status"]">@row["status"]</option>
+                  }
+              </select>
+          </div>
+          <div class="itemDivDisplay" id="observationDiv">
+              <label>Observaciones</label>
+              <textarea class="form-control" id="observation" rows="5" cols="30" maxlength="300" placeholder="Ingrese las observaciones sobre el resultado del trámite"></textarea>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btnCloseModal" id="closeModalUpdate">Cerrar</button>
+          <button type="button" class="btnUpdateStatus" id="getUpdateData">Actualizar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 @section Scripts {
 <script>
+    $('#observationDiv').hide();
+    $('#observation').val('');
+    var table = document.getElementById('tableData');
+    var procedureId;
     function changeProcedureState(code, consecutive) {
-        console.log(consecutive)
+        procedureId = code;
+        $('#code').val(consecutive);
+        $('#updateModal').modal('toggle');
     }
+
+    $('#newState').on('change', function () {
+        var state = $('#newState').val();
+        if (state == 'Finalizado') {
+            $('#observationDiv').show();
+        } else {
+            $('#observation').val('');
+            $('#observationDiv').hide();
+        }
+    });
+
+    $('#getUpdateData').on('click', function () {
+        var state = $('#newState').val();
+        var observation = $('#observation').val();
+        var consecutive = $('#code').val();
+        console.log(state, observation, consecutive, procedureId);
+        $('#newState').prop('selectedIndex', 0);
+        $('#observationDiv').hide();
+        $('#observation').val('');
+        $('#updateModal').modal('hide');
+    });
+
+    $('#closeModalUpdate').on('click', function () {
+        $('#newState').prop('selectedIndex', 0);
+        $('#observationDiv').hide();
+        $('#observation').val('');
+        $('#updateModal').modal('hide');
+    });
 </script>
 }
