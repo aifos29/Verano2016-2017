@@ -65,7 +65,7 @@ namespace GestorDocumentosEntrada.Controllers
                         String name = con.getNameSecretary(idTableSec);
                         int idDep = con.getIDDepartmentBySec(idTableSec);
                         String depName = con.getNameDep(idDep);
-                        if (depName.CompareTo("INFORMATICA") == 0 || depName.CompareTo("Informatica") == 0)
+                        if (depName.CompareTo("INFORMÁTICA") == 0 || depName.CompareTo("Informática") == 0)
                         {
                             Session["userName"] = name;
                             Session["ID"] = idTableSec;

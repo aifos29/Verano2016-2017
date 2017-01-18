@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,36 +9,130 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.sofia.gestorentradadocumentos.searchDepartment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Búsqueda por Departamento"
-        android:id="@+id/textView13"
-        android:layout_marginTop="101dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="#679868"/><![CDATA[/>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    ]]>
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageView"
+            android:background="@drawable/escudo"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="31dp" />
 
-    <Button
-        android:layout_width="250dp"
-        android:layout_height="46dp"
-        android:text="Buscar"
-        android:id="@+id/btnSearch"
-        android:background="#65826E"
-        android:textColor="#EBDC07"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/textView13"
-        android:layout_alignStart="@+id/textView13" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Municipalidad de Alajuelita"
+            android:id="@+id/idTitle"
+            android:layout_below="@+id/imageView"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"/>
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner4"
-        android:layout_below="@+id/textView13"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Búsqueda por Departamento"
+            android:id="@+id/textView13"
+            android:textColor="#679868"
+            android:layout_below="@+id/textView15"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"/>
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/txtWelcome"
+            android:gravity="center"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerDepartmentSearch"
+            android:layout_below="@+id/textView13"
+            android:layout_centerHorizontal="true"
+            />
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="46dp"
+            android:text="Buscar"
+            android:id="@+id/btnSearchDepartment"
+            android:layout_marginTop="37dp"
+            android:layout_below="@+id/spinnerDepartmentSearch"
+            android:layout_centerHorizontal="true"
+            android:background="#65826E"
+            android:textColor="#EBDC07"/>
+
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:id="@+id/scrollView"
+            android:layout_alignRight="@+id/space2"
+            android:layout_alignEnd="@+id/space2"
+            android:layout_below="@+id/btnSearchDepartment"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+
+            <HorizontalScrollView
+                android:id="@+id/horizontalView"
+                android:layout_height="wrap_content"
+                android:scrollbars="horizontal|vertical"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="5dip">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignLeft="@+id/spinnerDepartmentSearch"
+                    android:layout_alignStart="@+id/spinnerDepartmentSearch"
+                    android:layout_below="@+id/btnSearchDepartment"
+                    android:id ="@+id/tableDepartment">
+
+
+
+                </TableLayout>
+            </HorizontalScrollView>
+        </ScrollView>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="No se encontró información"
+            android:id="@+id/txtError"
+            android:gravity="center"
+            android:layout_below="@+id/scrollView"
+            android:textSize="25dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Gestor de Entrada de Documentos"
+            android:id="@+id/textView15"
+            android:layout_below="@+id/idTitle"
+            android:layout_alignLeft="@+id/idTitle"
+            android:layout_alignStart="@+id/idTitle" />
+
+
+    </RelativeLayout>
+
+</ScrollView>

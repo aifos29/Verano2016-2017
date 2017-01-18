@@ -21,6 +21,7 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.security.MessageDigest;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends Activity {
@@ -31,7 +32,7 @@ public class MainActivity extends Activity {
     private Button entrada;
     public int idPlataformist;
 
-    public class webServiceLoggin extends AsyncTask<String,Integer,Boolean> {
+    public class webServiceLoggin extends AsyncTask<String,Integer,Integer> {
 
         private String email;
         private String password;
@@ -44,13 +45,12 @@ public class MainActivity extends Activity {
 
         }
 
-        protected Boolean doInBackground(String... params) {
+        protected Integer doInBackground(String... params) {
 
-            boolean resul = true;
-            executeResult = true;
+
             String res;
             String NAMESPACE = "http://sgoliver.net/";
-            String URL = "http://192.168.1.8/ServicioWebSoap/ServicioClientes.asmx";
+            String URL = "http://192.168.0.15/ServicioWebSoap/ServicioClientes.asmx";
             String METHOD_NAME = "loginVerification"; //the webservice method that you want to call
             String SOAP_ACTION = NAMESPACE + METHOD_NAME;
 
@@ -66,22 +66,20 @@ public class MainActivity extends Activity {
                 androidHttpTransport.call (SOAP_ACTION, envelope);
                 SoapPrimitive response = (SoapPrimitive) envelope.getResponse (); //get the response from your webservice
                 res = response.toString ();
-                Log.d ("Information", res);
+
                 if (res.equals ("0")) {
-                    resul = false;
+                    idPlataformist=-1;
                 } else {
                     idPlataformist = Integer.parseInt (res);
-
-                    resul = true;
                 }
 
 
             } catch (Exception e) {
                 Log.d ("Excepcion", e.toString ());
-                resul = false;
+
             }
 
-            return resul;
+            return idPlataformist;
         }
 
         protected void onPostExecute(Boolean result) {
@@ -94,10 +92,13 @@ public class MainActivity extends Activity {
     }
 
 
-        @Override
+    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         emailText = (EditText) findViewById(R.id.txtEmail);
         passwordText = (EditText) findViewById( R.id.txtPassword);
         entrada = (Button) findViewById(R.id.button);
@@ -105,56 +106,64 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 connection con = new connection ();
-                Boolean result = null;
                 try {
-                    result = con.execute().get ();
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace ();
-                } catch (ExecutionException e) {
-                    e.printStackTrace ();
-                }
-                if (result){
-                    Toast.makeText (getApplicationContext (),"Conectado con la base de datos....",Toast.LENGTH_SHORT).show ();
-                    webServiceLoggin loggin = new webServiceLoggin(emailText.getText().toString(),passwordText.getText().toString());
-                    try {
-                        Boolean output =  loggin.execute().get();
-                        if (output){
-                            Log.d("Validation",Integer.toString(idPlataformist));
-                            Toast.makeText (getApplicationContext (),"Abriendo base de datos local",Toast.LENGTH_SHORT).show ();
+                    Boolean con_result = con.execute().get();
+                    if (con_result){
+                        webServiceLoggin loggin = new webServiceLoggin(emailText.getText().toString(),passwordText.getText().toString());
+                        int output = loggin.execute().get();
+                        if (output!=-1){
                             dataBase data = new dataBase ();
-                            Toast.makeText (getApplicationContext (),"Recopilando información actual",Toast.LENGTH_SHORT).show ();
-                            data.createTable ();
-                            data.syncBase (getApplicationContext ());
-                            Intent goMenu = new Intent(getApplicationContext(),Menu.class);
-                            goMenu.putExtra("IdPlataformer",emailText.getText ().toString ());
-
-                            startActivity(goMenu);
+                            if (data.createTable ()){
+                                data.syncBase (MainActivity.this);
+                                String name = data.getName (output);
+                                storeCredentials(name,output);
+                                /*
+                                Intent goMenu = new Intent(getApplicationContext(),Menu.class);
+                                goMenu.putExtra("IdPlataformer",output);
+                                goMenu.putExtra ("NAME",name);
+                                goMenu.putExtra ("STATUS",true);
+                                startActivity(goMenu);
+                                */
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"No se puede verificar sus datos",Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else{
                             Toast.makeText(getApplicationContext(), "Las credenciales son incorrectas o no se encuentra autorizado para ingresar", Toast.LENGTH_LONG).show();
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
                     }
+                    else{
+                        Toast.makeText (getApplicationContext (),"No se pudo conectar con el servidor.Recolectando datos locales",Toast.LENGTH_SHORT).show ();
+                        dataBase base = new dataBase ();
+                        int id = base.exist (emailText.getText ().toString (),passwordText.getText ().toString ());
+                        if (id!=0){
+                            String name = base.getName (id);
+                            storeCredentials(name,id);
+
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(), "Las credenciales son incorrectas o no se encuentra en el sistema", Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                /*
+                if (result){
+
+
 
                 }
                 else{
-                    Toast.makeText (getApplicationContext (),"No se pudo conectar con el servidor.Recolectando datos locales",Toast.LENGTH_LONG).show ();
-                    dataBase base = new dataBase ();
-                    if (base.exist (emailText.getText ().toString (),passwordText.getText ().toString ())){
-                        Intent goMenu = new Intent(getApplicationContext(),Menu.class);
-                        goMenu.putExtra("IdPlataformer",emailText.getText ().toString ());
-                        startActivity(goMenu);
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(), "Las credenciales son incorrectas o no se encuentra en el sistema", Toast.LENGTH_LONG).show();
-                    }
+
 
 
                 }
+                */
 
 
 
@@ -164,4 +173,16 @@ public class MainActivity extends Activity {
 
 
     }
+
+    private void storeCredentials(String name,int id){
+        SharedPreferences sharedPref = getSharedPreferences("Credentials", getApplicationContext().MODE_WORLD_WRITEABLE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("name", name);
+        editor.putInt("id",id);
+        editor.commit();
+        Intent goMenu = new Intent(getApplicationContext(),Menu.class);
+        startActivity(goMenu);
+    }
+
+
 }

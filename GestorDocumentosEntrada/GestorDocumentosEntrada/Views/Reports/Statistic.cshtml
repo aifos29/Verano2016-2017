@@ -68,6 +68,9 @@
         <div id="labelbyDate">
             <h4 class="labelForTitleStatistic">Resultado de Estadísticas por Rango de Fecha</h4>
         </div>
+         <div id="errorShow" class="alert alert-dismissible alert-info">
+          <label>No se encontraron trámites registrados en el período consultado</label>
+        </div>
         <div class="col-md-12" id="tbl">
                <div id="ChartPrincipal"></div> 
                <div id="ChartSecundary"></div>
@@ -124,6 +127,7 @@
     var labelDepartment = document.getElementById('labelbyDepartment');
     var labelDate = document.getElementById('labelbyDate');
     var labelPlataformer = document.getElementById('labelbyPlataformer');
+    var labelError = document.getElementById('errorShow');
 
     labelDate.style.display = 'none';
     labelDepartment.style.display = 'none';
@@ -133,19 +137,22 @@
     divDate.style.visibility = "hidden";
   
     var divBtn = document.getElementById('btnExportPDFContainer');
-    divBtn.style.visibility= 'hidden';
-
+    divBtn.style.visibility = 'hidden';
+   
     var divChartPrincipal = document.getElementById('ChartPrincipal');
     divChartPrincipal.style.visibility = 'hidden';
 
     var divChartSecundary = document.getElementById('ChartSecundary');
     divChartSecundary.style.visibility = 'hidden';
 
+    labelError.style.display = 'none';
+
     $('#platformist').change(function () {
         labelDate.style.display = 'none';
         labelDepartment.style.display = 'none';
         labelPlataformer.style.display = 'block';
-        divChartPrincipal.style.visibility = 'visible';
+        divChartPrincipal.style.visibility = 'hidden';
+        labelError.style.visibility = 'none';
         divDate.style.visibility = 'hidden';
         divChartSecundary.style.visibility = 'hidden';
         $('#department').prop('selectedIndex', 0)
@@ -184,19 +191,27 @@
                     dataArray.push([obj.Mes, obj.cantidad]);
                 });
 
-                data.addRows(dataArray);
+                if (dataArray.length == 0) {
+                    labelError.style.display = 'block';
+                }
+                else {
+                    divChartPrincipal.style.visibility = 'visible';
+                    data.addRows(dataArray);
 
-                var barchart_options = {
-                    title: "Gráfica anual de " + idVal,
-                    width: 900,
-                    height: 300,
-                    legend: 'none'
-                };
+                    var barchart_options = {
+                        title: "Gráfica anual de " + idVal,
+                        width: 900,
+                        height: 300,
+                        legend: 'none'
+                    };
 
-                var chart = new google.visualization.ColumnChart(document.getElementById('ChartPrincipal'));
+                    var chart = new google.visualization.ColumnChart(document.getElementById('ChartPrincipal'));
 
-                chart.draw(data, barchart_options);
-            }
+                    chart.draw(data, barchart_options);
+
+                }
+
+          }
 
         });
 
@@ -209,9 +224,9 @@
         labelDate.style.display = 'none';
         labelDepartment.style.display = 'none';
         labelPlataformer.style.display = 'none';
-        divChartPrincipal.style.visibility = 'hidden';
-        
+        divChartPrincipal.style.visibility = 'hidden';     
         divDate.style.visibility = 'visible';
+        labelError.style.display = 'none';
         $('#department').prop('selectedIndex', 0)
         $('#platformist').prop('selectedIndex', 0)
         .error(function (xhr, status) {
@@ -220,7 +235,10 @@
     })
 
     $('#byDate').click(function () {
-
+        labelError.style.display = 'none'
+        divChartPrincipal.style.visibility = 'hidden';
+        divChartSecundary.style.visibility = 'hidden';
+        
         var idFrom = $('#from').val();
         var idTo = $('#to').val();
         if (idTo == '' || idFrom == '') {
@@ -228,99 +246,119 @@
             document.getElementById('textMessage').innerHTML = 'Ingrese la fecha en ambos espacios';
             $('#errorModal').modal('toggle');
         }
-        if (idFrom.replace('-', '/') > idTo.replace('-', '/')) {
-            document.getElementById('modalTittle').innerHTML = 'Error';
-            document.getElementById('textMessage').innerHTML = 'El primer espacio de fecha debe de ser menor que el segundo';
-            $('#errorModal').modal('toggle');
-        }
-        if (idFrom.replace('-', '/') < idTo.replace('-', '/')) {
-            divChartPrincipal.style.visibility = "visible";
-            divChartSecundary.style.visibility = 'visible';
-            labelDate.style.display = 'block';
-            labelDepartment.style.display = 'none';
-            labelPlataformer.style.display = 'none';
+        else {
 
-
-            $.ajax({
-                type: 'GET',
-                dataType: 'json',
-                contentType: 'application/json',
-                data:{to:idTo,from:idFrom},
-                url: '@Url.Action("getStadisticByDateForDeparment", "Procedure")',
-                success: function (result) {
-                    google.charts.load('current', {
-                        'packages': ['corechart']
-                    });
-                    google.charts.setOnLoadCallback(function () {
-                        drawChartDepartment(result);
-                    });
-                }
-            });
-            function drawChartDepartment(dataValues) {
-
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Departamento');
-                data.addColumn('number', 'Cantidad');
-
-                var test = JSON.parse(dataValues);
-                var dataArray = [];
-
-                $.each(test, function (i, obj) {
-                    dataArray.push([obj.department, obj.Cantidad]);
+            if (idFrom.replace('-', '/') > idTo.replace('-', '/')) {
+                document.getElementById('modalTittle').innerHTML = 'Error';
+                document.getElementById('textMessage').innerHTML = 'El primer espacio de fecha debe de ser menor que el segundo';
+                $('#errorModal').modal('toggle');
+            }
+            if (idFrom.replace('-', '/') <= idTo.replace('-', '/')) {
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: { to: idTo, from: idFrom },
+                    url: '@Url.Action("getStadisticByDateForDeparment", "Procedure")',
+                    success: function (result) {
+                        google.charts.load('current', {
+                            'packages': ['corechart']
+                        });
+                        google.charts.setOnLoadCallback(function () {
+                            drawChartDepartment(result);
+                        });
+                    }
                 });
+                function drawChartDepartment(dataValues) {
 
-                data.addRows(dataArray);
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Departamento');
+                    data.addColumn('number', 'Cantidad');
 
-                var barchart_options = {
-                    title: "Gráfica por departamento de  " + idFrom +" hasta " +idTo,
-                    width: 900,
-                    height: 300
+                    var test = JSON.parse(dataValues);
+                    var dataArray = [];
+
+                    $.each(test, function (i, obj) {
+                        dataArray.push([obj.department, obj.Cantidad]);
+                    });
+
+                    if (dataArray.length == 0) {
+                        labelError.style.display = 'block';
+
+                    }
+                    else {
+
+                        data.addRows(dataArray);
+                        var barchart_options = {
+                            title: "Gráfica por departamento de  " + idFrom + " hasta " + idTo,
+                            width: 900,
+                            height: 300
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById('ChartPrincipal'));
+
+                        chart.draw(data, barchart_options);
+
+                        divChartPrincipal.style.visibility = "visible";
+                        divChartSecundary.style.visibility = 'visible';
+                        labelDate.style.display = 'block';
+                        labelDepartment.style.display = 'none';
+                        labelPlataformer.style.display = 'none';
+                        labelError.style.display = 'none';
+
+                    }
+                    
+
+                
                 };
 
-                var chart = new google.visualization.PieChart(document.getElementById('ChartPrincipal'));
-
-                chart.draw(data, barchart_options);
-            };
-
-            $.ajax({
-                type: 'GET',
-                dataType: 'json',
-                contentType: 'application/json',
-                data: { to: idTo, from: idFrom },
-                url: '@Url.Action("getStadisticByDateForPlataformer", "Procedure")',
-                success: function (result) {
-                    google.charts.load('current', {
-                        'packages': ['corechart']
-                    });
-                    google.charts.setOnLoadCallback(function () {
-                        drawChartPlataformers(result);
-                    });
-                }
-            });
-            function drawChartPlataformers(dataValues) {
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Plataformista');
-                data.addColumn('number', 'Cantidad');
-
-                var test = JSON.parse(dataValues);
-                var dataArray = [];
-
-                $.each(test, function (i, obj) {
-                    dataArray.push([obj.name, obj.Cantidad]);
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: { to: idTo, from: idFrom },
+                    url: '@Url.Action("getStadisticByDateForPlataformer", "Procedure")',
+                    success: function (result) {
+                        google.charts.load('current', {
+                            'packages': ['corechart']
+                        });
+                        google.charts.setOnLoadCallback(function () {
+                            drawChartPlataformers(result);
+                        });
+                    }
                 });
+                function drawChartPlataformers(dataValues) {
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('string', 'Plataformista');
+                    data.addColumn('number', 'Cantidad');
 
-                data.addRows(dataArray);
+                    var test = JSON.parse(dataValues);
+                    var dataArray = [];
 
-                var barchart_options = {
-                    title: "Gráfica por plataformista de  " + idFrom + " hasta " + idTo,
-                    width: 900,
-                    height: 300
+                    $.each(test, function (i, obj) {
+                        dataArray.push([obj.name, obj.Cantidad]);
+                    });
+
+                    if (dataArray.length == 0) {
+
+                            
+                    }
+
+                    else {
+                        data.addRows(dataArray);
+                        var barchart_options = {
+                            title: "Gráfica por plataformista de  " + idFrom + " hasta " + idTo,
+                            width: 900,
+                            height: 300
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById('ChartSecundary'));
+
+                        chart.draw(data, barchart_options);
+
+                    } 
                 };
-
-                var chart = new google.visualization.PieChart(document.getElementById('ChartSecundary'));
-
-                chart.draw(data, barchart_options);
-            };
+            }
         }
     
 
@@ -333,6 +371,8 @@
         divChartPrincipal.style.visibility = 'visible';
         divDate.style.visibility = 'hidden';
         divChartSecundary.style.visibility = 'hidden';
+     
+        labelError.style.visibility = 'none';
         $('#platformist').prop('selectedIndex', 0)
         var idVal = $('#department').val();
         $.ajax({
@@ -362,18 +402,32 @@
                 dataArray.push([obj.Mes, obj.cantidad]);
             });
 
-            data.addRows(dataArray);
+            if (dataArray == 0) {
 
-            var barchart_options = {
-                title: "Gráfica anual de " + idVal,
-                width: 900,
-                height: 300,
-                legend: 'none'
-            };
+                labelError.style.display = 'block';
+                divChartPrincipal.style.visibility = 'hidden';
+                
+            }
+            else {
+                data.addRows(dataArray);
+                
+                labelError.style.display = 'none';
+                divChartPrincipal.style.visibility = 'visible';
+                //divChartPrincipal.style.visibility = 'visible';
+                var barchart_options = {
+                    title: "Gráfica anual de " + idVal,
+                    width: 900,
+                    height: 300,
+                    legend: 'none'
+                };
 
-            var chart = new google.visualization.ColumnChart(document.getElementById('ChartPrincipal'));
+                var chart = new google.visualization.ColumnChart(document.getElementById('ChartPrincipal'));
 
-            chart.draw(data, barchart_options);
+                chart.draw(data, barchart_options);
+
+            }
+
+
         }
     
     });

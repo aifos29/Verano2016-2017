@@ -9,16 +9,14 @@ public class credential {
     public String password;
     public int plataformers;
     public String name;
-    public String lastname;
     public int isBoss;
 
-    public credential(int id,String email,String password,int plat,String name,String lastname,int isBoss){
+    public credential(int id,String email,String password,int plat,String name,int isBoss){
         this.idLoggin=id;
         this.name=name;
         this.email=email;
         this.password=password;
         this.plataformers=plat;
-        this.lastname=lastname;
         this.isBoss = isBoss;
     }
 

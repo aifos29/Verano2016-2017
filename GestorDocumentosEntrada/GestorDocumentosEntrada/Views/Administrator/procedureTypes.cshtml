@@ -9,10 +9,6 @@
 			</div>
 		</div>
 		<div class="buttonListContainer row col-md-12"> 
-
-			<DIV class="col-md-12">
-				<button class="btnAddUser" id="addProcedureType">Agregar Tipo de Trámite</button>
-			</DIV>
 		</div>
 		<div class="listContainer row col-md-12"> 
             @using (Html.BeginForm("procedureTypes", "Administrator"))
@@ -35,14 +31,12 @@
 					<thead>
 						<tr>
 							<th>Tipo de Trámite</th>
-							<th>Eliminar</th>
 						</tr>
 					</thead>
 					<tbody>
 						@if (ViewBag.table != null){
                         foreach (DataRow row in ViewBag.table.Tables["Table"].Rows)
-                            { <tr><td>@row["Tipo de Procedimiento"]</td>
-                              <td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td> </tr>}
+                            { <tr><td>@row["Tipo de Procedimiento"]</td> </tr>}
                     }
 					</tbody>
 				</table>
@@ -56,5 +50,7 @@
 				</button>
 			</div>
 		</div>
-		
+		<div class="alert logInForm">
+          <label>@ViewBag.messege</label>
+        </div>
 	</div>

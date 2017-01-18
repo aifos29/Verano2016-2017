@@ -13,16 +13,53 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.example.sofia.gestorentradadocumentos.enterProcedure">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/txtWelcome"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/textView"
+            android:layout_toEndOf="@+id/textView" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageView"
+            android:background="@drawable/escudo"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="31dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Municipalidad de Alajuelita"
+            android:id="@+id/idTitleSearch"
+            android:layout_below="@+id/imageView"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Gestor de Entrada de Documentos"
+            android:id="@+id/textView8"
+            android:layout_below="@+id/idTitleSearch"
+            android:layout_alignLeft="@+id/idTitleSearch"
+            android:layout_alignStart="@+id/idTitleSearch" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Formulario de Ingreso "
-            android:id="@+id/textView"
-            android:layout_alignParentTop="true"
+            android:id="@+id/idTitle"
+            android:layout_below="@+id/textView8"
             android:layout_centerHorizontal="true"
-            />
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,7 +67,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Fecha"
             android:id="@+id/textView6"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/idTitle"
             android:layout_marginTop="37dp" />
 
         <EditText
@@ -39,11 +76,11 @@
             android:inputType="date"
             android:ems="10"
             android:id="@+id/txtDate"
-            android:layout_alignTop="@+id/textView6"
-            android:layout_alignLeft="@+id/textView"
-            android:layout_alignStart="@+id/textView"
-            android:layout_toLeftOf="@+id/btnChangeDate"
-            android:layout_toStartOf="@+id/btnChangeDate" />
+            android:layout_below="@+id/textView6"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,8 +115,8 @@
             android:layout_height="fill_parent"
             android:id="@+id/spinnerType"
             android:layout_below="@+id/textView9"
-            android:layout_alignRight="@+id/txtID"
-            android:layout_alignEnd="@+id/txtID"/>
+            android:layout_alignRight="@+id/spinnerProcedure"
+            android:layout_alignEnd="@+id/spinnerProcedure" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -92,19 +129,6 @@
             android:layout_alignEnd="@+id/textView7"
             android:layout_marginTop="37dp" />
 
-        <com.github.pinball83.maskededittext.MaskedEditText
-            android:id="@+id/txtID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textView10"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/spinnerProcedure"
-            android:layout_alignEnd="@+id/spinnerProcedure"
-
-            />
-
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -113,17 +137,15 @@
             android:text="Tipo de Trámite"
             android:id="@+id/textView11"
             android:layout_marginTop="41dp"
-            android:layout_below="@+id/txtID"
             android:layout_alignLeft="@+id/textView10"
-            android:layout_alignStart="@+id/textView10" />
+            android:layout_alignStart="@+id/textView10"
+            android:layout_below="@+id/txtContact" />
 
         <Spinner
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/spinnerProcedure"
-            android:layout_below="@+id/textView11"
-            android:layout_alignRight="@+id/btnChangeDate"
-            android:layout_alignEnd="@+id/btnChangeDate"/>
+            android:layout_below="@+id/textView11" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -144,35 +166,39 @@
             android:layout_below="@+id/textView12"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/space"
-            android:layout_alignEnd="@+id/space"/>
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-        <Space
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:id="@+id/space"
-            android:layout_below="@+id/txtDetail"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+
 
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Registrar"
             android:id="@+id/btnRegister"
-            android:layout_alignBottom="@+id/space"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="60dp"
             android:background="#65826E"
-            android:textColor="#EBDC07"/>
+            android:textColor="#EBDC07"
+            android:layout_below="@id/txtDetail"
+            android:layout_marginTop="20dp"/>
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cambiar Fecha"
-            android:id="@+id/btnChangeDate"
-            android:layout_alignBottom="@+id/txtDate"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/txtcode"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtId"
+            android:layout_below="@+id/textView10"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
@@ -180,12 +206,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:id="@+id/txtcode"
-            android:layout_alignTop="@+id/space"
+            android:text="Nombre"
+            android:id="@+id/textView17"
+            android:layout_below="@+id/txtId"
+            android:layout_alignLeft="@+id/textView10"
+            android:layout_alignStart="@+id/textView10"
+            android:layout_marginTop="41dp"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/txtName"
+            android:layout_below="@+id/textView17"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/space"
-            android:layout_alignEnd="@+id/space"/>
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Contacto"
+            android:id="@+id/textView18"
+            android:layout_below="@+id/txtName"
+            android:layout_toRightOf="@+id/txtWelcome"
+            android:layout_toEndOf="@+id/txtWelcome"
+            android:layout_marginTop="41dp"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtContact"
+            android:layout_below="@+id/textView18"
+            android:layout_toRightOf="@+id/txtWelcome"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
 
     </RelativeLayout>

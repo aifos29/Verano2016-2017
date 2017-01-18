@@ -441,14 +441,14 @@ namespace GestorDocumentosEntrada.Models
             connection.Open();
             if (connection != null)
             {
-                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from [dbo].[getViewOfUser] ()", connection);
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * from [dbo].[getViewOfUser] () order by Nombre", connection);
                 sqlQuery.Fill(depTable, "Table");
                 connection.Close();
             }
             else
             {
                 var message = "Error de Conexion";
-            }
+            } 
             return depTable;
         }
         public int existEmail(String email)
