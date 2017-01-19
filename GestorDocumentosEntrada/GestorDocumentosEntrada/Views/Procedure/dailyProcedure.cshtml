@@ -62,7 +62,9 @@
 <script>
     function transferProcedure(code, consecutive) {
         console.log(consecutive)
-        window.location.href = '@Url.Action("transferProcedure", "Procedure", new { idProcedure = 1, codeProcedure = "ACL-0-2017"})';
+        alert(code);
+        alert(consecutive);
+        window.location.href = '@Url.Action("transferProcedure", "Procedure")?codeProcedure=' + consecutive + '&idProcedure=' + code;
     }
 </script>
 }

@@ -171,20 +171,33 @@ namespace GestorDocumentosEntrada.Controllers
        }
         public ActionResult dailyProcedure() 
         {
-            ViewBag.dailyProcedure = con.test() ;
+            int departmentId = Int32.Parse(Session["idDepartment"].ToString());
+            ViewBag.dailyProcedure = con.test(departmentId) ;
             return View();
         }
 
-        public ActionResult transferProcedure(int idProcedure, string codeProcedure) 
+        public ActionResult transferProcedure(String codeProcedure, int idProcedure) 
         {
             ViewBag.idProcedure = idProcedure;
-            ViewBag.codeProcedure = "Prueba";
+            ViewBag.codeProcedure = codeProcedure;
             ViewBag.date = DateTime.Now.ToString("yyyy-MM-dd"); ;
             ViewBag.deparmentTable = con.getDepartments();
             return View();
         }
 
-        public void saveTransferProcedure(FormCollection form) { }
+        public ActionResult saveTransferProcedure(FormCollection form)
+        {
+           int idProc = Int32.Parse( form["idProcedure"].ToString());
+            String code =form["codeProcedure"];
+            int recive = Int32.Parse(form["department"]);
+           String justi= form["justification"];
+            int send = Int32.Parse(Session["ID"].ToString());
+            int flag = con.TransferProcedure(idProc,recive,send,code,justi);
+
+            return RedirectToAction("dailyProcedure", "Procedure");
+        
+        
+        }
 
         public ActionResult displayProcedure() 
         {

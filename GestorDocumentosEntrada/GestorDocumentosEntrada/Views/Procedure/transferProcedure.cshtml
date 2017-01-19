@@ -27,7 +27,8 @@
 			  		        <label class="control-label" for="codeProcedure">Código:</label>
 			  	        </div>
 			            <div class="col-md-8" id="divCodeContainer">
-                            <input type="text" runat="server" name="codeProcedure" id="codeProcedure" class="form-control" readonly="" required value="@(ViewBag.codeProcedure)">
+                            <input type="text" runat="server" name="codeProcedure" id="codeProcedure" class="form-control" readonly="" required value="@ViewBag.codeProcedure">
+                             <input type="number" runat="server" name="idProcedure" id="idProcedure" class="form-control" readonly="" style="display:none" required value="@ViewBag.idProcedure">
 			            </div>
 			          </div>
                      <div class="form-group">

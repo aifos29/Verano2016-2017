@@ -675,13 +675,13 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
         }
 
-        public DataSet test()
+        public DataSet test(int departmentId)
         {
             DataSet depTable = new DataSet();
             connection.Open();
             if (connection != null)
             {
-                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * FROM [dbo].[getDailyProcedures]()", connection);
+                SqlDataAdapter sqlQuery = new SqlDataAdapter("Select * FROM [dbo].[getDailyProcedures]("+departmentId+")", connection);
                 sqlQuery.Fill(depTable, "Table");
                 connection.Close();
             }
@@ -739,7 +739,7 @@ namespace GestorDocumentosEntrada.Models
         {
             int code = 0;
             int flag = 0;
-            int idLog = 0;
+            
             connection.Open();
             if (connection != null)
             {
@@ -834,5 +834,40 @@ namespace GestorDocumentosEntrada.Models
             }
             return depTable;
         }
+
+       public int  TransferProcedure(int idProc,int recive,int send,String code,String justi)
+       {
+
+
+           connection.Open();
+           if (connection != null)
+           {
+              
+                   
+                   SqlCommand cmd = new SqlCommand("dbo.transferProcedure", connection);
+                   cmd.CommandType = CommandType.StoredProcedure;
+                   cmd.Parameters.AddWithValue("@idDep", recive);
+                   cmd.Parameters.AddWithValue("@code", code);
+                   cmd.ExecuteNonQuery();
+
+                   SqlCommand cmd2 = new SqlCommand("dbo.insertTransferdDoc", connection);
+                   cmd2.CommandType = CommandType.StoredProcedure;
+                   cmd2.Parameters.AddWithValue("@justification ", justi);
+                   cmd2.Parameters.AddWithValue("@idSender_Secretary ", send);
+                   cmd2.Parameters.AddWithValue("@idReceiver_Department", recive);
+               cmd2.Parameters.AddWithValue("@idProcedure", idProc);
+                   cmd2.ExecuteNonQuery();
+                   connection.Close();
+               return 0;
+                   
+               }
+               else
+           {
+               return -1;
+
+              
+           }
+        
+       }
     }
 }
