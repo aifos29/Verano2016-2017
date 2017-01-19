@@ -227,6 +227,9 @@
         divChartPrincipal.style.visibility = 'hidden';     
         divDate.style.visibility = 'visible';
         labelError.style.display = 'none';
+        $('#from').val('yyyy-MM-dd');
+        $('#to').val('yyyy-MM-dd');
+
         $('#department').prop('selectedIndex', 0)
         $('#platformist').prop('selectedIndex', 0)
         .error(function (xhr, status) {

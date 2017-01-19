@@ -3,8 +3,10 @@ package com.example.sofia.gestorentradadocumentos;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -79,8 +81,10 @@ public class searchCode extends Activity {
     TableLayout showInformation;
     TextView errorMessage;
     TextView welcome;
+    TextView headerMessage;
+    TextView showState;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
 
 
 
@@ -96,6 +100,17 @@ public class searchCode extends Activity {
         errorMessage.setVisibility(View.INVISIBLE);
         showInformation = (TableLayout) findViewById(R.id.tableCode);
         showInformation.setVisibility(View.INVISIBLE);
+        headerMessage = (TextView) findViewById(R.id.txtSearchResult);
+        headerMessage.setVisibility(View.INVISIBLE);
+
+        showState = (TextView) findViewById(R.id.txtConnectionProcedure);
+        reviewConnection();
+        showState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewConnection();
+            }
+        });
 
 
         search.setOnClickListener(new View.OnClickListener() {
@@ -112,59 +127,71 @@ public class searchCode extends Activity {
                     dialog.show();
                 }
                 else{
-
-                    showInformation.setVisibility(View.INVISIBLE);
-                    showInformation.removeAllViews();
-                    webServiceSearchByCode searchByCode = new webServiceSearchByCode(searchCode);
                     try {
-                        searchData[] resultList = searchByCode.execute().get();
-                        if (resultList.length != 0){
-                            errorMessage.setVisibility(View.INVISIBLE);
-                            showInformation.addView(createHeader());
-                            for (int i=0;i<resultList.length;i++){
-                                TableRow headers = new TableRow(com.example.sofia.gestorentradadocumentos.searchCode.this);
-                                headers.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                                TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 5f);
-                                TextView date = new TextView(searchCode.this);
-                                date.setText(resultList[i].date);
-                                TextView codeTest = new TextView(searchCode.this);
-                                codeTest.setText(resultList[i].consecutive);
-                                codeTest.setPadding(15,0,0,0);
-                                TextView detail = new TextView(searchCode.this);
-                                detail.setText(resultList[i].detail);
-                                detail.setPadding(15,0,0,0);
-                                TextView id = new TextView(searchCode.this);
-                                id.setText(resultList[i].identification);
-                                id.setPadding(15,0,0,0);
-                                TextView status = new TextView(searchCode.this);
-                                status.setText(resultList[i].state);
-                                status.setPadding(15,0,0,0);
-                                TextView typeProcedure = new TextView(searchCode.this);
-                                typeProcedure.setText(resultList[i].type);
-                                typeProcedure.setPadding(15,0,0,0);
-                                TextView plataformer = new TextView(searchCode.this);
-                                plataformer.setText(resultList[i].plataformer);
-                                plataformer.setPadding(15,0,0,0);
-                                headers.addView(date);
-                                headers.addView(codeTest);
-                                headers.addView(id);
-                                headers.addView(status);
-                                headers.addView(typeProcedure);
-                                headers.addView(plataformer);
-                                showInformation.addView(headers);
-                            }
-
-                            showInformation.setVisibility(View.VISIBLE);
+                        if (!new connection().execute().get()){
+                            showErrorConnection();
                         }
                         else{
-                            errorMessage.setVisibility(View.VISIBLE);
+                            showInformation.setVisibility(View.INVISIBLE);
+                            showInformation.removeAllViews();
+                            headerMessage.setVisibility(View.INVISIBLE);
+                            webServiceSearchByCode searchByCode = new webServiceSearchByCode(searchCode);
+                            try {
+                                searchData[] resultList = searchByCode.execute().get();
+                                if (resultList.length != 0){
+                                    errorMessage.setVisibility(View.INVISIBLE);
+                                    headerMessage.setVisibility(View.VISIBLE);
+                                    showInformation.addView(createHeader());
+                                    for (int i=0;i<resultList.length;i++){
+                                        TableRow headers = new TableRow(com.example.sofia.gestorentradadocumentos.searchCode.this);
+                                        headers.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                                        TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 5f);
+                                        TextView date = new TextView(searchCode.this);
+                                        date.setText(resultList[i].date);
+                                        TextView codeTest = new TextView(searchCode.this);
+                                        codeTest.setText(resultList[i].consecutive);
+                                        codeTest.setPadding(15,0,0,0);
+                                        TextView detail = new TextView(searchCode.this);
+                                        detail.setText(resultList[i].detail);
+                                        detail.setPadding(15,0,0,0);
+                                        TextView id = new TextView(searchCode.this);
+                                        id.setText(resultList[i].identification);
+                                        id.setPadding(15,0,0,0);
+                                        TextView status = new TextView(searchCode.this);
+                                        status.setText(resultList[i].state);
+                                        status.setPadding(15,0,0,0);
+                                        TextView typeProcedure = new TextView(searchCode.this);
+                                        typeProcedure.setText(resultList[i].type);
+                                        typeProcedure.setPadding(15,0,0,0);
+                                        TextView plataformer = new TextView(searchCode.this);
+                                        plataformer.setText(resultList[i].plataformer);
+                                        plataformer.setPadding(15,0,0,0);
+                                        headers.addView(date);
+                                        headers.addView(codeTest);
+                                        headers.addView(id);
+                                        headers.addView(status);
+                                        headers.addView(typeProcedure);
+                                        headers.addView(plataformer);
+                                        showInformation.addView(headers);
+                                    }
+
+                                    showInformation.setVisibility(View.VISIBLE);
+                                }
+                                else{
+                                    errorMessage.setVisibility(View.VISIBLE);
+
+                                }
+                            } catch (InterruptedException e) {
+                                showErrorConnection();
+                            } catch (ExecutionException e) {
+                                showErrorConnection();
+                            }
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     }
-
 
                 }
             }
@@ -174,6 +201,21 @@ public class searchCode extends Activity {
 
 
 
+    }
+
+
+    private void showErrorConnection(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(searchCode.this)
+                .setMessage("Parece que se perdío la conexión y no se puede realizar la búsqueda")
+                .setTitle("Error de Conexión")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getApplicationContext(),Menu.class));
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private TableRow createHeader(){
@@ -231,5 +273,23 @@ public class searchCode extends Activity {
     public void onBackPressed() {
         Intent goBack = new Intent(getApplicationContext(),searchMenu.class);
         startActivity(goBack);
+    }
+
+    public void reviewConnection(){
+        try {
+            if (new connection().execute().get()){
+                showState.setText("CONECTADO");
+                showState.setTextColor(Color.GREEN);
+            }
+            else{
+                showState.setText("Sin Conexión");
+                showState.setTextColor(Color.RED);
+                startActivity(new Intent(getApplicationContext(),Menu.class));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 }

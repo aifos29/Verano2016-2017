@@ -17,10 +17,14 @@
 				<input type="text" runat="server" name="searchCode" id="searchCode" class="form-control" placeholder="Ej: HR-0-2017">
 			</div>
 			<div class="col-md-2">
-				<button class="editButton" id="getProcedureData">Obtener</button>
+				<button class="editButton" id="getProcedureData">Obtener</button><a href="Edit.cshtml"></a>
 			</div>
 		</div>
-		<div class="row col-md-12" id="formContainer">
+
+        <div id="errorShow" class="alert alert-dismissible alert-info"
+               <label>No se encontraron trámites con el código ingresado</label>
+        </div>
+		<div class="row col-md-12" id="formContainer" name="formContainer">
             @using (Html.BeginForm("saveChangedProcedure", "Procedure"))
             {
                  <div class="col-md-12 form-horizontal">
@@ -32,6 +36,7 @@
 			              <input type="date" name="procedureDate" class="form-control" runat="server" id="procedureDate" placeholder="dd/mm/aaaa" required readonly="">
 			            </div>
 			          </div>
+                    
 			          <div class="form-group">
 			  	        <div class="labelDiv col-md-4">
 			  		        <label class="control-label" for="department">Departamento:</label>
@@ -127,6 +132,11 @@
 
 @section Scripts {
 <script>
+    var form = document.getElementById('formContainer');
+    var divError = document.getElementById('errorShow');
+    form.style.display = 'none';
+    divError.style.display = 'none';
+
     $('#getProcedureData').click(function () {
         var code = $('#searchCode').val();
         if (code != '') {
@@ -139,9 +149,13 @@
 
             })
             .success(function (result) {
-                if (result == null) {
-                    alert("inserte codigo correcto");
+               
+                if (jQuery.isEmptyObject(result)) {
+                    form.style.display = 'none';
+                    divError.style.display = 'block';
                 } else {
+                    form.style.display = 'block';
+                    divError.style.display = 'none';
                     $('#procedureDate').val(result[1]);
                     $('#department').val(result[4]);
                     $('#codeProcedure').val(result[0]); 

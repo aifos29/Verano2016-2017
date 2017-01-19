@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GestorEntradaDocumentos</string>
+    <string name="app_name">Gestor de Entrada de Documentos</string>
     <string name="nameSpace">http://sgoliver.net/</string>
     <string name="url">http://192.168.0.15/ServicioWebSoap/ServicioClientes.asmx</string>
 

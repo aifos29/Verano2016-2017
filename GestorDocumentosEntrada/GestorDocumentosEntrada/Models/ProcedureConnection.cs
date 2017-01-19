@@ -835,6 +835,7 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
         }
 
+
        public int  TransferProcedure(int idProc,int recive,int send,String code,String justi)
        {
 
@@ -869,5 +870,38 @@ namespace GestorDocumentosEntrada.Models
            }
         
        }
+
+        public void closeProcedure(String state, String observation, int idProcedure, DateTime date)
+        {
+            connection.Open();
+            if (connection != null)
+            {
+                SqlCommand cmd = new SqlCommand("dbo.closeProcedure", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@state", state);
+                cmd.Parameters.AddWithValue("@observation", observation);
+                cmd.Parameters.AddWithValue("@idProcedure", idProcedure);
+                cmd.Parameters.AddWithValue("@date", date);
+                int rowAffected = cmd.ExecuteNonQuery();
+
+                connection.Close();
+            }
+        }
+
+        public void changeProcedureStatus(String state, int idProcedure)
+        {
+            connection.Open();
+            if (connection != null)
+            {
+                SqlCommand cmd = new SqlCommand("dbo.changeProcedureStatus", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@state", state);
+                cmd.Parameters.AddWithValue("@idProcedure", idProcedure);
+                int rowAffected = cmd.ExecuteNonQuery();
+
+                connection.Close();
+            }
+        }
+
     }
 }

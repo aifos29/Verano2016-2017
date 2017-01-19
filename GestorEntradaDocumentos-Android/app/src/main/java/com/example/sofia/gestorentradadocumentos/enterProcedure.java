@@ -30,6 +30,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.Format;
@@ -48,7 +49,7 @@ public class enterProcedure extends Activity {
     private String pattern;
     //Declaración de objetos de la vista
     public EditText date;
-    private Button openDatePicker;
+    public TextView showState;
     private DatePickerDialog changeDate;
     public SimpleDateFormat sdf;
     private Spinner department ;
@@ -56,8 +57,7 @@ public class enterProcedure extends Activity {
     private Spinner spinnerType;
     private EditText ID;
     private Button register;
-    private EditText details;
-    private TextView code;
+    private EditText details;;
     public ArrayList<Integer>departmentsID;
     public ArrayList<Integer>typeID;
     public ArrayList<Integer>procedureID;
@@ -70,7 +70,7 @@ public class enterProcedure extends Activity {
 
     public class webServiceInsertProcedure extends AsyncTask<String,Integer,String> {
         String NAMESPACE = "http://sgoliver.net/";
-        String URL="http://192.168.0.15/ServicioWebSoap/ServicioClientes.asmx";
+        String URL=String.valueOf(R.string.url);
         String METHOD_NAME= "insertProcedure"; //the webservice method that you want to call
         String SOAP_ACTION = NAMESPACE+METHOD_NAME;
 
@@ -170,6 +170,16 @@ public class enterProcedure extends Activity {
         welcome = (TextView) findViewById (R.id.txtWelcome);
         welcome.setText ("Bienvenido "+name);
 
+        showState = (TextView) findViewById(R.id.txtConnectionProcedure);
+        reviewConnection();
+        showState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewConnection();
+            }
+        });
+
+
         idPlataformist = sharedPref.getInt("id",0);
         Log.d("PLATAFORMIST","este es"+idPlataformist);
 
@@ -185,7 +195,7 @@ public class enterProcedure extends Activity {
         //Asociar los EdtiText con la vista
         ID = (EditText) findViewById (R.id.txtId);
         details =(EditText) findViewById (R.id.txtDetail);
-        code = (TextView) findViewById (R.id.txtcode);
+
         //Llenar el combox con los departamentos llamando al web service
         department = (Spinner) findViewById(R.id.spinnerDepartment);
         loadDepartmentsSpinner ();
@@ -369,6 +379,23 @@ public class enterProcedure extends Activity {
     public void onBackPressed() {
         Intent goBack = new Intent(getApplicationContext(),Menu.class);
         startActivity(goBack);
+    }
+
+    public void reviewConnection(){
+        try {
+            if (new connection().execute().get()){
+                showState.setText("CONECTADO");
+                showState.setTextColor(Color.GREEN);
+            }
+            else{
+                showState.setText("Sin Conexión");
+                showState.setTextColor(Color.RED);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
 }
