@@ -49,8 +49,8 @@ public class MainActivity extends Activity {
 
 
             String res;
-            String NAMESPACE = "http://sgoliver.net/";
-            String URL = "http://192.168.0.15/ServicioWebSoap/ServicioClientes.asmx";
+            String NAMESPACE = getString(R.string.nameSpace);
+            String URL = getString(R.string.url);
             String METHOD_NAME = "loginVerification"; //the webservice method that you want to call
             String SOAP_ACTION = NAMESPACE + METHOD_NAME;
 
@@ -71,6 +71,7 @@ public class MainActivity extends Activity {
                     idPlataformist=-1;
                 } else {
                     idPlataformist = Integer.parseInt (res);
+                    Log.d("VALUE",Integer.toString(idPlataformist));
                 }
 
 
@@ -111,12 +112,12 @@ public class MainActivity extends Activity {
                     if (con_result){
                         webServiceLoggin loggin = new webServiceLoggin(emailText.getText().toString(),passwordText.getText().toString());
                         int output = loggin.execute().get();
-                        if (output!=-1){
-                            dataBase data = new dataBase ();
-                            if (data.createTable ()){
-                                data.syncBase (MainActivity.this);
-                                String name = data.getName (output);
-                                storeCredentials(name,output);
+                        if (output!=-1) {
+                            dataBase data = new dataBase();
+                            if (data.createTable()) {
+                                data.syncBase(MainActivity.this);
+                                String name = data.getName(output);
+                                storeCredentials(name, output);
                                 /*
                                 Intent goMenu = new Intent(getApplicationContext(),Menu.class);
                                 goMenu.putExtra("IdPlataformer",output);
@@ -125,6 +126,7 @@ public class MainActivity extends Activity {
                                 startActivity(goMenu);
                                 */
                             }
+
                             else{
                                 Toast.makeText(getApplicationContext(),"No se puede verificar sus datos",Toast.LENGTH_SHORT).show();
                             }

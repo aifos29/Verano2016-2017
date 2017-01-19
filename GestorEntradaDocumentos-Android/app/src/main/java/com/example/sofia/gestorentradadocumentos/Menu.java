@@ -4,21 +4,46 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.concurrent.ExecutionException;
+
 public class Menu extends Activity {
     private Button EnterProcess;
     private TextView welcome;
     private Button menuSearch;
     private Button exit;
+    private TextView showState;
+    boolean status;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        menuSearch = (Button) findViewById(R.id.btnSearchDate);
+        menuSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent openMenuSearch = new Intent(getApplicationContext(),searchMenu.class);
+                startActivity(openMenuSearch);
+            }
+        });
+
+        showState = (TextView) findViewById(R.id.txtConnectionProcedure);
+        reviewConnection();
+        showState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewConnection();
+            }
+        });
+
+
 
         final SharedPreferences sharedPref = getSharedPreferences("Credentials", Context.MODE_WORLD_READABLE);
         String name = sharedPref.getString("name",""); ;
@@ -33,14 +58,7 @@ public class Menu extends Activity {
                 startActivity(openEnterProcessActivity);
             }
         });
-        menuSearch = (Button) findViewById(R.id.btnSearchDate);
-        menuSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent openMenuSearch = new Intent(getApplicationContext(),searchMenu.class);
-                startActivity(openMenuSearch);
-            }
-        });
+
 
         exit = (Button) findViewById(R.id.btnExit);
         exit.setOnClickListener(new View.OnClickListener() {
@@ -57,5 +75,24 @@ public class Menu extends Activity {
     @Override
     public void onBackPressed() {
         // Do Here what ever you want do on back press;
+    }
+
+    public void reviewConnection(){
+        try {
+            if (new connection().execute().get()){
+                showState.setText("CONECTADO");
+                showState.setTextColor(Color.GREEN);
+                menuSearch.setEnabled(true);
+            }
+            else{
+                showState.setText("Sin Conexión");
+                showState.setTextColor(Color.RED);
+                menuSearch.setEnabled(false);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 }

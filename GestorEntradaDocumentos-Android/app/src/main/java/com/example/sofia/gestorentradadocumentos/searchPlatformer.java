@@ -1,8 +1,12 @@
 package com.example.sofia.gestorentradadocumentos;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -79,6 +83,7 @@ public class searchPlatformer extends Activity {
     TableLayout showInformation;
     TextView errorMessage;
     TextView welcome;
+    TextView showState;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +93,14 @@ public class searchPlatformer extends Activity {
         String name = sharedPref.getString("name",""); ;
         welcome = (TextView) findViewById (R.id.textWelcome);
         welcome.setText ("Bienvenido "+name);
+        showState = (TextView) findViewById(R.id.txtConnectionProcedure);
+        reviewConnection();
+        showState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewConnection();
+            }
+        });
         showInformation = (TableLayout) findViewById(R.id.tablePlataformist);
         showInformation.setVisibility(View.INVISIBLE);
         plataformist = (Spinner) findViewById(R.id.spinnerPlatformerSearch);
@@ -159,14 +172,28 @@ public class searchPlatformer extends Activity {
                         errorMessage.setVisibility(View.VISIBLE);
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    showErrorConnection();
                 } catch (ExecutionException e) {
-                    e.printStackTrace();
+                    showErrorConnection();
                 }
             }
         });
 
 
+    }
+
+    private void showErrorConnection(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(searchPlatformer.this)
+                .setMessage("Parece que se perdío la conexión y no se puede realizar la búsqueda")
+                .setTitle("Error de Conexión")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getApplicationContext(),Menu.class));
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
@@ -237,4 +264,22 @@ public class searchPlatformer extends Activity {
         return headers;
     }
 
+
+    public void reviewConnection(){
+        try {
+            if (new connection().execute().get()){
+                showState.setText("CONECTADO");
+                showState.setTextColor(Color.GREEN);
+            }
+            else{
+                showState.setText("Sin Conexión");
+                showState.setTextColor(Color.RED);
+                startActivity(new Intent(getApplicationContext(),Menu.class));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 }

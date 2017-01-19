@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.icu.util.Calendar;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -96,15 +98,30 @@ public class searchDate extends Activity {
     private DatePickerDialog changeDate;
     public SimpleDateFormat sdf;
     TextView welcome;
+    TextView showState;
+    TextView labelShow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_date);
-        SharedPreferences sharedPref = getSharedPreferences("Credentials", Context.MODE_WORLD_READABLE);
+        final SharedPreferences sharedPref = getSharedPreferences("Credentials", Context.MODE_WORLD_READABLE);
         String name = sharedPref.getString("name",""); ;
         welcome = (TextView) findViewById (R.id.txtWelcomeDate);
         welcome.setText ("Bienvenido "+name);
+
+
         sdf = new SimpleDateFormat("dd-MM-yyyy");
+
+        showState = (TextView) findViewById(R.id.txtConnectionProcedure);
+        reviewConnection();
+        showState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewConnection();
+            }
+        });
+        labelShow = (TextView)findViewById(R.id.txtSearchResult);
+        labelShow.setVisibility(View.INVISIBLE);
         txtFrom = (EditText) findViewById(R.id.txtFrom);
         txtFrom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,6 +154,7 @@ public class searchDate extends Activity {
             public void onClick(View v) {
                 showInformation.setVisibility(View.INVISIBLE);
                 errorMessage.setVisibility(View.INVISIBLE);
+                labelShow.setVisibility(View.INVISIBLE);
                 if (txtFrom.getText().toString().equals("") || txtTo.getText().toString().equals("")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(searchDate.this)
                             .setMessage("No puede haber fechas vacías")
@@ -160,65 +178,65 @@ public class searchDate extends Activity {
                             dialog.show();
                         }
                         else {
-                            String fromFinal =  dateFormat.format(from);
-                            String toFinal = dateFormat.format(to);
-                            webServiceSearchByDate search = new webServiceSearchByDate(fromFinal,toFinal);
-                            searchData[] resultList = search.execute().get();
-                            if (resultList.length>0){
-                                showInformation.addView(createHeader());
-                                for (int i=0;i<resultList.length;i++){
-                                    TableRow headers = new TableRow(searchDate.this);
-                                    headers.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                                    TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 5f);
-                                    TextView date = new TextView(searchDate.this);
-                                    date.setText(resultList[i].date);
-                                    TextView codeTest = new TextView(searchDate.this);
-                                    codeTest.setText(resultList[i].consecutive);
-                                    codeTest.setPadding(15,0,0,0);
-                                    TextView detail = new TextView(searchDate.this);
-                                    detail.setText(resultList[i].detail);
-                                    detail.setPadding(15,0,0,0);
-                                    TextView id = new TextView(searchDate.this);
-                                    id.setText(resultList[i].identification);
-                                    id.setPadding(15,0,0,0);
-                                    TextView status = new TextView(searchDate.this);
-                                    status.setText(resultList[i].state);
-                                    status.setPadding(15,0,0,0);
-                                    TextView typeProcedure = new TextView(searchDate.this);
-                                    typeProcedure.setText(resultList[i].type);
-                                    typeProcedure.setPadding(15,0,0,0);
-                                    TextView plataformer = new TextView(searchDate.this);
-                                    plataformer.setText(resultList[i].plataformer);
-                                    plataformer.setPadding(15,0,0,0);
-                                    headers.addView(date);
-                                    headers.addView(codeTest);
-                                    headers.addView(id);
-                                    headers.addView(status);
-                                    headers.addView(typeProcedure);
-                                    headers.addView(plataformer);
-                                    showInformation.addView(headers);
+                            if (!new connection().execute().get()){
+                                showErrorConnection();
+                                String fromFinal =  dateFormat.format(from);
+                                String toFinal = dateFormat.format(to);
+                                webServiceSearchByDate search = new webServiceSearchByDate(fromFinal,toFinal);
+                                searchData[] resultList = search.execute().get();
+                                if (resultList.length>0){
+                                    labelShow.setVisibility(View.VISIBLE);
+                                    showInformation.addView(createHeader());
+                                    for (int i=0;i<resultList.length;i++){
+                                        TableRow headers = new TableRow(searchDate.this);
+                                        headers.setLayoutParams(new TableLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                                        TableRow.LayoutParams lp = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 5f);
+                                        TextView date = new TextView(searchDate.this);
+                                        date.setText(resultList[i].date);
+                                        TextView codeTest = new TextView(searchDate.this);
+                                        codeTest.setText(resultList[i].consecutive);
+                                        codeTest.setPadding(15,0,0,0);
+                                        TextView detail = new TextView(searchDate.this);
+                                        detail.setText(resultList[i].detail);
+                                        detail.setPadding(15,0,0,0);
+                                        TextView id = new TextView(searchDate.this);
+                                        id.setText(resultList[i].identification);
+                                        id.setPadding(15,0,0,0);
+                                        TextView status = new TextView(searchDate.this);
+                                        status.setText(resultList[i].state);
+                                        status.setPadding(15,0,0,0);
+                                        TextView typeProcedure = new TextView(searchDate.this);
+                                        typeProcedure.setText(resultList[i].type);
+                                        typeProcedure.setPadding(15,0,0,0);
+                                        TextView plataformer = new TextView(searchDate.this);
+                                        plataformer.setText(resultList[i].plataformer);
+                                        plataformer.setPadding(15,0,0,0);
+                                        headers.addView(date);
+                                        headers.addView(codeTest);
+                                        headers.addView(id);
+                                        headers.addView(status);
+                                        headers.addView(typeProcedure);
+                                        headers.addView(plataformer);
+                                        showInformation.addView(headers);
+                                    }
+
+                                    showInformation.setVisibility(View.VISIBLE);
                                 }
-
-                                showInformation.setVisibility(View.VISIBLE);
-                                
-                                
+                                else{
+                                    showInformation.setVisibility(View.INVISIBLE);
+                                    errorMessage.setVisibility(View.VISIBLE);
+                                    labelShow.setVisibility(View.INVISIBLE);
+                                }
                             }
-                            else{
-                                showInformation.setVisibility(View.INVISIBLE);
-                                errorMessage.setVisibility(View.VISIBLE);
-                            }
-
                         }
 
                     } catch (ParseException e) {
-                        e.printStackTrace();
+                        showErrorConnection();
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        showErrorConnection();
                     } catch (ExecutionException e) {
-                        e.printStackTrace();
+                        showErrorConnection();
                     }
-
-
                 }
             }
         });
@@ -305,4 +323,37 @@ public class searchDate extends Activity {
         Intent goBack = new Intent(getApplicationContext(),searchMenu.class);
         startActivity(goBack);
     }
+
+    public void reviewConnection(){
+        try {
+            if (new connection().execute().get()){
+                showState.setText("CONECTADO");
+                showState.setTextColor(Color.GREEN);
+            }
+            else{
+                showState.setText("Sin Conexión");
+                showState.setTextColor(Color.RED);
+                startActivity(new Intent(getApplicationContext(),Menu.class));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showErrorConnection(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(searchDate.this)
+                .setMessage("Parece que se perdío la conexión y no se puede realizar la búsqueda")
+                .setTitle("Error de Conexión")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getApplicationContext(),Menu.class));
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }
+

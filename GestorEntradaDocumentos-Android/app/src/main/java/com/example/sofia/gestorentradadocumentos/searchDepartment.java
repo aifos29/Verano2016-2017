@@ -1,9 +1,12 @@
 package com.example.sofia.gestorentradadocumentos;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -80,6 +83,8 @@ public class searchDepartment extends Activity {
     TableLayout showInformation;
     TextView errorMessage;
     TextView welcome;
+    TextView showState;
+    TextView labelShow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +94,16 @@ public class searchDepartment extends Activity {
         welcome = (TextView) findViewById (R.id.txtWelcome);
         welcome.setText ("Bienvenido "+name);
         dataBase = new dataBase();
+        showState = (TextView) findViewById(R.id.txtConnectionProcedure);
+        reviewConnection();
+        showState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reviewConnection();
+            }
+        });
+        labelShow = (TextView) findViewById(R.id.txtSearchResult);
+        labelShow.setVisibility(View.INVISIBLE);
         errorMessage = (TextView) findViewById(R.id.txtError);
         errorMessage.setVisibility(View.INVISIBLE);
         showInformation = (TableLayout) findViewById(R.id.tableDepartment);
@@ -115,6 +130,7 @@ public class searchDepartment extends Activity {
                     showInformation.removeAllViews();
                     showInformation.setVisibility(View.INVISIBLE);
                     errorMessage.setVisibility(View.INVISIBLE);
+                    labelShow.setVisibility(View.INVISIBLE);
                     searchData[] resultList = search.execute().get();
                     if (resultList.length!=0){
                         showInformation.addView(createHeader());
@@ -151,14 +167,16 @@ public class searchDepartment extends Activity {
                         }
 
                         showInformation.setVisibility(View.VISIBLE);
+                        labelShow.setVisibility(View.VISIBLE);
                     }
                     else{
                         errorMessage.setVisibility(View.VISIBLE);
+                        labelShow.setVisibility(View.INVISIBLE);
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    showErrorConnection();
                 } catch (ExecutionException e) {
-                    e.printStackTrace();
+                    showErrorConnection();
                 }
 
 
@@ -168,6 +186,20 @@ public class searchDepartment extends Activity {
         
         
         
+    }
+
+    private void showErrorConnection(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(searchDepartment.this)
+                .setMessage("Parece que se perdío la conexión y no se puede realizar la búsqueda")
+                .setTitle("Error de Conexión")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(getApplicationContext(),Menu.class));
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 
@@ -242,4 +274,23 @@ public class searchDepartment extends Activity {
         Intent goBack = new Intent(getApplicationContext(),searchMenu.class);
         startActivity(goBack);
     }
+
+    public void reviewConnection(){
+        try {
+            if (new connection().execute().get()){
+                showState.setText("CONECTADO");
+                showState.setTextColor(Color.GREEN);
+            }
+            else{
+                showState.setText("Sin Conexión");
+                showState.setTextColor(Color.RED);
+                startActivity(new Intent(getApplicationContext(),Menu.class));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
