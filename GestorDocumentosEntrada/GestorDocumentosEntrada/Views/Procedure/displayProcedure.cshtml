@@ -40,7 +40,12 @@
                             <td>@row["Tipo de Procedimiento"]</td> 
                             <td>@row["Plataformista"]</td> 
                             <td>@row["Estado"]</td>
-                            <td><button type="button" onclick="changeProcedureState('@row["id"]','@row["Consecutivo"]', this)">Actualizar Estado</button></td>
+                            @if (row["Estado"].ToString() != "Finalizado") {
+                                <td><button type="button" onclick="changeProcedureState('@row["id"]','@row["Consecutivo"]')">Finalizar Trámite</button></td>
+                            }else {
+                                <td></td>
+                            }
+                            
                         </tr>
                     }
                 </tbody>
@@ -68,31 +73,29 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="modalTittle">Actualizar Estado</h4>
+        <h4 class="modal-title" id="modalTittle">Finalizar Trámite</h4>
       </div>
       <div class="modal-body">
+          <input id="procedureId" name="procedureId" runat="server" hidden>
           <div class="itemDivDisplay">
               <label>Consecutivo del Trámite</label>
               <input type="text" id="code" class="form-control" readonly=""/>
           </div>
           <div class="itemDivDisplay">
               <label>Nuevo Estado:</label>
-              <select name="department" class="form-control" runat="server" id="newState" required>
-                  <option value="" disabled selected="">Seleccione un Nuevo Estado</option>
-                  @foreach (DataRow row in ViewBag.states.Tables["State"].Rows)
-                  {
-                      <option value="@row["status"]">@row["status"]</option>
-                  }
-              </select>
+              <input type="text" name="newState" class="form-control" runat="server" id="newState" readonly=""/>
           </div>
           <div class="itemDivDisplay" id="observationDiv">
               <label>Observaciones</label>
-              <textarea class="form-control" id="observation" rows="5" cols="30" maxlength="300" placeholder="Ingrese las observaciones sobre el resultado del trámite"></textarea>
+              <textarea class="form-control" id="observation" name="observation" runat="server" rows="5" cols="30" maxlength="300" placeholder="Ingrese las observaciones sobre el resultado del trámite"></textarea>
+          </div>
+          <div class="alert alert-danger modalAlertDivDisplay" id="modalAlert">
+              <label id="modalLabelError"></label>
           </div>
       </div>
       <div class="modal-footer">
           <button type="button" class="btnCloseModal" id="closeModalUpdate">Cerrar</button>
-          <button type="button" class="btnUpdateStatus" id="getUpdateData">Actualizar</button>
+          <button type="button" class="btnUpdateStatus" id="getUpdateData">Finalizar</button>
       </div>
     </div>
 
@@ -101,42 +104,64 @@
 
 @section Scripts {
 <script>
-    $('#observationDiv').hide();
+    $('#@(ViewBag.row)').css("background-color", "#A9F5BC");
+    $('#modalAlert').hide();
     $('#observation').val('');
+    $('#newState').val('Finalizado');
     var table = document.getElementById('tableData');
-    var procedureId;
+    var procedure;
+
     function changeProcedureState(code, consecutive) {
         procedureId = code;
+        $('#procedureId').val(code);
         $('#code').val(consecutive);
         $('#updateModal').modal('toggle');
     }
 
-    $('#newState').on('change', function () {
-        var state = $('#newState').val();
-        if (state == 'Finalizado') {
-            $('#observationDiv').show();
-        } else {
-            $('#observation').val('');
-            $('#observationDiv').hide();
-        }
-    });
-
     $('#getUpdateData').on('click', function () {
-        var state = $('#newState').val();
         var observation = $('#observation').val();
-        var consecutive = $('#code').val();
-        console.log(state, observation, consecutive, procedureId);
-        $('#newState').prop('selectedIndex', 0);
-        $('#observationDiv').hide();
-        $('#observation').val('');
+
+        if (observation != '') {
+            callUpdateStatus();
+            $('#updateModal').modal('hide');
+            //clearUpdateModal();
+        } else {
+            document.getElementById('modalLabelError').innerHTML = 'Ingrese una observación para la finalización del trámite';
+            $('#modalAlert').show();
+        }
+        
+    });
+
+    //Se presiona el boton de cerrar el modal, limpia los datos y cierra
+    $('#closeModalUpdate').on('click', function () {
+        clearUpdateModal();
         $('#updateModal').modal('hide');
     });
 
-    $('#closeModalUpdate').on('click', function () {
-        $('#newState').prop('selectedIndex', 0);
-        $('#observationDiv').hide();
+    //Llama el metodo en el controlador
+    function callUpdateStatus() {
+        var state = $('#newState').val();
+        var observationValue = $('#observation').val();
+        var id = $('#procedureId').val();
+
+        $.ajax({
+            url: '/Procedure/displayProcedure',
+            data: { procedureId: id, newState: state, observation: observationValue },
+            type: 'POST'
+        })
+        .success(function (result) {
+            location.reload();
+            $('#'+ result).css("background-color", "#A9F5BC");
+        })
+        .error(function (xhr, status) {
+            alert(status);
+        })
+    }
+
+    //Limpia los inputs del modal
+    function clearUpdateModal() {
         $('#observation').val('');
-        $('#updateModal').modal('hide');
-    });
+    }
+
 </script>
 }

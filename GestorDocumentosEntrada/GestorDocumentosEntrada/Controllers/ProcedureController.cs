@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Data;
 using GestorDocumentosEntrada.Models;
 using System.Globalization;
+using Newtonsoft.Json;
 
 
 namespace GestorDocumentosEntrada.Controllers
@@ -191,7 +192,25 @@ namespace GestorDocumentosEntrada.Controllers
             int departmentId = Int32.Parse(Session["idDepartment"].ToString());
             ViewBag.dailyProcedure = con.getDisplayDepartmentProcedures(departmentId);
             ViewBag.states = con.getProcedureStates();
+            ViewBag.row = 0;
             return View();
+        }
+
+        [HttpPost]
+        public String displayProcedure(String procedureId, String newState, String observation)
+        {
+
+            int id = Int32.Parse(procedureId);
+
+            DateTime date = DateTime.Now;
+
+            con.closeProcedure(newState, observation, id, date);
+
+            ViewBag.row = procedureId;
+            int departmentId = Int32.Parse(Session["idDepartment"].ToString());
+            ViewBag.dailyProcedure = con.getDisplayDepartmentProcedures(departmentId);
+            ViewBag.states = con.getProcedureStates();
+            return procedureId;
         }
     }
 }
