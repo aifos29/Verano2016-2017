@@ -15,7 +15,7 @@
 		</div>
 		<div class="listContainer row col-md-12"> 
 			<div class="col-md-12">
-				<table class="table table-bordered">
+				<table class="table table-bordered" id ="table" >
 					<thead>
 						<tr>
 							<th>Nombre</th>
@@ -31,10 +31,13 @@
                             { <tr><td>@row["Nombre"]</td>
                               <td>@row["email"]</td> 
                               <td>@row["Departamento"]</td> 
-                              <td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true"></a></td> </tr>}
+                              <td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true" id ="remove"></a></td> </tr>}
                     }
 					</tbody>
 				</table>
+                <div class="alert logInForm">
+          <label>@ViewBag.messege</label>
+        </div>
 			</div>
 		</div>
 		<div class="listContainer row col-md-12"> 
@@ -46,3 +49,43 @@
 		</div>
 		
 	</div>
+<div id="errorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modalTittle"></h4>
+      </div>
+      <div class="modal-body">
+        <label id="textMessage"></label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id = "acepted">Aceptar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+<script>
+    var varEmail;
+    $('#table').on('click', '#remove', function () {
+        var currentRow = $(this).closest("tr");
+
+        var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+        var col2 = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+        var data = col1 + "\n" + col2 + "\n";
+        varEmail = col2
+        document.getElementById('modalTittle').innerHTML = 'Advertencia';
+        document.getElementById('textMessage').innerHTML = '¿Seguro que desea eliminar al usuario '+col1+'?';
+        $('#errorModal').modal('toggle');
+        
+        $('#acepted').click(function () {
+            location.href = '@Url.Action("deleteUser", "Administrator")?email=' + varEmail;
+        })
+    });
+
+ 
+</script>
+    }

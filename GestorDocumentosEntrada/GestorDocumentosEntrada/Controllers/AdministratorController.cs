@@ -86,5 +86,18 @@ namespace GestorDocumentosEntrada.Controllers
             return RedirectToAction("UserList", "Administrator");
         }
 
+        public ActionResult deleteUser(String email)
+        {
+            int a = con.eliminateUser(email);
+            if (a == -1)
+            {
+                ViewBag.messege = "Error";
+                return RedirectToAction("UserList", "Administrator");
+            }
+            //ViewBag.table = con.getViewUsers();
+            return RedirectToAction("UserList", "Administrator");
+        }
+        
+
     }
 }

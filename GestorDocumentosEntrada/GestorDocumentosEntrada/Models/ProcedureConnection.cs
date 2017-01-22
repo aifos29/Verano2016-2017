@@ -903,5 +903,37 @@ namespace GestorDocumentosEntrada.Models
             }
         }
 
+
+
+        public int eliminateUser(String email) {
+            int code = 0;
+            int flag = 0;
+            int idLog = 0;
+            String pwd = null;
+            connection.Open();
+            if (connection != null)
+            {
+                connection.Close();
+                flag = existEmail(email);
+
+                
+                    //insertLoggin(email, pwd);
+                    idLog = searchInLogging(email, pwd);
+                    connection.Open();
+                    SqlCommand cmd2 = new SqlCommand("dbo.cleanLogin", connection);
+                    cmd2.CommandType = CommandType.StoredProcedure;
+                    cmd2.Parameters.AddWithValue("@id", idLog);
+                    cmd2.ExecuteNonQuery();
+                    code = 0;
+
+                connection.Close();
+            }
+            return code;
+        
+        
+        
+        }
+    
+
     }
 }
