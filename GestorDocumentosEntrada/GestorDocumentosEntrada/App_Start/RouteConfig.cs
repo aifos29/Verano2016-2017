@@ -110,6 +110,12 @@ namespace GestorDocumentosEntrada
             );
 
             routes.MapRoute(
+                name: "EditUSer",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Administrator", action = "EditUser", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Statistic",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Reports", action = "Statistic", id = UrlParameter.Optional }

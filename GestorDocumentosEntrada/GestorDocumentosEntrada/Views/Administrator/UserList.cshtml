@@ -1,20 +1,20 @@
 ﻿@using System.Data
 <div class="userList">
-		<div class="row col-md-12">
-			<div class="col-md-2">
+		<div class="row col-sm-12">
+			<div class="col-sm-2">
 				<img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
 			</div>
-			<div class="col-md-10">
+			<div class="col-sm-10">
 				<h3 class="headerSearchTitle">Lista de Usuarios</h3>
 			</div>
 		</div>
-		<div class="buttonListContainer row col-md-12"> 
-			<DIV class="col-md-12">
+		<div class="buttonListContainer row col-sm-12"> 
+			<DIV class="col-sm-12">
 				<button class="btnAddUser" onclick ="location.href='@Url.Action("CreateUser", "Administrator")'">Agregar Usuario</button>
 			</DIV>
 		</div>
-		<div class="listContainer row col-md-12"> 
-			<div class="col-md-12">
+		<div class="listContainer row col-sm-12"> 
+			<div class="col-sm-12">
 				<table class="table table-bordered" id ="table" >
 					<thead>
 						<tr>
@@ -22,28 +22,28 @@
 							<th>Correo</th>
 							<th>Departamento</th>
 							<th>Eliminar</th>
+                            <th>Editar</th>
 						</tr>
 					</thead>
 					<tbody>
-
                         @if (ViewBag.table != null){
                         foreach (DataRow row in ViewBag.table.Tables["Table"].Rows)
-                            { <tr><td>@row["Nombre"]</td>
-                              <td>@row["email"]</td> 
-                              <td>@row["Departamento"]</td> 
-                              <td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true" id ="remove"></a></td> </tr>}
+                            { <tr>
+                                <td>@row["Nombre"]</td>
+                                <td>@row["email"]</td> 
+                                <td>@row["Departamento"]</td> 
+                                <td><a class="glyphicon glyphicon-remove removeIcon" aria-hidden="true" id ="remove"></a></td> 
+                                <td><a class="glyphicon glyphicon-pencil editIcon" aria-hidden="true" id ="edit"></a></td>
+                              </tr>
+                        }
                     }
 					</tbody>
 				</table>
-                <div class="alert logInForm">
-          <label>@ViewBag.messege</label>
-        </div>
 			</div>
 		</div>
-		<div class="listContainer row col-md-12"> 
-			<div class="col-md-12">
-				<button type="button" class="backButton btn" aria-label="Left Align" onclick ="location.href='@Url.Action("administratorMenu", "Menu")'">
-					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+		<div class="listContainer row col-sm-12"> 
+			<div class="col-sm-12">
+				<button type="button" class="sendButton" onclick ="location.href='@Url.Action("administratorMenu", "Menu")'">Regresar
 				</button>
 			</div>
 		</div>
@@ -84,6 +84,13 @@
         $('#acepted').click(function () {
             location.href = '@Url.Action("deleteUser", "Administrator")?email=' + varEmail;
         })
+    });
+
+    $('#table').on('click', '#edit', function () {
+        var currentRow = $(this).closest("tr");
+        var userEmail = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
+ 
+        location.href = '@Url.Action("EditUser", "Administrator")?email=' + userEmail;
     });
 
  

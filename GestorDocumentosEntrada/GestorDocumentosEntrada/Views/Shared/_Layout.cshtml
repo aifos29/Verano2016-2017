@@ -12,7 +12,7 @@
 <body>
     <div class="container body-content">
         <div class="row divHeaderWelcome">
-            <div class="col-md-6 labelTitleWelcome">
+            <div class="col-sm-6 labelTitleWelcome">
                 Gestor de Entrada de Documentos
             </div>
             @if (Session["userName"] == null)
@@ -21,7 +21,7 @@
             }
             else
             {
-            <div class="col-md-6 labelUserWelcome">Bienvenido: @Session["userName"].ToString()</div>
+            <div class="col-sm-6 labelUserWelcome">Bienvenido: @Session["userName"].ToString()</div>
             }
         </div>
         @RenderBody()

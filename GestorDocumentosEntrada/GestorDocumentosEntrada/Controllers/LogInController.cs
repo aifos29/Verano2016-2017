@@ -70,6 +70,7 @@ namespace GestorDocumentosEntrada.Controllers
                             Session["userName"] = name;
                             Session["ID"] = idTableSec;
                             Session["idDepartment"] = idDep;
+                            Session["isAdministrator"] = 1;
                             return RedirectToAction("administratorMenu", "Menu");
                         }
                         else
@@ -77,6 +78,7 @@ namespace GestorDocumentosEntrada.Controllers
                             Session["userName"] = name;
                             Session["ID"] = idTableSec;
                             Session["idDepartment"] = idDep;
+                            Session["isAdministrator"] = 0;
                             return RedirectToAction("administrativeMenu", "Menu");
                         }
                     }

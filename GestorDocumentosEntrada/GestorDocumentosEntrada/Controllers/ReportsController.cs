@@ -42,8 +42,9 @@ namespace GestorDocumentosEntrada.Controllers
                 // Creamos el documento con el tamaño de página tradicional
                 Document doc = new Document(PageSize.LETTER);
                 // Indicamos donde vamos a guardar el documento
+                String pdfName = "Bitacora_" + date1.ToString("dd-MM-yyyy") + "_" + date2.ToString("dd-MM-yyyy");
                 PdfWriter writer = PdfWriter.GetInstance(doc,
-                                            new FileStream(@"C:\Users\ProyectoVerano_2016\Downloads\Bitacora.pdf", FileMode.Create));
+                                            new FileStream(@"C:\Users\ProyectoVerano_2016\Downloads\"+pdfName+".pdf", FileMode.Create));
 
              
 
@@ -56,24 +57,37 @@ namespace GestorDocumentosEntrada.Controllers
                 doc.Open();
 
                 // Creamos el tipo de Font que vamos utilizar
-                iTextSharp.text.Font _standardFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
-                BaseFont titleFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
-                Font times = new Font(titleFont, 16, Font.BOLD, iTextSharp.text.BaseColor.BLACK);
+                iTextSharp.text.Font tableFont = new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.HELVETICA, 10, iTextSharp.text.Font.NORMAL, BaseColor.BLACK);
 
-                BaseFont dateFont = BaseFont.CreateFont(BaseFont.TIMES_ITALIC, BaseFont.CP1252, false);
-                Font dateTimes = new Font(titleFont, 12, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+                BaseFont headerBaseFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
+                Font headerFont = new Font(headerBaseFont, 12, Font.BOLD, iTextSharp.text.BaseColor.GRAY);
+
+                BaseFont titleBaseFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
+                Font titleFont = new Font(titleBaseFont, 16, Font.BOLD, iTextSharp.text.BaseColor.BLACK);
+
+                BaseFont dateBaseFont = BaseFont.CreateFont(BaseFont.TIMES_ITALIC, BaseFont.CP1252, false);
+                Font dateFont = new Font(dateBaseFont, 12, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+               
                 // Escribimos el encabezamiento en el documento
-                Paragraph title = new Paragraph("Bitácora",times);
+                Paragraph programName = new Paragraph("Gestor de Entrada de Documentos", headerFont);
+                programName.Alignment = Element.ALIGN_LEFT;
+                doc.Add(programName);
+                Paragraph placeName = new Paragraph("Municipalidad de Alajuelita", headerFont);
+                placeName.Alignment = Element.ALIGN_LEFT;
+                doc.Add(placeName);
+                doc.Add(Chunk.NEWLINE);
+
+                Paragraph title = new Paragraph("Bitácora de Ingreso de Documentos", titleFont);
                 title.Alignment = Element.ALIGN_CENTER;
                 doc.Add(title);
                 doc.Add(Chunk.NEWLINE);
 
-                Paragraph dateFrom = new Paragraph("Fecha Inicial: " + date1.ToShortDateString(), dateTimes);
+                Paragraph dateFrom = new Paragraph("Fecha Inicial: " + date1.ToShortDateString(), dateFont);
                 dateFrom.Alignment = Element.ALIGN_LEFT;
                 doc.Add(dateFrom);
                 doc.Add(Chunk.NEWLINE);
 
-                Paragraph dateTo = new Paragraph("Fecha Final: " + date2.ToShortDateString(), dateTimes);
+                Paragraph dateTo = new Paragraph("Fecha Final: " + date2.ToShortDateString(), dateFont);
                 dateTo.Alignment = Element.ALIGN_LEFT;
                 doc.Add(dateTo);
                 doc.Add(Chunk.NEWLINE);
@@ -84,31 +98,31 @@ namespace GestorDocumentosEntrada.Controllers
                 tblPrueba.WidthPercentage = 100;
 
                 // Configuramos el título de las columnas de la tabla
-                PdfPCell clDate = new PdfPCell(new Phrase("Fecha", _standardFont));
+                PdfPCell clDate = new PdfPCell(new Phrase("Fecha", tableFont));
                 clDate.BorderWidth = 0;
                 clDate.BorderWidthBottom = 0.75f;
 
-                PdfPCell clConsecutive = new PdfPCell(new Phrase("Consecutivo", _standardFont));
+                PdfPCell clConsecutive = new PdfPCell(new Phrase("Consecutivo", tableFont));
                 clConsecutive.BorderWidth = 0;
                 clConsecutive.BorderWidthBottom = 0.75f;
 
-                PdfPCell clDepartment = new PdfPCell(new Phrase("Departamento", _standardFont));
+                PdfPCell clDepartment = new PdfPCell(new Phrase("Departamento", tableFont));
                 clDepartment.BorderWidth = 0;
                 clDepartment.BorderWidthBottom = 0.75f;
 
-                PdfPCell clId = new PdfPCell(new Phrase("Cédula", _standardFont));
+                PdfPCell clId = new PdfPCell(new Phrase("Cédula", tableFont));
                 clId.BorderWidth = 0;
                 clId.BorderWidthBottom = 0.75f;
 
-                PdfPCell clProcedureState = new PdfPCell(new Phrase("Estado del Trámite", _standardFont));
+                PdfPCell clProcedureState = new PdfPCell(new Phrase("Estado del Trámite", tableFont));
                 clProcedureState.BorderWidth = 0;
                 clProcedureState.BorderWidthBottom = 0.75f;
 
-                PdfPCell clProcedureType = new PdfPCell(new Phrase("Tipo de Trámite", _standardFont));
+                PdfPCell clProcedureType = new PdfPCell(new Phrase("Tipo de Trámite", tableFont));
                 clProcedureType.BorderWidth = 0;
                 clProcedureType.BorderWidthBottom = 0.75f;
 
-                PdfPCell clPlatformist = new PdfPCell(new Phrase("Plataformista", _standardFont));
+                PdfPCell clPlatformist = new PdfPCell(new Phrase("Plataformista", tableFont));
                 clPlatformist.BorderWidth = 0;
                 clPlatformist.BorderWidthBottom = 0.75f;
 
@@ -125,25 +139,25 @@ namespace GestorDocumentosEntrada.Controllers
                 foreach (DataRow row in binnacleToExport.Tables["Table"].Rows)
                 {
                     // Llenamos la tabla con información
-                    clDate = new PdfPCell(new Phrase((DateTime.Parse(row["Fecha"].ToString()).ToShortDateString()), _standardFont));
+                    clDate = new PdfPCell(new Phrase((DateTime.Parse(row["Fecha"].ToString()).ToShortDateString()), tableFont));
                     clDate.BorderWidth = 0;
 
-                    clConsecutive = new PdfPCell(new Phrase((row["Consecutivo"]).ToString(), _standardFont));
+                    clConsecutive = new PdfPCell(new Phrase((row["Consecutivo"]).ToString(), tableFont));
                     clConsecutive.BorderWidth = 0;
 
-                    clDepartment = new PdfPCell(new Phrase((row["Departamento"]).ToString(), _standardFont));
+                    clDepartment = new PdfPCell(new Phrase((row["Departamento"]).ToString(), tableFont));
                     clDepartment.BorderWidth = 0;
 
-                    clId = new PdfPCell(new Phrase((row["Cèdula"]).ToString(), _standardFont));
+                    clId = new PdfPCell(new Phrase((row["Cèdula"]).ToString(), tableFont));
                     clId.BorderWidth = 0;
 
-                    clProcedureState = new PdfPCell(new Phrase((row["Estado"]).ToString(), _standardFont));
+                    clProcedureState = new PdfPCell(new Phrase((row["Estado"]).ToString(), tableFont));
                     clProcedureState.BorderWidth = 0;
 
-                    clProcedureType = new PdfPCell(new Phrase((row["Tipo de Procedimiento"]).ToString(), _standardFont));
+                    clProcedureType = new PdfPCell(new Phrase((row["Tipo de Procedimiento"]).ToString(), tableFont));
                     clProcedureType.BorderWidth = 0;
 
-                    clPlatformist = new PdfPCell(new Phrase((row["Plataformista"]).ToString(), _standardFont));
+                    clPlatformist = new PdfPCell(new Phrase((row["Plataformista"]).ToString(), tableFont));
                     clPlatformist.BorderWidth = 0;
 
                     // Añadimos las celdas a la tabla
@@ -168,6 +182,96 @@ namespace GestorDocumentosEntrada.Controllers
                 return "no";
             }
             
+        }
+
+        public String createStatisticByDatePDF(String urlDepartment, String urlPlatform, DateTime date1, DateTime date2)
+        {
+            if (urlDepartment != null && urlPlatform != null)
+            {
+                // Creamos el documento con el tamaño de página tradicional
+                Document doc = new Document(PageSize.LETTER);
+                // Indicamos donde vamos a guardar el documento
+                String pdfName = "Estadisticas_" + date1.ToString("dd-MM-yyyy") + "_" + date2.ToString("dd-MM-yyyy");
+                PdfWriter writer = PdfWriter.GetInstance(doc,
+                                            new FileStream(@"C:\Users\ProyectoVerano_2016\Downloads\" + pdfName + ".pdf", FileMode.Create));
+
+
+
+                // Le colocamos el título y el autor
+                // **Nota: Esto no será visible en el documento
+                doc.AddTitle("Estadisticas por Fecha");
+                doc.AddCreator("Gestor de Entrada de Documentos");
+
+                // Abrimos el archivo
+                doc.Open();
+
+                // Creamos el tipo de Font que vamos utilizar
+                BaseFont headerBaseFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
+                Font headerFont = new Font(headerBaseFont, 12, Font.BOLD, iTextSharp.text.BaseColor.GRAY);
+
+                BaseFont titleBaseFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
+                Font titleFont = new Font(titleBaseFont, 16, Font.BOLD, iTextSharp.text.BaseColor.BLACK);
+
+                BaseFont dateBaseFont = BaseFont.CreateFont(BaseFont.TIMES_ITALIC, BaseFont.CP1252, false);
+                Font dateFont = new Font(dateBaseFont, 12, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+
+                // Escribimos el encabezamiento en el documento
+                Paragraph programName = new Paragraph("Gestor de Entrada de Documentos", headerFont);
+                programName.Alignment = Element.ALIGN_LEFT;
+                doc.Add(programName);
+                Paragraph placeName = new Paragraph("Municipalidad de Alajuelita", headerFont);
+                placeName.Alignment = Element.ALIGN_LEFT;
+                doc.Add(placeName);
+                doc.Add(Chunk.NEWLINE);
+
+                Paragraph title = new Paragraph("Estadísticas de Ingreso de Documentos", titleFont);
+                title.Alignment = Element.ALIGN_CENTER;
+                doc.Add(title);
+                doc.Add(Chunk.NEWLINE);
+
+                Paragraph dateFrom = new Paragraph("Fecha Inicial: " + date1.ToShortDateString(), dateFont);
+                dateFrom.Alignment = Element.ALIGN_LEFT;
+                doc.Add(dateFrom);
+                doc.Add(Chunk.NEWLINE);
+
+                Paragraph dateTo = new Paragraph("Fecha Final: " + date2.ToShortDateString(), dateFont);
+                dateTo.Alignment = Element.ALIGN_LEFT;
+                doc.Add(dateTo);
+                doc.Add(Chunk.NEWLINE);
+
+                //Imagen de departamento
+                byte[] bytesDEpartment = Convert.FromBase64String(urlDepartment.Split(',')[1]);
+                iTextSharp.text.Image imageDepartment = iTextSharp.text.Image.GetInstance(bytesDEpartment);
+                //Resize image depend upon your need
+                imageDepartment.ScaleToFit(400f, 400f);
+                //Give space before image
+                imageDepartment.SpacingBefore = 10f;
+                //Give some space after the image
+                imageDepartment.SpacingAfter = 1f;
+                imageDepartment.Alignment = Element.ALIGN_CENTER;
+
+                //Imagen de plataformista
+                byte[] bytesPlatform = Convert.FromBase64String(urlDepartment.Split(',')[1]);
+                iTextSharp.text.Image imagePlatform = iTextSharp.text.Image.GetInstance(bytesPlatform);
+                //Resize image depend upon your need
+                imagePlatform.ScaleToFit(400f, 400f);
+                //Give space before image
+                imagePlatform.SpacingBefore = 10f;
+                //Give some space after the image
+                imagePlatform.SpacingAfter = 1f;
+                imagePlatform.Alignment = Element.ALIGN_CENTER;
+
+                //cerramos el documento
+                doc.Close();
+                writer.Close();
+
+                return "yes";
+            }
+            else
+            {
+                return "no";
+            }
+
         }
 
     }

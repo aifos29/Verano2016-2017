@@ -5,7 +5,7 @@
 .divHeaderWelcome {
     margin: auto;
     margin-top: 3em !important;
-    width: 800px;
+    width: 900px;
     font-size: 14px;
     font-weight: 600;
 }
@@ -118,7 +118,7 @@
 
 .buttonDiv {
 	text-align: right;
-	margin-top: 1.8em;
+	margin-top: 2em;
 }
 
 input,select, textarea {
@@ -298,14 +298,24 @@ th {
     font-size: 14px;
 }
 
-.removeIcon {
+a.removeIcon {
 	color: black;
 }
 
-a:hover {
+a.removeIcon:hover {
 	color: red;
 	text-decoration: none;
 }
+
+a.editIcon {
+    color: black;
+}
+
+a.editIcon:hover {
+	color: green;
+	text-decoration: none;
+}
+
 
 .userList  {
 	margin-top: 1em !important;
@@ -334,13 +344,12 @@ a:hover {
 }
 
 .buttonReportsDiv {
-	margin-top: 1.8em;
-    padding: 1em;
-    margin-left: 0.2em !important;
+    margin-top: 2em;
+    margin-left: 1em !important;
 }
 
 .btnExportContainer {
-    padding-left: 19em;
+    padding-left: 23em;
 }
 
 .btnContainerDaily {

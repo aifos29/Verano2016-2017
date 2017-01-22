@@ -4,17 +4,17 @@
 }
 
 <div class="searchProcedure">
-    <div class="row col-md-12">
-        <div class="col-md-2">
+    <div class="row col-sm-12">
+        <div class="col-sm-2">
             <img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
         </div>
-        <div class="col-md-10">
+        <div class="col-sm-10">
             <h3 class="headerSearchTitle">Visualizar Trámites</h3>
         </div>
     </div>
 
-    <div class="searchDivContainer row col-md-12">
-        <div class="col-md-12">
+    <div class="searchDivContainer row col-sm-12">
+        <div class="col-sm-12">
             @if (ViewBag.dailyProcedure.Tables["Table"].Rows.Count != 0){
                 <table class="table table-bordered" id="tableData">
                 <thead>
@@ -60,11 +60,15 @@
         </div>
     </div>
 
-    <div class="buttonReportsDiv row col-md-12" >
-        <div class="col-md-6">
-            <button type="button" class="backButton btn" aria-label="Left Align" onClick="location.href='@Url.Action("administrativeMenu", "Menu")'">
-                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-            </button>
+    <div class="searchDivContainer row col-sm-12" >
+        <div class="col-sm-6">
+            @if (Int32.Parse(Session["isAdministrator"].ToString()) == 1)
+            { 
+                <button type="button" class="sendButton" onClick="location.href='@Url.Action("administratorMenu", "Menu")'">Regresar</button>
+            }else 
+            {
+                <button type="button" class="sendButton" onClick="location.href='@Url.Action("administrativeMenu", "Menu")'">Regresar</button>
+            }
         </div>
     </div>
 </div>

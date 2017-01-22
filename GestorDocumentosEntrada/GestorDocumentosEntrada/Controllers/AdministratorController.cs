@@ -22,6 +22,7 @@ namespace GestorDocumentosEntrada.Controllers
             ViewBag.deparmentTable = con.getDepartments();
             return View();
         }
+
         [HttpPost]
         public ActionResult CreateUser(FormCollection form)
         {
@@ -57,12 +58,14 @@ namespace GestorDocumentosEntrada.Controllers
 
             
         }
+
         public ActionResult procedureTypes()
         {
             ViewBag.table = con.getViewProcType();
             return View();
         }
-    [HttpPost]
+
+        [HttpPost]
         public ActionResult procedureTypes(FormCollection form)
         {
             String name = form["searchCode"];
@@ -81,6 +84,7 @@ namespace GestorDocumentosEntrada.Controllers
             }
 
         }
+
         public ActionResult AddUser() 
         {
             return RedirectToAction("UserList", "Administrator");
@@ -97,7 +101,13 @@ namespace GestorDocumentosEntrada.Controllers
             //ViewBag.table = con.getViewUsers();
             return RedirectToAction("UserList", "Administrator");
         }
-        
+
+        public ActionResult EditUser(String email)
+        {
+            ViewBag.email = email;
+            ViewBag.deparmentTable = con.getDepartments();
+            return View();
+        }
 
     }
 }

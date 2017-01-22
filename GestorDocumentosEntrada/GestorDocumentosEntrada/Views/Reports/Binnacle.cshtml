@@ -3,45 +3,43 @@
 }
 
 <div class="searchProcedure">
-    <div class="row col-md-12">
-        <div class="col-md-2">
+    <div class="row col-sm-12">
+        <div class="col-sm-2">
             <img class="menuHeaderImage" src="@Url.Content("~/Content/Image/escudoSinFondo.png")">
         </div>
-        <div class="col-md-10">
+        <div class="col-sm-10">
             <h3 class="headerSearchTitle">Generar Bitácora</h3>
         </div>
     </div>
 
-    <div class="searchDivContainer row col-md-12" id="divDate">
-        <div class="labelSearchDiv col-md-1">
+    <div class="searchDivContainer row col-sm-12" id="divDate">
+        <div class="labelSearchDiv col-sm-1">
             <label class="labelSearch">de</label>
         </div>
-        <div class="col-md-3">
+        <div class="col-sm-3">
             <input type="date" class="form-control" id="dateBegin">
         </div>
-        <div class="labelSearchDiv col-md-1">
+        <div class="labelSearchDiv col-sm-1">
             <label class="labelSearch">al</label>
         </div>
-        <div class="col-md-3">
+        <div class="col-sm-3">
             <input type="date" class="form-control" id="dateEnd">
         </div>
-        <div class="col-md-3">
+        <div class="col-sm-3">
             <button class="btnSearch" id="searchDate">Buscar</button>
         </div>
     </div>
 
-    <div class="searchDivContainer row col-md-12">
-        <div class="col-md-12" id="tbl">
+    <div class="searchDivContainer row col-sm-12">
+        <div class="col-sm-12" id="tbl">
 
         </div>
     </div>
-    <div class="buttonReportsDiv row col-md-12" >
-        <div class="col-md-6">
-            <button type="button" class="backButton btn" aria-label="Left Align" onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'">
-                <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-            </button>
+    <div class="searchDivContainer row col-sm-12" >
+        <div class="col-sm-6">
+            <button type="button" class="sendButton" onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'">Regresar</button>
         </div>
-        <div class="col-md-6 btnExportContainer" id="btnExportPDFContainer">
+        <div class="col-sm-6 btnExportContainer" id="btnExportPDFContainer">
             <button type="button" class="sendButton" id="exportPDF">Guardar PDF</button>
         </div>
     </div>
@@ -67,8 +65,6 @@
 
 @section Scripts {
 <script>
-    var divBtn = document.getElementById('btnExportPDFContainer');
-    divBtn.style.display = 'none';
 
     var from;
     var to;
@@ -89,7 +85,6 @@
             if (dateBegin.replace('-', '/') <= dateEnd.replace('-', '/')) {
                 from = dateBegin;
                 to = dateEnd;
-                divBtn.style.display = 'block';
                 $('#tbl').load('/Reports/getBinnacle', { from: dateBegin, to: dateEnd })
                 .error(function (xhr, status) {
                     alert(status);
@@ -99,32 +94,38 @@
     });
 
     $('#exportPDF').click(function () {
-        $.ajax({
-            url: '/Reports/createBinnaclePDF',
-            contentType: 'application/html; charset=utf-8',
-            data: { date1: from, date2: to },
-            type: 'GET',
-            dataType: 'text'
+        if (from != null && to != null) {
+            $.ajax({
+                url: '/Reports/createBinnaclePDF',
+                contentType: 'application/html; charset=utf-8',
+                data: { date1: from, date2: to },
+                type: 'GET',
+                dataType: 'text'
 
-        })
-        .success(function (result) {
-            console.log(result);
-            if (result == 'yes') {
-                document.getElementById('modalTittle').innerHTML = 'Éxito';
-                document.getElementById('textMessage').innerHTML = 'Archivo guardado como PDF';
-                $('#errorModal').modal('toggle');
-            }
-            else {
-                document.getElementById('modalTittle').innerHTML = 'Error';
-                document.getElementById('textMessage').innerHTML = 'No hay datos disponibles para exportar';
-                $('#errorModal').modal('toggle');
-            }
-            
-        })
-        .error(function (xhr, status) {
-            alert(status);
-        })
-        
+            })
+            .success(function (result) {
+                console.log(result);
+                if (result == 'yes') {
+                    document.getElementById('modalTittle').innerHTML = 'Éxito';
+                    document.getElementById('textMessage').innerHTML = 'Archivo guardado como PDF';
+                    $('#errorModal').modal('toggle');
+                }
+                else {
+                    document.getElementById('modalTittle').innerHTML = 'Error';
+                    document.getElementById('textMessage').innerHTML = 'No hay datos disponibles para exportar';
+                    $('#errorModal').modal('toggle');
+                }
+
+            })
+            .error(function (xhr, status) {
+                alert(status);
+            })
+        } else {
+            document.getElementById('modalTittle').innerHTML = 'Error';
+            document.getElementById('textMessage').innerHTML = 'No hay datos disponibles para exportar';
+            $('#errorModal').modal('toggle');
+        }
+      
     });
 </script>
     }
