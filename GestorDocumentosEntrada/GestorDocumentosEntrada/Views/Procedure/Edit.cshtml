@@ -20,10 +20,13 @@
 				<button class="editButton" id="getProcedureData">Obtener</button><a href="Edit.cshtml"></a>
 			</div>
 		</div>
-
-        <div id="errorShow" class="alert alert-dismissible alert-info"
+        
+        <div class="row col-sm-12 editContainer" id="errorShow">
+			<div  class="alert alert-dismissible alert-info">
                <label>No se encontraron trámites con el código ingresado</label>
-        </div>
+            </div>
+		</div>
+        
 		<div class="row col-sm-12" id="formContainer" name="formContainer">
             @using (Html.BeginForm("saveChangedProcedure", "Procedure"))
             {
@@ -125,16 +128,35 @@
 			    </div>
             }
 		</div>
-    
+
+        <div class="row col-sm-12 buttonDiv" id="divButtonBack"> 
+            <div class="col-sm-6">
+                <button type="button" class="sendButton" onClick="location.href='@Url.Action("platFormBossMenu", "Menu")'" id="back">Regresar</button>
+            </div>
+        </div>
 </div>
 
+<div id="errorModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" id="modalTittle"></h4>
+      </div>
+      <div class="modal-body">
+        <label id="textMessage"></label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 @section Scripts {
 <script>
-    var form = document.getElementById('formContainer');
-    var divError = document.getElementById('errorShow');
-    form.style.display = 'none';
-    divError.style.display = 'none';
+    $('#formContainer').hide();
+    $('#errorShow').hide();
 
     $('#getProcedureData').click(function () {
         var code = $('#searchCode').val();
@@ -148,28 +170,33 @@
 
             })
             .success(function (result) {
-               
                 if (jQuery.isEmptyObject(result)) {
-                    form.style.display = 'none';
-                    divError.style.display = 'block';
+                    $('#formContainer').hide();
+                    $('#errorShow').show();
+                    $('#divButtonBack').show();
                 } else {
-                    form.style.display = 'block';
-                    divError.style.display = 'none';
+                    $('#formContainer').show();
+                    $('#errorShow').hide();
                     $('#procedureDate').val(result[1]);
                     $('#department').val(result[4]);
-                    $('#codeProcedure').val(result[0]); 
+                    $('#codeProcedure').val(result[0]);
                     $('#idType').val(result[6]);
                     $('#personId').val(result[3]);
                     $('#personName').val(result[7]);
                     $('#personContact').val(result[8]);
                     $('#procedureType').val(result[5]);
                     $('#procedureDetail').text(result[2]);
+                    $('#divButtonBack').hide();
                 }
-           
+
             })
             .error(function (xhr, status) {
                 alert(status);
             })
+        } else {
+            document.getElementById('modalTittle').innerHTML = 'Error';
+            document.getElementById('textMessage').innerHTML = 'Debe de ingresar un código en el espacio brindado';
+            $('#errorModal').modal('toggle');
         }
     });
 

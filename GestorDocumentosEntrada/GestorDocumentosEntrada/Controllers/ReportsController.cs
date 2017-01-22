@@ -65,7 +65,7 @@ namespace GestorDocumentosEntrada.Controllers
                 BaseFont titleBaseFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
                 Font titleFont = new Font(titleBaseFont, 16, Font.BOLD, iTextSharp.text.BaseColor.BLACK);
 
-                BaseFont dateBaseFont = BaseFont.CreateFont(BaseFont.TIMES_ITALIC, BaseFont.CP1252, false);
+                BaseFont dateBaseFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
                 Font dateFont = new Font(dateBaseFont, 12, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
                
                 // Escribimos el encabezamiento en el documento
@@ -82,14 +82,12 @@ namespace GestorDocumentosEntrada.Controllers
                 doc.Add(title);
                 doc.Add(Chunk.NEWLINE);
 
-                Paragraph dateFrom = new Paragraph("Fecha Inicial: " + date1.ToShortDateString(), dateFont);
+                String text = "Bitácora generada a partir del ingreso de documentos en el período comprendido entre el " + date1.ToShortDateString()
+                    + " al " + date2.ToShortDateString() + ", obtenido el día " + DateTime.Now.ToShortDateString() + " a las " 
+                    + DateTime.Now.ToString("HH:mm");
+                Paragraph dateFrom = new Paragraph(text, dateFont);
                 dateFrom.Alignment = Element.ALIGN_LEFT;
                 doc.Add(dateFrom);
-                doc.Add(Chunk.NEWLINE);
-
-                Paragraph dateTo = new Paragraph("Fecha Final: " + date2.ToShortDateString(), dateFont);
-                dateTo.Alignment = Element.ALIGN_LEFT;
-                doc.Add(dateTo);
                 doc.Add(Chunk.NEWLINE);
 
                 // Creamos una tabla que contendrá el nombre, apellido y país
@@ -186,8 +184,6 @@ namespace GestorDocumentosEntrada.Controllers
 
         public String createStatisticByDatePDF(String urlDepartment, String urlPlatform, DateTime date1, DateTime date2)
         {
-            if (urlDepartment != null && urlPlatform != null)
-            {
                 // Creamos el documento con el tamaño de página tradicional
                 Document doc = new Document(PageSize.LETTER);
                 // Indicamos donde vamos a guardar el documento
@@ -212,7 +208,7 @@ namespace GestorDocumentosEntrada.Controllers
                 BaseFont titleBaseFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
                 Font titleFont = new Font(titleBaseFont, 16, Font.BOLD, iTextSharp.text.BaseColor.BLACK);
 
-                BaseFont dateBaseFont = BaseFont.CreateFont(BaseFont.TIMES_ITALIC, BaseFont.CP1252, false);
+                BaseFont dateBaseFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
                 Font dateFont = new Font(dateBaseFont, 12, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
 
                 // Escribimos el encabezamiento en el documento
@@ -229,21 +225,19 @@ namespace GestorDocumentosEntrada.Controllers
                 doc.Add(title);
                 doc.Add(Chunk.NEWLINE);
 
-                Paragraph dateFrom = new Paragraph("Fecha Inicial: " + date1.ToShortDateString(), dateFont);
+                String text = "Estadísticas generadas a partir del ingreso de documentos en el período comprendido entre el " + date1.ToShortDateString()
+                    + " al " + date2.ToShortDateString() + ", obtenido el día " + DateTime.Now.ToShortDateString() + " a las "
+                    + DateTime.Now.ToString("HH:mm") + " por " + Session["userName"].ToString();
+                Paragraph dateFrom = new Paragraph(text, dateFont);
                 dateFrom.Alignment = Element.ALIGN_LEFT;
                 doc.Add(dateFrom);
-                doc.Add(Chunk.NEWLINE);
-
-                Paragraph dateTo = new Paragraph("Fecha Final: " + date2.ToShortDateString(), dateFont);
-                dateTo.Alignment = Element.ALIGN_LEFT;
-                doc.Add(dateTo);
                 doc.Add(Chunk.NEWLINE);
 
                 //Imagen de departamento
                 byte[] bytesDEpartment = Convert.FromBase64String(urlDepartment.Split(',')[1]);
                 iTextSharp.text.Image imageDepartment = iTextSharp.text.Image.GetInstance(bytesDEpartment);
                 //Resize image depend upon your need
-                imageDepartment.ScaleToFit(400f, 400f);
+                imageDepartment.ScaleToFit(600f, 600f);
                 //Give space before image
                 imageDepartment.SpacingBefore = 10f;
                 //Give some space after the image
@@ -254,23 +248,102 @@ namespace GestorDocumentosEntrada.Controllers
                 byte[] bytesPlatform = Convert.FromBase64String(urlDepartment.Split(',')[1]);
                 iTextSharp.text.Image imagePlatform = iTextSharp.text.Image.GetInstance(bytesPlatform);
                 //Resize image depend upon your need
-                imagePlatform.ScaleToFit(400f, 400f);
+                imagePlatform.ScaleToFit(600f, 600f);
                 //Give space before image
                 imagePlatform.SpacingBefore = 10f;
                 //Give some space after the image
                 imagePlatform.SpacingAfter = 1f;
                 imagePlatform.Alignment = Element.ALIGN_CENTER;
 
+                doc.Add(imageDepartment);
+                doc.Add(imagePlatform);
                 //cerramos el documento
                 doc.Close();
                 writer.Close();
 
                 return "yes";
-            }
-            else
+
+        }
+
+        public String createStatisticPDF(String chartURL, String chartType, String chartName)
+        {
+            // Creamos el documento con el tamaño de página tradicional
+            Document doc = new Document(PageSize.LETTER);
+            // Indicamos donde vamos a guardar el documento
+            String pdfName = "Estadisticas_" + chartName;
+            PdfWriter writer = PdfWriter.GetInstance(doc,
+                                        new FileStream(@"C:\Users\ProyectoVerano_2016\Downloads\" + pdfName + ".pdf", FileMode.Create));
+
+
+
+            // Le colocamos el título y el autor
+            // **Nota: Esto no será visible en el documento
+            doc.AddTitle("Estadisticas por Fecha");
+            doc.AddCreator("Gestor de Entrada de Documentos");
+
+            // Abrimos el archivo
+            doc.Open();
+
+            // Creamos el tipo de Font que vamos utilizar
+            BaseFont headerBaseFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
+            Font headerFont = new Font(headerBaseFont, 12, Font.BOLD, iTextSharp.text.BaseColor.GRAY);
+
+            BaseFont titleBaseFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
+            Font titleFont = new Font(titleBaseFont, 16, Font.BOLD, iTextSharp.text.BaseColor.BLACK);
+
+            BaseFont dateBaseFont = BaseFont.CreateFont(BaseFont.TIMES_BOLD, BaseFont.CP1252, false);
+            Font dateFont = new Font(dateBaseFont, 12, Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+
+            // Escribimos el encabezamiento en el documento
+            Paragraph programName = new Paragraph("Gestor de Entrada de Documentos", headerFont);
+            programName.Alignment = Element.ALIGN_LEFT;
+            doc.Add(programName);
+            Paragraph placeName = new Paragraph("Municipalidad de Alajuelita", headerFont);
+            placeName.Alignment = Element.ALIGN_LEFT;
+            doc.Add(placeName);
+            doc.Add(Chunk.NEWLINE);
+
+            Paragraph title = new Paragraph("Estadísticas de Ingreso de Documentos", titleFont);
+            title.Alignment = Element.ALIGN_CENTER;
+            doc.Add(title);
+            doc.Add(Chunk.NEWLINE);
+
+            String text;
+            if (chartType == "D")
             {
-                return "no";
+                text = "Estadísticas generadas a partir del ingreso de documentos en el presente año " + DateTime.Now.ToString("yyyy")
+                + " dirigidos al departamento " + chartName + ", obtenido el día " + DateTime.Now.ToShortDateString() + " a las "
+                + DateTime.Now.ToString("HH:mm") + " por " + Session["userName"].ToString();
             }
+            else 
+            {
+                text = "Estadísticas generadas a partir del ingreso de documentos en el presente año " + DateTime.Now.ToString("yyyy")
+                + " registrados por el plataformista " + chartName + ", obtenido el día " + DateTime.Now.ToShortDateString() + " a las "
+                + DateTime.Now.ToString("HH:mm") + " por " + Session["userName"].ToString();
+            }
+            
+            Paragraph dateFrom = new Paragraph(text, dateFont);
+            dateFrom.Alignment = Element.ALIGN_LEFT;
+            doc.Add(dateFrom);
+            doc.Add(Chunk.NEWLINE);
+
+            //Imagen de departamento
+            byte[] bytesURL = Convert.FromBase64String(chartURL.Split(',')[1]);
+            iTextSharp.text.Image imageChart = iTextSharp.text.Image.GetInstance(bytesURL);
+            //Resize image depend upon your need
+            imageChart.ScaleToFit(600f, 600f);
+            //Give space before image
+            imageChart.SpacingBefore = 10f;
+            //Give some space after the image
+            imageChart.SpacingAfter = 1f;
+            imageChart.Alignment = Element.ALIGN_CENTER;
+
+            doc.Add(imageChart);
+            //cerramos el documento
+            doc.Close();
+            writer.Close();
+
+            return "yes";
 
         }
 

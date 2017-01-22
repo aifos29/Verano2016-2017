@@ -267,6 +267,15 @@ form {
     font-size: 14px;
 }
 
+.buttonBackEdit {
+    margin-top: 10em;
+    text-align: left;
+    padding-left: 17em !important;
+}
+
+#back {
+    padding-left: 17em !important;
+}
 
 /**********CSS para las páginas de firmacion**********/
 .successInsertProcedure {
@@ -298,17 +307,13 @@ th {
     font-size: 14px;
 }
 
-a.removeIcon {
+a {
 	color: black;
 }
 
 a.removeIcon:hover {
 	color: red;
 	text-decoration: none;
-}
-
-a.editIcon {
-    color: black;
 }
 
 a.editIcon:hover {
