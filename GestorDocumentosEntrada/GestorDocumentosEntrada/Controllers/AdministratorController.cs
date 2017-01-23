@@ -10,19 +10,19 @@ namespace GestorDocumentosEntrada.Controllers
     public class AdministratorController : Controller
     {
         private ProcedureConnection con = new ProcedureConnection();
-
+        /**/
         public ActionResult UserList()
         {
             ViewBag.table = con.getViewUsers();
             return View();
         }
-
+        /**/
         public ActionResult CreateUser()
         {
             ViewBag.deparmentTable = con.getDepartments();
             return View();
         }
-
+        /**/
         [HttpPost]
         public ActionResult CreateUser(FormCollection form)
         {
@@ -58,13 +58,13 @@ namespace GestorDocumentosEntrada.Controllers
 
             
         }
-
+        /**/
         public ActionResult procedureTypes()
         {
             ViewBag.table = con.getViewProcType();
             return View();
         }
-
+        /**/
         [HttpPost]
         public ActionResult procedureTypes(FormCollection form)
         {
@@ -84,12 +84,12 @@ namespace GestorDocumentosEntrada.Controllers
             }
 
         }
-
+        /**/
         public ActionResult AddUser() 
         {
             return RedirectToAction("UserList", "Administrator");
         }
-
+        /**/
         public ActionResult deleteUser(String email)
         {
             int a = con.eliminateUser(email);
@@ -101,12 +101,46 @@ namespace GestorDocumentosEntrada.Controllers
             //ViewBag.table = con.getViewUsers();
             return RedirectToAction("UserList", "Administrator");
         }
-
-        public ActionResult EditUser(String email)
+        /**/
+        public ActionResult EditUser(String email,String name, String dep)
         {
             ViewBag.email = email;
+            ViewBag.name = name;
+            ViewBag.dep = dep;
+            ViewBag.id = con.searchInLogging(email);
             ViewBag.deparmentTable = con.getDepartments();
             return View();
+        }
+        /**/
+        [HttpPost]
+        public ActionResult EditUser(FormCollection form )
+        {
+            int boss = 0;
+            if (form["userIsBoss"] != null) { boss = Int32.Parse(form["userIsBoss"]); }
+            String name = form["userName"];
+            String Actualdep = form["dep"];
+            String newDep = form["userDepartment"];
+            int idlog = Int32.Parse(form["idLog"]);
+            String email = form["userEmail"];
+            //con.updateEmail(email);
+            /*
+            if(Actualdep.Equals(newDep)) {
+                if (Actualdep.Equals("PLATAFORMA") || Actualdep.Equals("Plataforma"))
+                {
+                    con.updatePlataforma(name, boss, idlog);
+                }
+                else 
+                {
+                    con.updateSecretary(name, newDep, idlog);
+                }
+
+            }
+            else if (Actualdep.Equals("PLATAFORMA") || Actualdep.Equals("Plataforma"))
+            {
+            
+            }
+             * */
+            return RedirectToAction("UserList", "Administrator");
         }
 
     }

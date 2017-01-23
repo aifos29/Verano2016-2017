@@ -85,12 +85,13 @@
             location.href = '@Url.Action("deleteUser", "Administrator")?email=' + varEmail;
         })
     });
-
+        
     $('#table').on('click', '#edit', function () {
         var currentRow = $(this).closest("tr");
+        var name = currentRow.find("td:eq(0)").text();
         var userEmail = currentRow.find("td:eq(1)").text(); // get current row 2nd TD
- 
-        location.href = '@Url.Action("EditUser", "Administrator")?email=' + userEmail;
+        var department= currentRow.find("td:eq(2)").text();
+        location.href = '@Url.Action("EditUser", "Administrator")?email=' + userEmail + '&name=' + name + '&dep='+department;
     });
 
  

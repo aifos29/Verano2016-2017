@@ -34,7 +34,7 @@ namespace GestorDocumentosEntrada.Controllers
             ViewBag.display = false;
             return View();
         }
-
+        /***/
         public ActionResult SearchProcedure()
         {
             ViewBag.deparmentTable = con.getDepartments();
@@ -110,23 +110,23 @@ namespace GestorDocumentosEntrada.Controllers
             ViewBag.code = code;
             return View();
         }
-
+        /**/
         public ActionResult searchDepartment(String dep) {
             ViewBag.searchTable = con.getSearchDep(dep);
             return View();
         }
-
+        /**/
         public ActionResult searchPlatformist(String plat)
         {
             ViewBag.searchTable = con.getSearchPlat(plat);
             return View();
         }
-
+        /**/
        public ActionResult searchByDate(DateTime from, DateTime to){
            ViewBag.searchTable = con.getSearchDate(from, to);
            return View();
        }
-
+        /**/
        public ActionResult searchByCode(String code)
        {
            ViewBag.searchTable = con.getSearchCode(code);
@@ -170,22 +170,33 @@ namespace GestorDocumentosEntrada.Controllers
            String json = Newtonsoft.Json.JsonConvert.SerializeObject(table);
            return Json(json, JsonRequestBehavior.AllowGet);
        }
+        /**/
         public ActionResult dailyProcedure() 
         {
-            int departmentId = Int32.Parse(Session["idDepartment"].ToString());
+            int departmentId = 0;
+            if (Session["idDepartment"] != null) { departmentId = Int32.Parse(Session["idDepartment"].ToString());}
             ViewBag.dailyProcedure = con.test(departmentId) ;
             return View();
         }
-
+        /**/
+    [HttpPost]
+        public ActionResult dailyProcedure(String code)
+        {
+            int flag = con.init(code);
+            int departmentId = Int32.Parse(Session["idDepartment"].ToString());
+            ViewBag.dailyProcedure = con.test(departmentId);
+            return View();
+        }
+        /**/
         public ActionResult transferProcedure(String codeProcedure, int idProcedure) 
         {
             ViewBag.idProcedure = idProcedure;
             ViewBag.codeProcedure = codeProcedure;
-            ViewBag.date = DateTime.Now.ToString("yyyy-MM-dd"); ;
+            ViewBag.date = DateTime.Now.ToString("yyyy-MM-dd"); 
             ViewBag.deparmentTable = con.getDepartments();
             return View();
         }
-
+        /**/
         public ActionResult saveTransferProcedure(FormCollection form)
         {
            int idProc = Int32.Parse( form["idProcedure"].ToString());

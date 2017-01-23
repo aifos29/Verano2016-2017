@@ -153,7 +153,7 @@ namespace GestorDocumentosEntrada.Models
                 connection.Close();
             }
         }
-
+        /**/
         public DataSet getPlatformers()
         {
             DataSet platformerTable = new DataSet();
@@ -170,7 +170,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return platformerTable;
         }
-
+        /**/
         public DataSet getSearchDep(String dep)
         {
             DataSet depTable = new DataSet();
@@ -187,7 +187,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return depTable;
         }
-
+        /**/
         public DataSet getSearchPlat(String plat)
         {
             DataSet depTable = new DataSet();
@@ -204,7 +204,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return depTable;
         }
-
+        /**/
         public DataSet getSearchDate(DateTime from, DateTime to)
         {
 
@@ -225,7 +225,7 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
 
         }
-
+        /**/
         public DataSet getSearchCode(String code)
         {
             DataSet depTable = new DataSet();
@@ -242,7 +242,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return depTable;
         }
-
+        
         public DataSet getBinnacle(DateTime from, DateTime to)
         {
 
@@ -263,7 +263,7 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
 
         }
-
+        /**/
         public int getIDLogin(string email, string pwd)
         {
             connection.Open();
@@ -284,7 +284,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return id;
         }
-
+        /**/
         public int getIDPlatformer(int idLog)
         {
             connection.Open();
@@ -305,7 +305,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return id;
         }
-
+        /**/
         public string getNamePlatformer(int platformertId)
         {
             String code = null;
@@ -326,7 +326,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return code;
         }
-
+        /**/
         public int IsABoss(int idPlat)
         {
             connection.Open();
@@ -348,7 +348,7 @@ namespace GestorDocumentosEntrada.Models
             return flag;
         }
 
-
+        /**/
         public int getIDSecretary(int idLog)
         {
             connection.Open();
@@ -369,7 +369,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return id;
         }
-
+        /**/
         public string getNameSecretary(int secretarytId)
         {
             String code = null;
@@ -390,51 +390,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return code;
         }
-
-
-
-        public int getIDAdministrator(int idLog)
-        {
-            connection.Open();
-            int id = 0;
-            if (connection != null)
-            {
-                SqlCommand sqlQuery = new SqlCommand("select [dbo].[seacrhInAdministrator] (" + idLog + ")", connection);
-                SqlDataReader reader = sqlQuery.ExecuteReader();
-                while (reader.Read())
-                {
-                    id = (int)reader[0];
-                }
-                connection.Close();
-            }
-            else
-            {
-                id = -1;
-            }
-            return id;
-        }
-
-        public string getNameAdministrator(int administratortId)
-        {
-            String code = null;
-            connection.Open();
-            if (connection != null)
-            {
-                SqlCommand sqlQuery = new SqlCommand("select [dbo].[getNameAdministrator] (" + administratortId + ")", connection);
-                SqlDataReader reader = sqlQuery.ExecuteReader();
-                while (reader.Read())
-                {
-                    code = reader[0].ToString();
-                }
-                connection.Close();
-            }
-            else
-            {
-                code = "Error de Conexion";
-            }
-            return code;
-        }
-
+        /**/
         public DataSet getViewUsers()
         {
             DataSet depTable = new DataSet();
@@ -451,6 +407,7 @@ namespace GestorDocumentosEntrada.Models
             } 
             return depTable;
         }
+        /**/
         public int existEmail(String email)
         {
             int code = 0;
@@ -471,7 +428,7 @@ namespace GestorDocumentosEntrada.Models
             return flag;
 
         }
-
+        /**/
         public int insertLoggin(String email, String pwd)
         {
             int code = 0;
@@ -490,9 +447,11 @@ namespace GestorDocumentosEntrada.Models
             return code;
 
         }
-        public int searchInLogging(String email, String pwd)
+        /**/
+        public int searchInLogging(String email)
         {
             int idLog = 0;
+            String pwd = null;
             connection.Open();
             if (connection != null)
             {
@@ -508,6 +467,7 @@ namespace GestorDocumentosEntrada.Models
             return idLog;
 
         }
+        /**/
         public int insertPlatfor(String email, String pwd, String name, int boss)
         {
             int code = 0;
@@ -522,7 +482,7 @@ namespace GestorDocumentosEntrada.Models
                 if (flag == 0)
                 {
                     insertLoggin(email, pwd);
-                    idLog = searchInLogging(email, pwd);
+                    idLog = searchInLogging(email);
                     connection.Open();
                     SqlCommand cmd2 = new SqlCommand("dbo.insertPlatformers", connection);
                     cmd2.CommandType = CommandType.StoredProcedure;
@@ -539,8 +499,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return code;
         }
-
-
+        /**/
         public int insertSecre(String email, String pwd, String name, String dep)
         {
             int code = 0;
@@ -556,7 +515,7 @@ namespace GestorDocumentosEntrada.Models
                 if (flag == 0)
                 {
                     insertLoggin(email, pwd);
-                    idLog = searchInLogging(email, pwd);
+                    idLog = searchInLogging(email);
                     connection.Open();
 
                     SqlCommand sqlQuery3 = new SqlCommand("select [dbo].[searchInDepartment] ('" + dep + "')", connection);
@@ -674,7 +633,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return depTable;
         }
-
+        /**/
         public DataSet test(int departmentId)
         {
             DataSet depTable = new DataSet();
@@ -691,7 +650,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return depTable;
         }
-
+        /**/
         public int getIDDepartmentBySec(int id)
         {
             int code = 0;
@@ -712,6 +671,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return code;
         }
+        /**/
         public string getNameDep(int departmentId)
         {
 
@@ -783,7 +743,7 @@ namespace GestorDocumentosEntrada.Models
             return flag;
 
         }
-
+        /**/
         public DataSet getViewProcType()
         {
             DataSet depTable = new DataSet();
@@ -835,7 +795,7 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
         }
 
-
+        /**/
        public int  TransferProcedure(int idProc,int recive,int send,String code,String justi)
        {
 
@@ -902,9 +862,29 @@ namespace GestorDocumentosEntrada.Models
                 connection.Close();
             }
         }
+        /**/
+        public int init(String code) {
+            int flag = 0;
+            connection.Open();
+            if (connection != null)
+            {
+               
 
+                //insertLoggin(email, pwd);
+                
+                SqlCommand cmd2 = new SqlCommand("dbo.initializeProcedure", connection);
+                cmd2.CommandType = CommandType.StoredProcedure;
+                cmd2.Parameters.AddWithValue("@code", code);
+                cmd2.ExecuteNonQuery();
 
-
+                connection.Close();
+            }
+            return flag;
+        
+            
+        
+        }
+        /**/
         public int eliminateUser(String email) {
             int code = 0;
             int flag = 0;
@@ -918,7 +898,7 @@ namespace GestorDocumentosEntrada.Models
 
                 
                     //insertLoggin(email, pwd);
-                    idLog = searchInLogging(email, pwd);
+                    idLog = searchInLogging(email);
                     connection.Open();
                     SqlCommand cmd2 = new SqlCommand("dbo.cleanLogin", connection);
                     cmd2.CommandType = CommandType.StoredProcedure;

@@ -24,7 +24,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[closed](
-	[idClosed] [int] NOT NULL,
+	[idClosed] [int] IDENTITY(1,1) NOT NULL, 
 	[details] [nvarchar](300) NOT NULL,
 	[date] [date] NOT NULL,
 	[idProcedure] [int] NOT NULL,

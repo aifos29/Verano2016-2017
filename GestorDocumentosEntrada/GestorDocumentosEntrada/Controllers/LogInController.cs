@@ -13,11 +13,13 @@ namespace GestorDocumentosEntrada.Controllers
         //
         // GET: /LogIn/
         private ProcedureConnection con = new ProcedureConnection();
+        /**/
         public ActionResult Index()
         {
             Session.Abandon();
             return View();
         }
+        /**/
         [HttpPost]
         public ActionResult Index(FormCollection form)
         {
