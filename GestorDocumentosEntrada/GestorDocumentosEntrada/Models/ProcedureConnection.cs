@@ -153,7 +153,7 @@ namespace GestorDocumentosEntrada.Models
                 connection.Close();
             }
         }
-        /**/
+        /*1*/
         public DataSet getPlatformers()
         {
             DataSet platformerTable = new DataSet();
@@ -170,7 +170,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return platformerTable;
         }
-        /**/
+        /*2*/
         public DataSet getSearchDep(String dep)
         {
             DataSet depTable = new DataSet();
@@ -187,7 +187,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return depTable;
         }
-        /**/
+        /*3*/
         public DataSet getSearchPlat(String plat)
         {
             DataSet depTable = new DataSet();
@@ -204,7 +204,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return depTable;
         }
-        /**/
+        /*4*/
         public DataSet getSearchDate(DateTime from, DateTime to)
         {
 
@@ -225,7 +225,7 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
 
         }
-        /**/
+        /*5*/
         public DataSet getSearchCode(String code)
         {
             DataSet depTable = new DataSet();
@@ -263,7 +263,7 @@ namespace GestorDocumentosEntrada.Models
             return depTable;
 
         }
-        /**/
+        /*6*/
         public int getIDLogin(string email, string pwd)
         {
             connection.Open();
@@ -284,7 +284,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return id;
         }
-        /**/
+        /*7*/
         public int getIDPlatformer(int idLog)
         {
             connection.Open();
@@ -305,7 +305,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return id;
         }
-        /**/
+        /*8*/
         public string getNamePlatformer(int platformertId)
         {
             String code = null;
@@ -326,7 +326,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return code;
         }
-        /**/
+        /*9*/
         public int IsABoss(int idPlat)
         {
             connection.Open();
@@ -348,7 +348,7 @@ namespace GestorDocumentosEntrada.Models
             return flag;
         }
 
-        /**/
+        /*10*/
         public int getIDSecretary(int idLog)
         {
             connection.Open();
@@ -369,7 +369,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return id;
         }
-        /**/
+        /*11*/
         public string getNameSecretary(int secretarytId)
         {
             String code = null;
@@ -390,7 +390,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return code;
         }
-        /**/
+        /*12*/
         public DataSet getViewUsers()
         {
             DataSet depTable = new DataSet();
@@ -407,7 +407,7 @@ namespace GestorDocumentosEntrada.Models
             } 
             return depTable;
         }
-        /**/
+        /*13*/
         public int existEmail(String email)
         {
             int code = 0;
@@ -428,7 +428,7 @@ namespace GestorDocumentosEntrada.Models
             return flag;
 
         }
-        /**/
+        /*14*/
         public int insertLoggin(String email, String pwd)
         {
             int code = 0;
@@ -447,7 +447,7 @@ namespace GestorDocumentosEntrada.Models
             return code;
 
         }
-        /**/
+        /*15*/
         public int searchInLogging(String email)
         {
             int idLog = 0;
@@ -467,7 +467,7 @@ namespace GestorDocumentosEntrada.Models
             return idLog;
 
         }
-        /**/
+        /*16*/
         public int insertPlatfor(String email, String pwd, String name, int boss)
         {
             int code = 0;
@@ -499,7 +499,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return code;
         }
-        /**/
+        /*17*/
         public int insertSecre(String email, String pwd, String name, String dep)
         {
             int code = 0;
@@ -633,7 +633,7 @@ namespace GestorDocumentosEntrada.Models
             }
             return depTable;
         }
-        /**/
+        /*18*/
         public DataSet test(int departmentId)
         {
             DataSet depTable = new DataSet();
@@ -912,6 +912,124 @@ namespace GestorDocumentosEntrada.Models
         
         
         
+        }
+        
+        
+        public int updateEmail(String email, int idLog) {
+            connection.Open();
+            if (connection != null)
+            {
+                SqlCommand cmd = new SqlCommand("dbo.updateEmail", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@email", email);
+                cmd.Parameters.AddWithValue("@id", idLog);
+                
+                int rowAffected = cmd.ExecuteNonQuery();
+
+                connection.Close();
+            }
+            return 0;
+        }
+
+
+        public int updateSecretary(String name, String newDep, int idlog){
+            connection.Open();
+            int idDep = 0;
+            if (connection != null)
+            {
+                SqlCommand sqlQuery3 = new SqlCommand("select [dbo].[searchInDepartment] ('" + newDep + "')", connection);
+                    SqlDataReader reader3 = sqlQuery3.ExecuteReader();
+                    while (reader3.Read())
+                    {
+                        idDep = (int)reader3[0];
+                    }
+                    connection.Close();
+                    connection.Open();
+                    
+                SqlCommand cmd = new SqlCommand("dbo.updateSecretary", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@idDep", idDep);
+                cmd.Parameters.AddWithValue("@idlog", idlog);
+                cmd.Parameters.AddWithValue("@name", name);
+                int rowAffected = cmd.ExecuteNonQuery();
+                connection.Close();
+            }
+            return 0;
+        
+        
+        }
+
+        public int updatePlataforma(String name, int boss, int idlog) {
+            connection.Open();
+            if (connection != null)
+            {
+                SqlCommand cmd = new SqlCommand("dbo.updatePlatformer", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@idlog", idlog);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@isABoss", boss);
+                int rowAffected = cmd.ExecuteNonQuery();
+                connection.Close();
+            }
+            return 0;
+        
+        }
+
+
+        public int moveToDepartment(String name, String newDep, int idlog, String email) {
+            connection.Open();
+            int newIdLog = 0;
+            int idDep = 0;
+            if (connection != null)
+            {
+                SqlCommand cmd = new SqlCommand("dbo.reInsertLogin", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", idlog);
+                cmd.Parameters.AddWithValue("@email", email);
+                int rowAffected = cmd.ExecuteNonQuery();
+                connection.Close();
+                newIdLog = searchInLogging(email);
+                connection.Open();
+
+                SqlCommand sqlQuery3 = new SqlCommand("select [dbo].[searchInDepartment] ('" + newDep + "')", connection);
+                SqlDataReader reader3 = sqlQuery3.ExecuteReader();
+                while (reader3.Read())
+                {
+                    idDep = (int)reader3[0];
+                }
+                connection.Close();
+                connection.Open();
+                SqlCommand cmd2 = new SqlCommand("dbo.insertSecretary", connection);
+                cmd2.CommandType = CommandType.StoredProcedure;
+                cmd2.Parameters.AddWithValue("@name", name);
+                cmd2.Parameters.AddWithValue("@idLoggingin", newIdLog);
+                cmd2.Parameters.AddWithValue("@idDepartment", idDep);
+                cmd2.ExecuteNonQuery();
+                connection.Close();
+            }
+            return 0;
+        }
+
+        public int moveToPlatformer(String name, int boss, int idlog, String email) {
+            connection.Open();
+            if (connection != null)
+            {
+                SqlCommand cmd = new SqlCommand("dbo.deleteSecretary", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@idlog", idlog);
+                int rowAffected = cmd.ExecuteNonQuery();
+                connection.Close();
+                connection.Open();
+                SqlCommand cmd2 = new SqlCommand("dbo.insertPlatformers", connection);
+                cmd2.CommandType = CommandType.StoredProcedure;
+                cmd2.Parameters.AddWithValue("@name", name);
+                cmd2.Parameters.AddWithValue("@isABoss", boss);
+                cmd2.Parameters.AddWithValue("@idLogging", idlog);
+                cmd2.ExecuteNonQuery();
+                connection.Close();
+
+            }
+            return 0;
         }
     
 
