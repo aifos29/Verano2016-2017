@@ -20,6 +20,7 @@ RETURN(
 	INNER JOIN dbo.[typeOfProcedure] tp on pr.idTypeOfProcedure = tp.idTypeOfProcedure
 	INNER JOIN dbo.[typeOfIdentify] ti on pr.idTypeOfIdentify = ti.idTypeOfIdentify
 	INNER JOIN dbo.[Plataformers] plat on pr.idPlatformers = plat.idPlataformers
-	where pr.idDepartment = @departmentId	
+	where pr.idDepartment = @departmentId 
+	and pr.idStatus = 1
 )
 GO
