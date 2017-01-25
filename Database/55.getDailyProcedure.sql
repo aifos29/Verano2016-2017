@@ -1,12 +1,13 @@
 USE [procedureDB]
 GO
 
-/****** Object:  UserDefinedFunction [dbo].[getDailyProcedures]    Script Date: 01/19/2017 17:14:30 ******/
+/****** Object:  UserDefinedFunction [dbo].[getDailyProcedures]    Script Date: 01/25/2017 08:48:38 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
 
 CREATE FUNCTION [dbo].[getDailyProcedures](
 	@departmentId int
@@ -20,6 +21,10 @@ RETURN(
 	INNER JOIN dbo.[typeOfProcedure] tp on pr.idTypeOfProcedure = tp.idTypeOfProcedure
 	INNER JOIN dbo.[typeOfIdentify] ti on pr.idTypeOfIdentify = ti.idTypeOfIdentify
 	INNER JOIN dbo.[Plataformers] plat on pr.idPlatformers = plat.idPlataformers
-	where pr.idDepartment = @departmentId	
+	INNER JOIN dbo.[status] st on pr.idStatus = st.idStatus
+	where pr.idDepartment = @departmentId AND st.status = 'Nuevo'
 )
+
 GO
+
+
