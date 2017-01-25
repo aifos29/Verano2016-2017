@@ -40,7 +40,7 @@
                             <td>@row["Tipo de Procedimiento"]</td> 
                             <td>@row["Plataformista"]</td> 
                             <td>@row["Estado"]</td>
-                            @if (row["Estado"].ToString() != "Finalizado") {
+                            @if (row["Estado"].ToString() != "Finalizado" && row["Estado"].ToString() != "Nuevo") {
                                 <td><button type="button" onclick="changeProcedureState('@row["id"]','@row["Consecutivo"]')">Finalizar Trámite</button></td>
                             }else {
                                 <td></td>
