@@ -122,24 +122,40 @@ namespace GestorDocumentosEntrada.Controllers
             String newDep = form["userDepartment"];
             int idlog = Int32.Parse(form["idLog"]);
             String email = form["userEmail"];
-            //con.updateEmail(email);
-            /*
-            if(Actualdep.Equals(newDep)) {
-                if (Actualdep.Equals("PLATAFORMA") || Actualdep.Equals("Plataforma"))
+            con.updateEmail(email, idlog);
+
+            if (Actualdep.Equals(newDep))
+            {
+                if (Actualdep.Equals("Plataforma"))
                 {
                     con.updatePlataforma(name, boss, idlog);
                 }
-                else 
+                else
                 {
                     con.updateSecretary(name, newDep, idlog);
                 }
 
             }
-            else if (Actualdep.Equals("PLATAFORMA") || Actualdep.Equals("Plataforma"))
+            else
             {
-            
+                if (Actualdep.Equals("Plataforma"))
+                {
+                    con.moveToDepartment(name, newDep, idlog, email);
+                }
+                else if (!Actualdep.Equals("Plataforma"))
+                {
+                    if (newDep.Equals("Plataforma"))
+                    {
+                        con.moveToPlatformer(name, boss, idlog, email);
+                    }
+                    else 
+                    {
+                        con.updateSecretary(name, newDep, idlog);
+                    }
+                   
+                }
+
             }
-             * */
             return RedirectToAction("UserList", "Administrator");
         }
 

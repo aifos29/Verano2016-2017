@@ -180,12 +180,12 @@ namespace GestorDocumentosEntrada.Controllers
         }
         /**/
     [HttpPost]
-        public ActionResult dailyProcedure(String code)
+        public void dailyProcedure(String code)
         {
             int flag = con.init(code);
             int departmentId = Int32.Parse(Session["idDepartment"].ToString());
-            ViewBag.dailyProcedure = con.test(departmentId);
-            return View();
+           //ViewBag.dailyProcedure = con.test(departmentId);
+            //return View();
         }
         /**/
         public ActionResult transferProcedure(String codeProcedure, int idProcedure) 

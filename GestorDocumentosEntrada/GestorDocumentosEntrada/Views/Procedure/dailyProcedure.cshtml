@@ -78,6 +78,7 @@
     }
 
     function init() {
+        var a= 0
         $("input[type=checkbox]:checked").each(function () {
 
             // buscamos el td más cercano en el DOM hacia "arriba"
@@ -90,9 +91,14 @@
                 data: { code: col2 },
                 type: 'POST'
             })
-            location.reload(true);
+            a++;
         });
         
+        for (i = 0; i < a; i++) {
+            location.reload(true);
+        }
+     
     }
+        //location.reload(true);
 </script>
 }
